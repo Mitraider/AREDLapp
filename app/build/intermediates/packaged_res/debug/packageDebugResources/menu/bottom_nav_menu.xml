@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_levels"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="Levels" />
+    <item
+        android:id="@+id/nav_leaderboard"
+        android:icon="@android:drawable/ic_menu_mylocation"
+        android:title="Leaderboard" />
+    <item
+        android:id="@+id/nav_todo"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="To-Do List" />
+    <item
+        android:id="@+id/nav_games"
+        android:icon="@android:drawable/ic_menu_send"
+        android:title="Mini-Games" />
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="Settings" />
+</menu>

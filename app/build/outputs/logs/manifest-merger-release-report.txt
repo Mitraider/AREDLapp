@@ -1,0 +1,395 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:2:1-31:12
+INJECTED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:2:1-31:12
+INJECTED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:2:1-31:12
+INJECTED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:2:1-31:12
+MERGED from [androidx.databinding:viewbinding:9.0.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\4760d4f00e05354579b13ec19aa183d3\workspace\transformed\viewbinding-9.0.1\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.navigation:navigation-common:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\48ac86853095e91e7884efacfac87e05\workspace\transformed\navigation-common-2.8.5\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-common-ktx:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\00c78bc8e44504b7faed0f98120f0416\workspace\transformed\navigation-common-ktx-2.8.5\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.navigation:navigation-runtime:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\7137402a51022e239c32382e52339139\workspace\transformed\navigation-runtime-2.8.5\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\86432c79c037ea06b7ce294f6763401e\workspace\transformed\navigation-runtime-ktx-2.8.5\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.navigation:navigation-fragment:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9d4071fea947f8b4b6694677c8f4a65f\workspace\transformed\navigation-fragment-2.8.5\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\21590bf17e145fb171799a736b20dd22\workspace\transformed\navigation-fragment-ktx-2.8.5\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.navigation:navigation-ui-ktx:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\a1ffaabfab4ad6bfd792180ba1f98d74\workspace\transformed\navigation-ui-ktx-2.8.5\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.navigation:navigation-ui:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9cf59c998565bbeab6652a38428fd53d\workspace\transformed\navigation-ui-2.8.5\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.material:material:1.13.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\d8e60a8953607307fee76466c866bdec\workspace\transformed\material-1.13.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\8b211a1dbf67f62b9e628806c39050b3\workspace\transformed\constraintlayout-2.2.1\AndroidManifest.xml:2:1-9:12
+MERGED from [io.coil-kt:coil:2.6.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\e67bc01d1f7daa8ae3582cd495103eca\workspace\transformed\coil-2.6.0\AndroidManifest.xml:2:1-7:12
+MERGED from [io.coil-kt:coil-base:2.6.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\1e61e5cad4205e1ad9c93303b459da44\workspace\transformed\coil-base-2.6.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.appcompat:appcompat-resources:1.7.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\b94ca871ddfe23007eb29abb438ea258\workspace\transformed\appcompat-resources-1.7.1\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.appcompat:appcompat:1.7.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\59354650fc4849e7bafc57b0ff129834\workspace\transformed\appcompat-1.7.1\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\7e951abd53af43103f14616ce8db75c8\workspace\transformed\viewpager2-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.fragment:fragment-ktx:1.6.2] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\370bc0ccd7e1f34df602b632c783e0a6\workspace\transformed\fragment-ktx-1.6.2\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.fragment:fragment:1.6.2] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\3a360730a6bce5c7dec2f3292cb8c8e2\workspace\transformed\fragment-1.6.2\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.activity:activity-ktx:1.12.4] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\cf4939275d76dfd95f836615541b19f3\workspace\transformed\activity-ktx-1.12.4\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.activity:activity:1.12.4] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\068397c9028d74efa61b18477f381719\workspace\transformed\activity-1.12.4\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\e0f28e7e89115ba33ce4ce26ec79c4ef\workspace\transformed\emoji2-views-helper-1.3.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.emoji2:emoji2:1.3.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\2e2d51d85f1d87e24b4218d4a549f070\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\03d22076e7c55339618e1885a2673f20\workspace\transformed\drawerlayout-1.1.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\4de54ce92a38340ff631b947c3990e7b\workspace\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.2.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\ecfa85f0b5e0fb6843a7362723614064\workspace\transformed\slidingpanelayout-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.transition:transition:1.5.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9c4d5e3fef91818d299d2e180f82367b\workspace\transformed\transition-1.5.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\ac57dda3bce6c0c318c53c0b3800e6bf\workspace\transformed\dynamicanimation-1.1.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.recyclerview:recyclerview:1.2.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\fad27bd63dc4e6275c029a7ea6a124a3\workspace\transformed\recyclerview-1.2.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\f9de8f9ca5cf887eb823b9f366adbd3e\workspace\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\8d7164543b059f00493dc6bc99d2adda\workspace\transformed\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0587672a78f4134fb96f7153f7557d49\workspace\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\d64d18d20662676a91981e6641e0f3ef\workspace\transformed\customview-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.window:window:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\393490536730c9005a1c9d0960f9c713\workspace\transformed\window-1.0.0\AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\e44d792154399273edc1a7f741ba1405\workspace\transformed\loader-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\02b2bf0c0e52279e303b7ebd4c705740\workspace\transformed\core-1.17.0\AndroidManifest.xml:17:1-30:12
+MERGED from [com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\4cd1354e8b53e32ff58411e024c114f6\workspace\transformed\core-12.1.0\AndroidManifest.xml:2:1-10:12
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\fbacf3093679ffd0721861490c79bf74\workspace\transformed\savedstate-ktx-1.2.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\d990121dd2028b3ce3d023f219aeb5be\workspace\transformed\savedstate-1.2.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\208c4dbbc9a0e44233c3ee3ec32cccc2\workspace\transformed\lifecycle-livedata-2.8.7\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9de8c9f59b4db4fa7ad2dc3a90140773\workspace\transformed\lifecycle-livedata-core-ktx-2.8.7\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\a04149baf851f3703c7346662d3cdbdb\workspace\transformed\lifecycle-runtime-release\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9349aa1785ea29d54ab0585dccc24123\workspace\transformed\lifecycle-viewmodel-2.8.7\AndroidManifest.xml:2:1-5:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-android:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0b6b890e96fb13aca1d88f0c5c5a6051\workspace\transformed\lifecycle-viewmodel-release\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\1cf154f50f75cb3e65aa1b3cd63be563\workspace\transformed\lifecycle-livedata-core-2.8.7\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\94324f4024d52c6525dc3273ea1ec559\workspace\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\4b27da9ebd9f7772e597d3b4737d190d\workspace\transformed\lifecycle-runtime-ktx-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\f410cf4f8753e6f018f39be6a5020227\workspace\transformed\lifecycle-viewmodel-ktx-2.8.7\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\7eacd336b77f91282b81f179c127e54e\workspace\transformed\lifecycle-viewmodel-savedstate-2.8.7\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.graphics:graphics-shapes-android:1.0.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\860a21efa92958ab6a69a7b399a483ae\workspace\transformed\graphics-shapes-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.core:core-ktx:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\15d4a70926e3ac77a647a36d01ac1e64\workspace\transformed\core-ktx-1.17.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.core:core-splashscreen:1.0.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\3c86b16d3a5409a98f116f214e9e609a\workspace\transformed\core-splashscreen-1.0.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigationevent:navigationevent-android:1.0.2] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\56d8fb31d4a9d32ad9b258ed5cc0b53a\workspace\transformed\navigationevent\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.core:core-viewtree:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\36cb45af0a6f7f25a392f7b4672c4cb6\workspace\transformed\core-viewtree-1.0.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.annotation:annotation-experimental:1.4.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\6e1f046fabbe42d3e5c80822e0219ce7\workspace\transformed\annotation-experimental-1.4.1\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\7d9c0355a3d10c7b6afb4308ccdfdf83\workspace\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\6e1d8b5a7f198c7c40a66c9855236b78\workspace\transformed\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9302cdc70c433233b62911eba5ea5e36\workspace\transformed\cardview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:17:1-55:12
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0c4b810c8d1a01938ab03dd780dd84d6\workspace\transformed\startup-runtime-1.1.1\AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.tracing:tracing:1.2.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\a5125b53a0701e254afddb04c3c88532\workspace\transformed\tracing-1.2.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\11a9ca4021b3c7e81dd4f4f9f5cdb42c\workspace\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.exifinterface:exifinterface:1.3.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\35f6740872f101e3606242b0060ec745\workspace\transformed\exifinterface-1.3.7\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\b9997aab315ca554dd7dd499287d5d32\workspace\transformed\core-runtime-2.2.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.runtime:runtime-annotation-android:1.9.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\00581603258637b16be1fc2b2bf45ebc\workspace\transformed\runtime-annotation\AndroidManifest.xml:2:1-7:12
+	package
+		INJECTED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml
+	xmlns:tools
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:3:5-51
+	android:versionCode
+		INJECTED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:5:5-67
+MERGED from [com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\4cd1354e8b53e32ff58411e024c114f6\workspace\transformed\core-12.1.0\AndroidManifest.xml:7:5-67
+MERGED from [com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\4cd1354e8b53e32ff58411e024c114f6\workspace\transformed\core-12.1.0\AndroidManifest.xml:7:5-67
+	android:name
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:5:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:6:5-79
+MERGED from [com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\4cd1354e8b53e32ff58411e024c114f6\workspace\transformed\core-12.1.0\AndroidManifest.xml:8:5-79
+MERGED from [com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\4cd1354e8b53e32ff58411e024c114f6\workspace\transformed\core-12.1.0\AndroidManifest.xml:8:5-79
+	android:name
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:6:22-76
+application
+ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:8:5-29:19
+INJECTED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:8:5-29:19
+MERGED from [com.google.android.material:material:1.13.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\d8e60a8953607307fee76466c866bdec\workspace\transformed\material-1.13.0\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.13.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\d8e60a8953607307fee76466c866bdec\workspace\transformed\material-1.13.0\AndroidManifest.xml:22:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\8b211a1dbf67f62b9e628806c39050b3\workspace\transformed\constraintlayout-2.2.1\AndroidManifest.xml:7:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\8b211a1dbf67f62b9e628806c39050b3\workspace\transformed\constraintlayout-2.2.1\AndroidManifest.xml:7:5-20
+MERGED from [androidx.emoji2:emoji2:1.3.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\2e2d51d85f1d87e24b4218d4a549f070\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.emoji2:emoji2:1.3.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\2e2d51d85f1d87e24b4218d4a549f070\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.window:window:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\393490536730c9005a1c9d0960f9c713\workspace\transformed\window-1.0.0\AndroidManifest.xml:24:5-31:19
+MERGED from [androidx.window:window:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\393490536730c9005a1c9d0960f9c713\workspace\transformed\window-1.0.0\AndroidManifest.xml:24:5-31:19
+MERGED from [androidx.core:core:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\02b2bf0c0e52279e303b7ebd4c705740\workspace\transformed\core-1.17.0\AndroidManifest.xml:28:5-89
+MERGED from [androidx.core:core:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\02b2bf0c0e52279e303b7ebd4c705740\workspace\transformed\core-1.17.0\AndroidManifest.xml:28:5-89
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\94324f4024d52c6525dc3273ea1ec559\workspace\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\94324f4024d52c6525dc3273ea1ec559\workspace\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\7d9c0355a3d10c7b6afb4308ccdfdf83\workspace\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\7d9c0355a3d10c7b6afb4308ccdfdf83\workspace\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0c4b810c8d1a01938ab03dd780dd84d6\workspace\transformed\startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0c4b810c8d1a01938ab03dd780dd84d6\workspace\transformed\startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
+	android:extractNativeLibs
+		INJECTED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\02b2bf0c0e52279e303b7ebd4c705740\workspace\transformed\core-1.17.0\AndroidManifest.xml:28:18-86
+	android:supportsRtl
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:15:9-35
+	android:label
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:13:9-41
+	android:fullBackupContent
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:11:9-54
+	android:roundIcon
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:14:9-49
+	android:icon
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:12:9-44
+	android:allowBackup
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:9:9-35
+	android:theme
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:16:9-46
+	android:dataExtractionRules
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:10:9-65
+	android:usesCleartextTraffic
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:17:9-44
+activity#com.example.aredlapp.MainActivity
+ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:18:9-28:20
+	android:launchMode
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:21:13-44
+	android:exported
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:20:13-36
+	android:configChanges
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:22:13-43
+	android:theme
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:23:13-54
+	android:name
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:19:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:24:13-27:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:25:17-69
+	android:name
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:25:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:26:17-77
+	android:name
+		ADDED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml:26:27-74
+uses-sdk
+INJECTED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml
+MERGED from [androidx.databinding:viewbinding:9.0.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\4760d4f00e05354579b13ec19aa183d3\workspace\transformed\viewbinding-9.0.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.databinding:viewbinding:9.0.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\4760d4f00e05354579b13ec19aa183d3\workspace\transformed\viewbinding-9.0.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-common:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\48ac86853095e91e7884efacfac87e05\workspace\transformed\navigation-common-2.8.5\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\48ac86853095e91e7884efacfac87e05\workspace\transformed\navigation-common-2.8.5\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common-ktx:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\00c78bc8e44504b7faed0f98120f0416\workspace\transformed\navigation-common-ktx-2.8.5\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-common-ktx:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\00c78bc8e44504b7faed0f98120f0416\workspace\transformed\navigation-common-ktx-2.8.5\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-runtime:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\7137402a51022e239c32382e52339139\workspace\transformed\navigation-runtime-2.8.5\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\7137402a51022e239c32382e52339139\workspace\transformed\navigation-runtime-2.8.5\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\86432c79c037ea06b7ce294f6763401e\workspace\transformed\navigation-runtime-ktx-2.8.5\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\86432c79c037ea06b7ce294f6763401e\workspace\transformed\navigation-runtime-ktx-2.8.5\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-fragment:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9d4071fea947f8b4b6694677c8f4a65f\workspace\transformed\navigation-fragment-2.8.5\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-fragment:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9d4071fea947f8b4b6694677c8f4a65f\workspace\transformed\navigation-fragment-2.8.5\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\21590bf17e145fb171799a736b20dd22\workspace\transformed\navigation-fragment-ktx-2.8.5\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\21590bf17e145fb171799a736b20dd22\workspace\transformed\navigation-fragment-ktx-2.8.5\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-ui-ktx:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\a1ffaabfab4ad6bfd792180ba1f98d74\workspace\transformed\navigation-ui-ktx-2.8.5\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-ui-ktx:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\a1ffaabfab4ad6bfd792180ba1f98d74\workspace\transformed\navigation-ui-ktx-2.8.5\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-ui:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9cf59c998565bbeab6652a38428fd53d\workspace\transformed\navigation-ui-2.8.5\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-ui:2.8.5] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9cf59c998565bbeab6652a38428fd53d\workspace\transformed\navigation-ui-2.8.5\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.13.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\d8e60a8953607307fee76466c866bdec\workspace\transformed\material-1.13.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.13.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\d8e60a8953607307fee76466c866bdec\workspace\transformed\material-1.13.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\8b211a1dbf67f62b9e628806c39050b3\workspace\transformed\constraintlayout-2.2.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.constraintlayout:constraintlayout:2.2.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\8b211a1dbf67f62b9e628806c39050b3\workspace\transformed\constraintlayout-2.2.1\AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil:2.6.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\e67bc01d1f7daa8ae3582cd495103eca\workspace\transformed\coil-2.6.0\AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil:2.6.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\e67bc01d1f7daa8ae3582cd495103eca\workspace\transformed\coil-2.6.0\AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-base:2.6.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\1e61e5cad4205e1ad9c93303b459da44\workspace\transformed\coil-base-2.6.0\AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-base:2.6.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\1e61e5cad4205e1ad9c93303b459da44\workspace\transformed\coil-base-2.6.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.7.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\b94ca871ddfe23007eb29abb438ea258\workspace\transformed\appcompat-resources-1.7.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.7.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\b94ca871ddfe23007eb29abb438ea258\workspace\transformed\appcompat-resources-1.7.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.appcompat:appcompat:1.7.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\59354650fc4849e7bafc57b0ff129834\workspace\transformed\appcompat-1.7.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.appcompat:appcompat:1.7.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\59354650fc4849e7bafc57b0ff129834\workspace\transformed\appcompat-1.7.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\7e951abd53af43103f14616ce8db75c8\workspace\transformed\viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\7e951abd53af43103f14616ce8db75c8\workspace\transformed\viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment-ktx:1.6.2] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\370bc0ccd7e1f34df602b632c783e0a6\workspace\transformed\fragment-ktx-1.6.2\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment-ktx:1.6.2] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\370bc0ccd7e1f34df602b632c783e0a6\workspace\transformed\fragment-ktx-1.6.2\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.6.2] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\3a360730a6bce5c7dec2f3292cb8c8e2\workspace\transformed\fragment-1.6.2\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.6.2] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\3a360730a6bce5c7dec2f3292cb8c8e2\workspace\transformed\fragment-1.6.2\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity-ktx:1.12.4] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\cf4939275d76dfd95f836615541b19f3\workspace\transformed\activity-ktx-1.12.4\AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-ktx:1.12.4] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\cf4939275d76dfd95f836615541b19f3\workspace\transformed\activity-ktx-1.12.4\AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity:1.12.4] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\068397c9028d74efa61b18477f381719\workspace\transformed\activity-1.12.4\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.12.4] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\068397c9028d74efa61b18477f381719\workspace\transformed\activity-1.12.4\AndroidManifest.xml:20:5-44
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\e0f28e7e89115ba33ce4ce26ec79c4ef\workspace\transformed\emoji2-views-helper-1.3.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\e0f28e7e89115ba33ce4ce26ec79c4ef\workspace\transformed\emoji2-views-helper-1.3.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2:1.3.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\2e2d51d85f1d87e24b4218d4a549f070\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.emoji2:emoji2:1.3.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\2e2d51d85f1d87e24b4218d4a549f070\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\03d22076e7c55339618e1885a2673f20\workspace\transformed\drawerlayout-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\03d22076e7c55339618e1885a2673f20\workspace\transformed\drawerlayout-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\4de54ce92a38340ff631b947c3990e7b\workspace\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\4de54ce92a38340ff631b947c3990e7b\workspace\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.2.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\ecfa85f0b5e0fb6843a7362723614064\workspace\transformed\slidingpanelayout-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.2.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\ecfa85f0b5e0fb6843a7362723614064\workspace\transformed\slidingpanelayout-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.5.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9c4d5e3fef91818d299d2e180f82367b\workspace\transformed\transition-1.5.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.transition:transition:1.5.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9c4d5e3fef91818d299d2e180f82367b\workspace\transformed\transition-1.5.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\ac57dda3bce6c0c318c53c0b3800e6bf\workspace\transformed\dynamicanimation-1.1.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\ac57dda3bce6c0c318c53c0b3800e6bf\workspace\transformed\dynamicanimation-1.1.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.2.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\fad27bd63dc4e6275c029a7ea6a124a3\workspace\transformed\recyclerview-1.2.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.2.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\fad27bd63dc4e6275c029a7ea6a124a3\workspace\transformed\recyclerview-1.2.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\f9de8f9ca5cf887eb823b9f366adbd3e\workspace\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\f9de8f9ca5cf887eb823b9f366adbd3e\workspace\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\8d7164543b059f00493dc6bc99d2adda\workspace\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\8d7164543b059f00493dc6bc99d2adda\workspace\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0587672a78f4134fb96f7153f7557d49\workspace\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0587672a78f4134fb96f7153f7557d49\workspace\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\d64d18d20662676a91981e6641e0f3ef\workspace\transformed\customview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\d64d18d20662676a91981e6641e0f3ef\workspace\transformed\customview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.window:window:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\393490536730c9005a1c9d0960f9c713\workspace\transformed\window-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.window:window:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\393490536730c9005a1c9d0960f9c713\workspace\transformed\window-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\e44d792154399273edc1a7f741ba1405\workspace\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\e44d792154399273edc1a7f741ba1405\workspace\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\02b2bf0c0e52279e303b7ebd4c705740\workspace\transformed\core-1.17.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\02b2bf0c0e52279e303b7ebd4c705740\workspace\transformed\core-1.17.0\AndroidManifest.xml:20:5-44
+MERGED from [com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\4cd1354e8b53e32ff58411e024c114f6\workspace\transformed\core-12.1.0\AndroidManifest.xml:5:5-44
+MERGED from [com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\4cd1354e8b53e32ff58411e024c114f6\workspace\transformed\core-12.1.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\fbacf3093679ffd0721861490c79bf74\workspace\transformed\savedstate-ktx-1.2.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\fbacf3093679ffd0721861490c79bf74\workspace\transformed\savedstate-ktx-1.2.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\d990121dd2028b3ce3d023f219aeb5be\workspace\transformed\savedstate-1.2.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\d990121dd2028b3ce3d023f219aeb5be\workspace\transformed\savedstate-1.2.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\208c4dbbc9a0e44233c3ee3ec32cccc2\workspace\transformed\lifecycle-livedata-2.8.7\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\208c4dbbc9a0e44233c3ee3ec32cccc2\workspace\transformed\lifecycle-livedata-2.8.7\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9de8c9f59b4db4fa7ad2dc3a90140773\workspace\transformed\lifecycle-livedata-core-ktx-2.8.7\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9de8c9f59b4db4fa7ad2dc3a90140773\workspace\transformed\lifecycle-livedata-core-ktx-2.8.7\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\a04149baf851f3703c7346662d3cdbdb\workspace\transformed\lifecycle-runtime-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\a04149baf851f3703c7346662d3cdbdb\workspace\transformed\lifecycle-runtime-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9349aa1785ea29d54ab0585dccc24123\workspace\transformed\lifecycle-viewmodel-2.8.7\AndroidManifest.xml:4:5-43
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9349aa1785ea29d54ab0585dccc24123\workspace\transformed\lifecycle-viewmodel-2.8.7\AndroidManifest.xml:4:5-43
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-android:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0b6b890e96fb13aca1d88f0c5c5a6051\workspace\transformed\lifecycle-viewmodel-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-android:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0b6b890e96fb13aca1d88f0c5c5a6051\workspace\transformed\lifecycle-viewmodel-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\1cf154f50f75cb3e65aa1b3cd63be563\workspace\transformed\lifecycle-livedata-core-2.8.7\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\1cf154f50f75cb3e65aa1b3cd63be563\workspace\transformed\lifecycle-livedata-core-2.8.7\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\94324f4024d52c6525dc3273ea1ec559\workspace\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\94324f4024d52c6525dc3273ea1ec559\workspace\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\4b27da9ebd9f7772e597d3b4737d190d\workspace\transformed\lifecycle-runtime-ktx-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\4b27da9ebd9f7772e597d3b4737d190d\workspace\transformed\lifecycle-runtime-ktx-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\f410cf4f8753e6f018f39be6a5020227\workspace\transformed\lifecycle-viewmodel-ktx-2.8.7\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\f410cf4f8753e6f018f39be6a5020227\workspace\transformed\lifecycle-viewmodel-ktx-2.8.7\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\7eacd336b77f91282b81f179c127e54e\workspace\transformed\lifecycle-viewmodel-savedstate-2.8.7\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\7eacd336b77f91282b81f179c127e54e\workspace\transformed\lifecycle-viewmodel-savedstate-2.8.7\AndroidManifest.xml:20:5-44
+MERGED from [androidx.graphics:graphics-shapes-android:1.0.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\860a21efa92958ab6a69a7b399a483ae\workspace\transformed\graphics-shapes-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.graphics:graphics-shapes-android:1.0.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\860a21efa92958ab6a69a7b399a483ae\workspace\transformed\graphics-shapes-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\15d4a70926e3ac77a647a36d01ac1e64\workspace\transformed\core-ktx-1.17.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\15d4a70926e3ac77a647a36d01ac1e64\workspace\transformed\core-ktx-1.17.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-splashscreen:1.0.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\3c86b16d3a5409a98f116f214e9e609a\workspace\transformed\core-splashscreen-1.0.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core-splashscreen:1.0.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\3c86b16d3a5409a98f116f214e9e609a\workspace\transformed\core-splashscreen-1.0.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigationevent:navigationevent-android:1.0.2] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\56d8fb31d4a9d32ad9b258ed5cc0b53a\workspace\transformed\navigationevent\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigationevent:navigationevent-android:1.0.2] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\56d8fb31d4a9d32ad9b258ed5cc0b53a\workspace\transformed\navigationevent\AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-viewtree:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\36cb45af0a6f7f25a392f7b4672c4cb6\workspace\transformed\core-viewtree-1.0.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-viewtree:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\36cb45af0a6f7f25a392f7b4672c4cb6\workspace\transformed\core-viewtree-1.0.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\6e1f046fabbe42d3e5c80822e0219ce7\workspace\transformed\annotation-experimental-1.4.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\6e1f046fabbe42d3e5c80822e0219ce7\workspace\transformed\annotation-experimental-1.4.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\7d9c0355a3d10c7b6afb4308ccdfdf83\workspace\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\7d9c0355a3d10c7b6afb4308ccdfdf83\workspace\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\6e1d8b5a7f198c7c40a66c9855236b78\workspace\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\6e1d8b5a7f198c7c40a66c9855236b78\workspace\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9302cdc70c433233b62911eba5ea5e36\workspace\transformed\cardview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\9302cdc70c433233b62911eba5ea5e36\workspace\transformed\cardview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0c4b810c8d1a01938ab03dd780dd84d6\workspace\transformed\startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0c4b810c8d1a01938ab03dd780dd84d6\workspace\transformed\startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.tracing:tracing:1.2.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\a5125b53a0701e254afddb04c3c88532\workspace\transformed\tracing-1.2.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.tracing:tracing:1.2.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\a5125b53a0701e254afddb04c3c88532\workspace\transformed\tracing-1.2.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\11a9ca4021b3c7e81dd4f4f9f5cdb42c\workspace\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\11a9ca4021b3c7e81dd4f4f9f5cdb42c\workspace\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.exifinterface:exifinterface:1.3.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\35f6740872f101e3606242b0060ec745\workspace\transformed\exifinterface-1.3.7\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\35f6740872f101e3606242b0060ec745\workspace\transformed\exifinterface-1.3.7\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\b9997aab315ca554dd7dd499287d5d32\workspace\transformed\core-runtime-2.2.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\b9997aab315ca554dd7dd499287d5d32\workspace\transformed\core-runtime-2.2.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.runtime:runtime-annotation-android:1.9.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\00581603258637b16be1fc2b2bf45ebc\workspace\transformed\runtime-annotation\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-annotation-android:1.9.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\00581603258637b16be1fc2b2bf45ebc\workspace\transformed\runtime-annotation\AndroidManifest.xml:5:5-44
+	android:targetSdkVersion
+		INJECTED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\Cerig\Desktop\PROGRAMMES\AREDLapp\app\src\main\AndroidManifest.xml
+provider#androidx.startup.InitializationProvider
+ADDED from [androidx.emoji2:emoji2:1.3.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\2e2d51d85f1d87e24b4218d4a549f070\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\94324f4024d52c6525dc3273ea1ec559\workspace\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\94324f4024d52c6525dc3273ea1ec559\workspace\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0c4b810c8d1a01938ab03dd780dd84d6\workspace\transformed\startup-runtime-1.1.1\AndroidManifest.xml:26:9-30:34
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0c4b810c8d1a01938ab03dd780dd84d6\workspace\transformed\startup-runtime-1.1.1\AndroidManifest.xml:26:9-30:34
+	tools:node
+		ADDED from [androidx.emoji2:emoji2:1.3.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\2e2d51d85f1d87e24b4218d4a549f070\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:28:13-31
+	android:authorities
+		ADDED from [androidx.emoji2:emoji2:1.3.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\2e2d51d85f1d87e24b4218d4a549f070\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+	android:exported
+		ADDED from [androidx.emoji2:emoji2:1.3.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\2e2d51d85f1d87e24b4218d4a549f070\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.3.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\2e2d51d85f1d87e24b4218d4a549f070\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+meta-data#androidx.emoji2.text.EmojiCompatInitializer
+ADDED from [androidx.emoji2:emoji2:1.3.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\2e2d51d85f1d87e24b4218d4a549f070\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.emoji2:emoji2:1.3.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\2e2d51d85f1d87e24b4218d4a549f070\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.3.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\2e2d51d85f1d87e24b4218d4a549f070\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+uses-library#androidx.window.extensions
+ADDED from [androidx.window:window:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\393490536730c9005a1c9d0960f9c713\workspace\transformed\window-1.0.0\AndroidManifest.xml:25:9-27:40
+	android:required
+		ADDED from [androidx.window:window:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\393490536730c9005a1c9d0960f9c713\workspace\transformed\window-1.0.0\AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.window:window:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\393490536730c9005a1c9d0960f9c713\workspace\transformed\window-1.0.0\AndroidManifest.xml:26:13-54
+uses-library#androidx.window.sidecar
+ADDED from [androidx.window:window:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\393490536730c9005a1c9d0960f9c713\workspace\transformed\window-1.0.0\AndroidManifest.xml:28:9-30:40
+	android:required
+		ADDED from [androidx.window:window:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\393490536730c9005a1c9d0960f9c713\workspace\transformed\window-1.0.0\AndroidManifest.xml:30:13-37
+	android:name
+		ADDED from [androidx.window:window:1.0.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\393490536730c9005a1c9d0960f9c713\workspace\transformed\window-1.0.0\AndroidManifest.xml:29:13-51
+permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\02b2bf0c0e52279e303b7ebd4c705740\workspace\transformed\core-1.17.0\AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\02b2bf0c0e52279e303b7ebd4c705740\workspace\transformed\core-1.17.0\AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\02b2bf0c0e52279e303b7ebd4c705740\workspace\transformed\core-1.17.0\AndroidManifest.xml:23:9-81
+permission#com.example.aredlapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\02b2bf0c0e52279e303b7ebd4c705740\workspace\transformed\core-1.17.0\AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\02b2bf0c0e52279e303b7ebd4c705740\workspace\transformed\core-1.17.0\AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\02b2bf0c0e52279e303b7ebd4c705740\workspace\transformed\core-1.17.0\AndroidManifest.xml:23:9-81
+uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\02b2bf0c0e52279e303b7ebd4c705740\workspace\transformed\core-1.17.0\AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\02b2bf0c0e52279e303b7ebd4c705740\workspace\transformed\core-1.17.0\AndroidManifest.xml:26:22-94
+uses-permission#com.example.aredlapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\02b2bf0c0e52279e303b7ebd4c705740\workspace\transformed\core-1.17.0\AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.17.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\02b2bf0c0e52279e303b7ebd4c705740\workspace\transformed\core-1.17.0\AndroidManifest.xml:26:22-94
+meta-data#androidx.lifecycle.ProcessLifecycleInitializer
+ADDED from [androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\94324f4024d52c6525dc3273ea1ec559\workspace\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\94324f4024d52c6525dc3273ea1ec559\workspace\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\94324f4024d52c6525dc3273ea1ec559\workspace\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:30:17-78
+meta-data#androidx.profileinstaller.ProfileInstallerInitializer
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
+receiver#androidx.profileinstaller.ProfileInstallReceiver
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
+	android:enabled
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
+	android:permission
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
+	android:directBootAware
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
+intent-filter#action:name:androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
+action#androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
+intent-filter#action:name:androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
+action#androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
+intent-filter#action:name:androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
+action#androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
+intent-filter#action:name:androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
+action#androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Cerig\.gradle\caches\9.2.1\transforms\0fc97c34cab36e99ddc4bcc5556af3e8\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:25-92

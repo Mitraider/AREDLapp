@@ -1,0 +1,158 @@
+[
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_item_victor.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/item_victor.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_fragment_roulette.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/fragment_roulette.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_item_player_header.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/item_player_header.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_fragment_levels.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/fragment_levels.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.aredlapp-main-56:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_item_level_header.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/item_level_header.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.aredlapp-main-56:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.aredlapp-main-56:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.example.aredlapp-main-56:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.aredlapp-main-56:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.aredlapp-main-56:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_fragment_level_detail.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/fragment_level_detail.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_fragment_random_demon.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/fragment_random_demon.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_nav_header.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/nav_header.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_fragment_leaderboard.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/fragment_leaderboard.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_item_level.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/item_level.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.aredlapp-main-56:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.example.aredlapp-main-56:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/drawable_aredl_text.png.flat",
+        "source": "com.example.aredlapp-main-56:/drawable/aredl_text.png"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/xml_backup_rules.xml.flat",
+        "source": "com.example.aredlapp-main-56:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_fragment_todo.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/fragment_todo.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.aredlapp-main-56:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/drawable_aredl_logo.png.flat",
+        "source": "com.example.aredlapp-main-56:/drawable/aredl_logo.png"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_fragment_player_detail.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/fragment_player_detail.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_fragment_games.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/fragment_games.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/menu_bottom_nav_menu.xml.flat",
+        "source": "com.example.aredlapp-main-56:/menu/bottom_nav_menu.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.aredlapp-main-56:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.aredlapp-main-56:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_fragment_settings.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/fragment_settings.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.example.aredlapp-main-56:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_item_player.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/item_player.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.example.aredlapp-main-56:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_fragment_profile.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/fragment_profile.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.example.aredlapp-main-56:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_fragment_alphabet.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/fragment_alphabet.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_activity_login.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/xml_data_extraction_rules.xml.flat",
+        "source": "com.example.aredlapp-main-56:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/layout_activity_main.xml.flat",
+        "source": "com.example.aredlapp-main-56:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.aredlapp-debug-54:/drawable_ic_filter.xml.flat",
+        "source": "com.example.aredlapp-main-56:/drawable/ic_filter.xml"
+    }
+]

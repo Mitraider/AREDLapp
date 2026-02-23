@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="app_background">#121212</color>
+    <color name="app_surface">#1E1E1E</color>
+    <color name="app_text_primary">#FFFFFF</color>
+    <color name="app_text_secondary">#BDBDBD</color>
+    <style name="Base.Theme.AREDLapp" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/aredl_orange</item>
+        <item name="android:windowBackground">@color/app_background</item>
+        <item name="android:textColorPrimary">@color/app_text_primary</item>
+        <item name="android:textColorSecondary">@color/app_text_secondary</item>
+        <item name="colorSurface">@color/app_surface</item>
+        <item name="colorOnSurface">@color/app_text_primary</item>
+        <item name="android:statusBarColor">@color/aredl_black</item>
+    </style>
+</resources>

@@ -1,0 +1,87 @@
+<navigation
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/nav_graph"
+app:startDestination="@id/nav_levels" >
+<fragment
+    android:id="@+id/nav_levels"
+    android:name="com.example.aredlapp.ui.LevelsFragment"
+    android:label="Levels"
+    tools:layout="@layout/fragment_levels" >
+
+    <action
+        android:id="@+id/action_levels_to_detail"
+        app:destination="@id/nav_level_detail" />
+
+</fragment>
+<fragment
+    android:id="@+id/nav_leaderboard"
+    android:name="com.example.aredlapp.ui.LeaderboardFragment"
+    android:label="Leaderboard"
+    tools:layout="@layout/fragment_leaderboard" >
+
+    <action
+        android:id="@+id/action_leaderboard_to_detail"
+        app:destination="@id/nav_player_detail" />
+
+</fragment>
+<fragment
+    android:id="@+id/nav_todo"
+    android:name="com.example.aredlapp.ui.TodoFragment"
+    android:label="To-Do List"
+    tools:layout="@layout/fragment_todo" >
+
+    <action
+        android:id="@+id/action_todo_to_detail"
+        app:destination="@id/nav_level_detail" />
+
+</fragment>
+<fragment
+    android:id="@+id/nav_games"
+    android:name="com.example.aredlapp.ui.GamesFragment"
+    android:label="Mini-Games"
+    tools:layout="@layout/fragment_games" >
+
+    <action
+        android:id="@+id/action_games_to_random"
+        app:destination="@id/nav_random_demon" />
+    <action
+        android:id="@+id/action_games_to_roulette"
+        app:destination="@id/nav_roulette" />
+    <action
+        android:id="@+id/action_games_to_alphabet"
+        app:destination="@id/nav_alphabet" />
+
+</fragment>
+<fragment
+    android:id="@+id/nav_random_demon"
+    android:name="com.example.aredlapp.ui.RandomDemonFragment"
+    android:label="Random Demon"
+    tools:layout="@layout/fragment_random_demon" />
+<fragment
+    android:id="@+id/nav_roulette"
+    android:name="com.example.aredlapp.ui.RouletteFragment"
+    android:label="Demon Roulette"
+    tools:layout="@layout/fragment_roulette" />
+<fragment
+    android:id="@+id/nav_alphabet"
+    android:name="com.example.aredlapp.ui.AlphabetFragment"
+    android:label="Alphabet Challenge"
+    tools:layout="@layout/fragment_alphabet" />
+<fragment
+    android:id="@+id/nav_settings"
+    android:name="com.example.aredlapp.ui.SettingsFragment"
+    android:label="Settings"
+    tools:layout="@layout/fragment_settings" />
+<fragment
+    android:id="@+id/nav_level_detail"
+    android:name="com.example.aredlapp.ui.LevelDetailFragment"
+    android:label="Level Detail"
+    tools:layout="@layout/fragment_level_detail" />
+<fragment
+    android:id="@+id/nav_player_detail"
+    android:name="com.example.aredlapp.ui.PlayerDetailFragment"
+    android:label="Player Detail"
+    tools:layout="@layout/fragment_player_detail" />
+</navigation>
