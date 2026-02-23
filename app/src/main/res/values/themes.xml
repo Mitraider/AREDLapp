@@ -1,0 +1,21 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.AREDLapp" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/aredl_orange</item>
+        <item name="android:windowBackground">@color/app_background</item>
+        <item name="android:textColorPrimary">@color/app_text_primary</item>
+        <item name="android:textColorSecondary">@color/app_text_secondary</item>
+        <item name="colorSurface">@color/app_surface</item>
+        <item name="colorOnSurface">@color/app_text_primary</item>
+        <item name="android:statusBarColor">@color/aredl_black</item>
+    </style>
+
+    <style name="Theme.AREDLapp" parent="Base.Theme.AREDLapp" />
+
+    <!-- Splash Screen Theme -->
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/aredl_logo</item>
+        <item name="windowSplashScreenBackground">@color/aredl_black</item>
+        <item name="postSplashScreenTheme">@style/Theme.AREDLapp</item>
+    </style>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Branding AREDL -->
+    <color name="aredl_orange">#FF8C00</color>
+    <color name="aredl_black">#121212</color>
+    <color name="aredl_dark_grey">#1E1E1E</color>
+
+    <!-- Semantic Colors Light (Deep Grey for less flashiness) -->
+    <color name="app_background">#BDBDBD</color>
+    <color name="app_surface">#CCCCCC</color>
+    <color name="app_text_primary">#121212</color>
+    <color name="app_text_secondary">#424242</color>
+</resources>

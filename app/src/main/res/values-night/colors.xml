@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Semantic Colors Dark - EXACT NAMES -->
+    <color name="app_background">#121212</color>
+    <color name="app_surface">#1E1E1E</color>
+    <color name="app_text_primary">#FFFFFF</color>
+    <color name="app_text_secondary">#BDBDBD</color>
+</resources>
