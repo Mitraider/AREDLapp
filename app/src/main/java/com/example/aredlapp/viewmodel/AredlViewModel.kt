@@ -11,9 +11,12 @@ import io.ktor.client.engine.android.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import java.util.concurrent.ConcurrentHashMap
 
@@ -91,6 +94,8 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
     private val profileCache = ConcurrentHashMap<String, ProfileResponse>()
     private val playerRanks = ConcurrentHashMap<String, Int>()
     private val prefs = application.getSharedPreferences("aredl_app_final_fixed", Context.MODE_PRIVATE)
+    private val json = Json { ignoreUnknownKeys = true; isLenient = true; encodeDefaults = true }
+    
     private var searchJob: Job? = null
     private var victorsJob: Job? = null
     private var enrichmentJob: Job? = null
@@ -101,6 +106,8 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         loadLocalData()
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.value = true
+            loadLevelsFromCache()
+            loadLeaderboardFromCache()
             val levelsJob = async { fetchLevels() }
             val firstPageJob = async { fetchLeaderboardFirstPage() }
             levelsJob.await()
@@ -128,6 +135,44 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    private fun loadLevelsFromCache() {
+        try {
+            val cachedJson = prefs.getString("cached_levels", null)
+            if (cachedJson != null) {
+                val cached: List<LevelResponse> = json.decodeFromString(ListSerializer(LevelResponse.serializer()), cachedJson)
+                _levels.value = cached
+                _availableTags.value = cached.flatMap { it.tags ?: emptyList() }.distinct().sorted()
+            }
+        } catch (e: Exception) {}
+    }
+
+    private fun loadLeaderboardFromCache() {
+        try {
+            val cachedJson = prefs.getString("cached_leaderboard", null)
+            if (cachedJson != null) {
+                val cached: List<LeaderboardResponse> = json.decodeFromString(ListSerializer(LeaderboardResponse.serializer()), cachedJson)
+                updateLeaderboardData(cached)
+            }
+        } catch (e: Exception) {}
+    }
+
+    private fun saveLevelsToCache(levels: List<LevelResponse>, lastModified: String?) {
+        try {
+            val serialized = json.encodeToString(ListSerializer(LevelResponse.serializer()), levels)
+            prefs.edit().apply {
+                putString("cached_levels", serialized)
+                if (lastModified != null) putString("levels_last_modified", lastModified)
+            }.apply()
+        } catch (e: Exception) {}
+    }
+
+    private fun saveLeaderboardToCache(data: List<LeaderboardResponse>) {
+        try {
+            val serialized = json.encodeToString(ListSerializer(LeaderboardResponse.serializer()), data)
+            prefs.edit().putString("cached_leaderboard", serialized).apply()
+        } catch (e: Exception) {}
+    }
+
     private fun extractCreator(level: LevelResponse): String? {
         val name = level.global_name?.takeIf { it.isNotBlank() && it != "AREDL" }
             ?: level.creator?.global_name?.takeIf { it.isNotBlank() && it != "AREDL" }
@@ -146,7 +191,17 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
 
     private suspend fun fetchLevels() {
         try {
-            val res: List<LevelResponse> = client.get("https://api.aredl.net/v2/api/aredl/levels/").body()
+            val lastModified = prefs.getString("levels_last_modified", null)
+            val response: HttpResponse = client.get("https://api.aredl.net/v2/api/aredl/levels/") {
+                if (lastModified != null) header(HttpHeaders.IfModifiedSince, lastModified)
+            }
+            
+            if (response.status == HttpStatusCode.NotModified) {
+                withContext(Dispatchers.Main) { pickNewRouletteLevel(); pickNewAlphabetLevel() }
+                return
+            }
+
+            val res: List<LevelResponse> = response.body()
             val processed = res.map { 
                 it.copy(
                     points = it.points / 10.0,
@@ -155,6 +210,10 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
             }
             _levels.value = processed
             _availableTags.value = processed.flatMap { it.tags ?: emptyList() }.distinct().sorted()
+            
+            val newLastModified = response.headers[HttpHeaders.LastModified]
+            saveLevelsToCache(processed, newLastModified)
+            
             withContext(Dispatchers.Main) { pickNewRouletteLevel(); pickNewAlphabetLevel() }
         } catch (e: Exception) {}
     }
@@ -163,7 +222,6 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
     private fun startBackgroundLevelFetch() {
         backgroundFetchJob?.cancel()
         backgroundFetchJob = viewModelScope.launch(Dispatchers.IO) {
-            // Fetch creators for the first 500 levels
             val priorityLevels = _levels.value.take(500)
             priorityLevels.asFlow().flatMapMerge(concurrency = 5) { level ->
                 flow {
@@ -179,7 +237,11 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
                     }
                 }
             }.collect { (id, creator) ->
-                _levels.update { list -> list.map { if (it.id == id) it.copy(global_name = creator) else it } }
+                _levels.update { list -> 
+                    val newList = list.map { if (it.id == id) it.copy(global_name = creator) else it }
+                    if (id == priorityLevels.lastOrNull()?.id) saveLevelsToCache(newList, null)
+                    newList
+                }
             }
         }
     }
@@ -189,6 +251,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
             val res: PaginatedLeaderboardResponse = client.get("https://api.aredl.net/v2/api/aredl/leaderboard?page=1").body()
             _totalPages.value = res.pages
             updateLeaderboardData(res.data)
+            saveLeaderboardToCache(res.data)
             res.pages
         } catch (e: Exception) { 1 }
     }
@@ -321,7 +384,8 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
                             if (page > 1 && pt < rawLevelPoints) { stopSearching = true; return@flow }
                             val user = player.user ?: return@flow
                             try {
-                                val profile = try { profileCache[user.username!!] ?: client.get("https://api.aredl.net/v2/api/aredl/profile/${user.username}").body<ProfileResponse>().also { profileCache[user.username!!] = it } } catch(e:Exception){null}
+                                val username = user.username ?: return@flow
+                                val profile = profileCache[username] ?: try { client.get("https://api.aredl.net/v2/api/aredl/profile/$username").body<ProfileResponse>().also { profileCache[username] = it } } catch(e:Exception){null}
                                 val match = profile?.records?.find { r -> (gdId != null && r.level_id == gdId) || r.id == aredlId || r.level?.id == aredlId }
                                 if (match != null) {
                                     emit(LevelRecord(
@@ -350,11 +414,9 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val profile = profileCache[username] ?: client.get("https://api.aredl.net/v2/api/aredl/profile/$username").body<ProfileResponse>().also { profileCache[username] = it }
-                
                 val mainLevels = _levels.value
                 val enrichedRecords = profile.records.map { record ->
                     val matchingLevel = mainLevels.find { it.id == record.id || it.level_id == record.level_id || it.id == record.level?.id }
-                    
                     val levelFromRecord = record.level
                     val recordCreator = levelFromRecord?.let { extractCreator(it) }
                     
@@ -366,7 +428,6 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
                         record.copy(level = levelFromRecord.copy(global_name = recordCreator, points = (levelFromRecord.points ?: 0.0) / 10.0))
                     } else record
                 }
-                
                 _selectedPlayerProfile.value = profile.copy(records = enrichedRecords)
             } catch (e: Exception) {}
         }
@@ -405,7 +466,6 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
     
     fun pickNewRouletteLevel() { 
         val h = _rouletteHistory.value.mapNotNull { it.id }.toSet()
-        // Removed the position <= 500 restriction to include all levels
         _levels.value.filter { !h.contains(it.id) }.let { 
             if (it.isNotEmpty()) {
                 val chosen = it.random()
@@ -432,15 +492,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
     
     fun advanceRoulette(a: Int) { 
         val lvl = currentRouletteLevel.value ?: return
-        val record = RecordInfo(
-            id = lvl.id, 
-            level_id = lvl.level_id, 
-            name = lvl.name, 
-            position = lvl.position, 
-            points = lvl.points, 
-            achieved_percent = a,
-            level = lvl
-        )
+        val record = RecordInfo(id = lvl.id, level_id = lvl.level_id, name = lvl.name, position = lvl.position, points = lvl.points, achieved_percent = a, level = lvl)
         _rouletteHistory.update { listOf(record) + it }
         if (a >= 100) _rouletteWon.value = true else { _roulettePercent.value = a + 1; pickNewRouletteLevel() }
         saveRoulette() 
