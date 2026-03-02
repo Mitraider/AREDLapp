@@ -34,7 +34,7 @@ class RouletteFragment : Fragment() {
         
         setupHistoryList()
 
-        // Sync Goal
+        // sync Goal
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.roulettePercent.collect { percent ->
                 binding.textCurrentPercent.text = "$percent%"
@@ -44,7 +44,7 @@ class RouletteFragment : Fragment() {
             }
         }
 
-        // Sync Won State
+        // sync Won State
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.rouletteWon.collect { won ->
                 if (won) {

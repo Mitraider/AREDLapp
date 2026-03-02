@@ -29,7 +29,7 @@ class VictorsAdapter(
             val user = record.user ?: record.player
             binding.victorName.text = user?.global_name ?: user?.username ?: "Unknown"
             
-            // Nouveau système : Discord ID + Avatar Hash -> .webp size 256
+            // my way to fetch discord pfps for the leaderboard
             val avatarUrl = if (user?.discord_id != null && user.discord_avatar != null) {
                 "https://cdn.discordapp.com/avatars/${user.discord_id}/${user.discord_avatar}.webp?size=256"
             } else if (user?.avatar != null) {

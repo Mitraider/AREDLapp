@@ -52,7 +52,7 @@ class RandomDemonFragment : Fragment() {
         binding.textRandomLevelName.text = level.name
         binding.textRandomLevelRank.text = "#${level.position}"
         
-        // Add creator
+        // add creator
         val creator = level.global_name ?: "AREDL"
         binding.textRandomLevelCreator.text = "by $creator"
         binding.textRandomLevelCreator.visibility = if (creator != "AREDL") View.VISIBLE else View.GONE

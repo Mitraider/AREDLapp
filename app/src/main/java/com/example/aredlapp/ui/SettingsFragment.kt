@@ -31,7 +31,7 @@ class SettingsFragment : Fragment() {
 
         val prefs = requireActivity().getSharedPreferences("aredl_settings", Context.MODE_PRIVATE)
         
-        // Load current settings
+        // settings loading
         val isDarkMode = prefs.getBoolean("dark_mode", true)
         selectedTheme = if (isDarkMode) "Dark" else "Light"
         binding.btnSelectTheme.text = selectedTheme
@@ -78,7 +78,7 @@ class SettingsFragment : Fragment() {
                     apply()
                 }
 
-                // Recreate activity to apply color changes
+                // ugly way to apply settings without restarting the app
                 requireActivity().recreate()
 
             } else {

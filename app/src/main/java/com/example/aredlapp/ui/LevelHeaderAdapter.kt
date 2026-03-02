@@ -59,7 +59,7 @@ class LevelHeaderAdapter(
             binding.detailLevelName.text = l.name
             binding.detailLevelName.setTextColor(color)
             
-            // On utilise la global_name préparée par le ViewModel qui contient le créateur
+            // an ugly way to get a level's creator
             val creator = l.global_name ?: "AREDL"
             binding.detailLevelCreator.text = "by $creator"
             

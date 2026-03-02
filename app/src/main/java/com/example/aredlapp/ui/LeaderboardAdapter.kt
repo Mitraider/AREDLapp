@@ -34,11 +34,10 @@ class LeaderboardAdapter(private val onItemClick: (LeaderboardResponse) -> Unit)
             binding.playerFlag.text = CountryUtils.getCountryName(player.country)
 
             val user = player.user
-            // Utilisation du nouveau système : Discord ID + Avatar Hash -> .webp size 256
             val avatarUrl = if (user?.discord_id != null && user.discord_avatar != null) {
                 "https://cdn.discordapp.com/avatars/${user.discord_id}/${user.discord_avatar}.webp?size=256"
             } else if (user?.avatar != null) {
-                user.avatar // Fallback sur l'avatar AREDL direct si présent
+                user.avatar // set AREDL logo as default
             } else null
 
             binding.playerAvatar.load(avatarUrl) {

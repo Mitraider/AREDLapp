@@ -81,7 +81,7 @@ class PlayerDetailFragment : Fragment() {
 
     private fun setupRecyclerView() {
         recordsAdapter = RecordsAdapter { record ->
-            // On récupère l'ID AREDL en priorité pour que selectLevel charge tout
+            // use AREDL' ID to load everything
             val levelId = record.level?.id ?: record.id ?: ""
             val minimalLevel = LevelResponse(
                 id = levelId,

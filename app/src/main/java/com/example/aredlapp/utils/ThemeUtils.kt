@@ -35,8 +35,7 @@ object ThemeUtils {
                 view.backgroundTintList = colorStateList
             }
             is TextView -> {
-                // On ne change la couleur du texte que si elle était "aredl_orange" à l'origine
-                // Ici on simplifie en l'appliquant si demandé
+                // only change aredl_orange colored text
                 view.setTextColor(color)
             }
             is ImageView -> {

@@ -1,6 +1,7 @@
 package com.example.aredlapp.utils
 
 object CountryUtils {
+    //ok i'm ass at country codes so i just copied one over the internet to auto replace country codes
     private val countryMap = mapOf(
         "004" to "AFG", "008" to "ALB", "010" to "ATA", "012" to "DZA", "016" to "ASM", "020" to "AND", "024" to "AGO", "028" to "ATG",
         "031" to "AZE", "032" to "ARG", "036" to "AUS", "040" to "AUT", "044" to "BHS", "048" to "BHR", "050" to "BGD", "051" to "ARM",

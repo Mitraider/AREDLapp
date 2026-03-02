@@ -19,7 +19,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // This fragment is no longer used as we switched to Settings
+        // no longer used but i dont wanna break everything (in case cause my code is ass)
     }
 
     override fun onDestroyView() {

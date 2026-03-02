@@ -65,7 +65,7 @@ class LeaderboardFragment : Fragment() {
             viewModel.totalPages.collect { updatePageInfo() }
         }
 
-        // Animation de la barre de recherche au scroll
+        // some animations on scroll
         binding.recyclerLeaderboard.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 20) {
