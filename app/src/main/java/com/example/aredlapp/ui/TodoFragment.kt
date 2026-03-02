@@ -47,9 +47,9 @@ class TodoFragment : Fragment() {
 
         binding.tabTodo.apply {
             removeAllTabs()
-            addTab(newTab().setText("To-Do"))
-            addTab(newTab().setText("Favorites"))
-            addTab(newTab().setText("Completed"))
+            addTab(newTab().setText("Favorites List"))
+            addTab(newTab().setText("To Do List"))
+            addTab(newTab().setText("Completed list"))
             addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) { updateList() }
                 override fun onTabUnselected(tab: TabLayout.Tab?) {}
