@@ -40,8 +40,7 @@ class RecordsAdapter(private val onItemClick: (RecordInfo) -> Unit) :
             binding.levelThumbnail.load("https://raw.githubusercontent.com/All-Rated-Extreme-Demon-List/Thumbnails/main/levels/cards/${levelId}.webp") {
                 crossfade(true)
             }
-            
-            // Cacher les boutons d'action dans la liste des records
+
             binding.btnFavorite.visibility = View.GONE
             binding.btnTodo.visibility = View.GONE
             binding.btnCompleted.visibility = View.GONE

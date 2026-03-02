@@ -11,11 +11,11 @@
     <item
         android:id="@+id/nav_todo"
         android:icon="@android:drawable/ic_menu_edit"
-        android:title="To-Do List" />
+        android:title="My Lists" />
     <item
         android:id="@+id/nav_games"
         android:icon="@android:drawable/ic_menu_send"
-        android:title="Mini-Games" />
+        android:title="Mini Games" />
     <item
         android:id="@+id/nav_settings"
         android:icon="@android:drawable/ic_menu_manage"
