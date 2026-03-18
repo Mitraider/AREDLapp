@@ -101,17 +101,33 @@
                         app:layout_constraintTop_toBottomOf="@id/layout_name_container"
                         android:text="[Clan Name]" />
 
-                    <TextView
-                        android:id="@+id/detail_country"
+                    <LinearLayout
+                        android:id="@+id/layout_country_row"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:textColor="?attr/android:textColorPrimary"
-                        android:textSize="12sp"
+                        android:layout_marginTop="6dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/detail_clan"
-                        android:text="FRA" />
+                        app:layout_constraintTop_toBottomOf="@id/detail_clan">
+
+                        <ImageView
+                            android:id="@+id/detail_country_flag"
+                            android:layout_width="28dp"
+                            android:layout_height="20dp"
+                            android:layout_marginEnd="8dp"
+                            android:contentDescription="Country flag"
+                            android:scaleType="fitCenter" />
+
+                        <TextView
+                            android:id="@+id/detail_country"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="France"
+                            android:textColor="?attr/android:textColorPrimary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
                     <View
                         android:id="@+id/divider"
@@ -120,7 +136,7 @@
                         android:layout_marginTop="12dp"
                         android:background="?attr/android:dividerVertical"
                         android:alpha="0.2"
-                        app:layout_constraintTop_toBottomOf="@id/detail_country" />
+                        app:layout_constraintTop_toBottomOf="@id/layout_country_row" />
 
                     <TextView
                         android:id="@+id/detail_rank"

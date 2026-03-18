@@ -110,3 +110,64 @@ data class RoleResponse(
     val hide: Boolean = false,
     val privilegeLevel: Int = 0
 )
+
+@Serializable
+data class BasePackTierResponse(
+    val id: String,
+    val name: String,
+    val color: String
+)
+
+@Serializable
+data class LevelPackResponse(
+    val id: String,
+    val name: String,
+    val tier: BasePackTierResponse
+)
+
+@Serializable
+data class PackLevelResponse(
+    val id: String,
+    val name: String,
+    val level_id: Int? = null,
+    val position: Int = 0,
+    val points: Double = 0.0,
+    val legacy: Boolean? = null,
+    val completed_by_user: Boolean? = null
+)
+
+@Serializable
+data class PackResponse(
+    val id: String,
+    val name: String,
+    val points: Int = 0,
+    val levels: List<PackLevelResponse> = emptyList()
+)
+
+@Serializable
+data class PackTierResolvedResponse(
+    val id: String,
+    val name: String,
+    val color: String,
+    val placement: Int = 0,
+    val packs: List<PackResponse> = emptyList()
+)
+
+data class UserSubmissionInfo(
+    val submissionId: String,
+    val levelId: String,
+    val rawStatus: String,
+    val updatedAt: String? = null
+) {
+    val displayStatus: String
+        get() = when (rawStatus) {
+            "Accepted" -> "Accepted"
+            "Denied" -> "Refused"
+            else -> "Pending"
+        }
+}
+
+data class UserSubmissionLevelItem(
+    val level: LevelResponse,
+    val submission: UserSubmissionInfo
+)

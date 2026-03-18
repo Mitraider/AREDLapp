@@ -36,6 +36,24 @@
     </fragment>
 
     <fragment
+        android:id="@+id/nav_my_submissions"
+        android:name="com.example.aredlapp.ui.MySubmissionsFragment"
+        android:label="My Submissions"
+        tools:layout="@layout/fragment_my_submissions" />
+
+    <fragment
+        android:id="@+id/nav_packs"
+        android:name="com.example.aredlapp.ui.PacksFragment"
+        android:label="Packs"
+        tools:layout="@layout/fragment_packs" />
+
+    <fragment
+        android:id="@+id/nav_pack_detail"
+        android:name="com.example.aredlapp.ui.PackDetailFragment"
+        android:label="Pack Detail"
+        tools:layout="@layout/fragment_pack_detail" />
+
+    <fragment
         android:id="@+id/nav_games"
         android:name="com.example.aredlapp.ui.GamesFragment"
         android:label="Mini-Games"

@@ -75,16 +75,15 @@
             app:layout_constraintTop_toBottomOf="@id/layout_name_row"
             android:text="100.00 points" />
 
-        <TextView
+        <ImageView
             android:id="@+id/player_flag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="20sp"
+            android:layout_width="30dp"
+            android:layout_height="22dp"
+            android:contentDescription="Country flag"
+            android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="FR" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

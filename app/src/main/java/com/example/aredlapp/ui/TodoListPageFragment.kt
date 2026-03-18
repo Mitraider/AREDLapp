@@ -54,9 +54,10 @@ class TodoListPageFragment : Fragment() {
                 viewModel.levels,
                 viewModel.favoriteLevels,
                 viewModel.todoLevels,
-                viewModel.completedLevels
-            ) { levels, favs, todos, done ->
-                adapter.updateStates(favs, todos, done)
+                viewModel.completedLevels,
+                viewModel.submissionInfoByLevel
+            ) { levels, favs, todos, done, submissions ->
+                adapter.updateStates(favs, todos, done, submissions)
                 val filtered = when (listType) {
                     0 -> levels.filter { favs.contains(it.id) }
                     1 -> levels.filter { todos.contains(it.id) }

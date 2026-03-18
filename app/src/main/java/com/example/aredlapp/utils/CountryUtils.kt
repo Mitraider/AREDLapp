@@ -1,8 +1,9 @@
 package com.example.aredlapp.utils
 
+import java.util.Locale
+
 object CountryUtils {
-    //ok i'm ass at country codes so i just copied one over the internet to auto replace country codes
-    private val countryMap = mapOf(
+    private val numericToAlpha3 = mapOf(
         "004" to "AFG", "008" to "ALB", "010" to "ATA", "012" to "DZA", "016" to "ASM", "020" to "AND", "024" to "AGO", "028" to "ATG",
         "031" to "AZE", "032" to "ARG", "036" to "AUS", "040" to "AUT", "044" to "BHS", "048" to "BHR", "050" to "BGD", "051" to "ARM",
         "052" to "BRB", "056" to "BEL", "060" to "BMU", "064" to "BTN", "068" to "BOL", "070" to "BIH", "072" to "BWA", "074" to "BVT",
@@ -37,9 +38,30 @@ object CountryUtils {
         "894" to "ZMB"
     )
 
-    fun getCountryName(code: String?): String {
-        if (code == null) return "-"
+    private val alpha3ToAlpha2: Map<String, String> = buildMap {
+        Locale.getISOCountries().forEach { alpha2 ->
+            try {
+                put(Locale("", alpha2).getISO3Country().uppercase(Locale.ROOT), alpha2.lowercase(Locale.ROOT))
+            } catch (_: Exception) {
+            }
+        }
+    }
+
+    private val alpha2NameOverrides = mapOf(
+        "xk" to "Kosovo"
+    )
+
+    fun getCountryAlpha2(code: String?): String? {
+        if (code == null) return null
         val formattedCode = code.padStart(3, '0')
-        return countryMap[formattedCode] ?: code
+        val alpha3 = numericToAlpha3[formattedCode] ?: return null
+        return alpha3ToAlpha2[alpha3]
+    }
+
+    fun getCountryName(code: String?): String {
+        val alpha2 = getCountryAlpha2(code) ?: return code ?: "-"
+        return alpha2NameOverrides[alpha2]
+            ?: Locale("", alpha2.uppercase(Locale.ROOT)).getDisplayCountry(Locale.ENGLISH).takeIf { it.isNotBlank() }
+            ?: alpha2.uppercase(Locale.ROOT)
     }
 }

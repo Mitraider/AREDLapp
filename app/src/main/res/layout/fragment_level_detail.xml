@@ -157,6 +157,22 @@
                 app:chipSpacingHorizontal="8dp" />
 
             <TextView
+                android:id="@+id/label_packs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Packs"
+                android:textColor="?attr/colorPrimary"
+                android:textStyle="bold" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/packs_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:chipSpacingHorizontal="8dp" />
+
+            <TextView
                 android:id="@+id/label_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

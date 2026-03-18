@@ -29,6 +29,7 @@ import com.example.aredlapp.models.LevelResponse
 import com.example.aredlapp.models.RoleResponse
 import com.example.aredlapp.models.UserInfo
 import com.example.aredlapp.utils.CountryUtils
+import com.example.aredlapp.utils.FlagUtils
 import com.example.aredlapp.utils.ThemeUtils
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
@@ -62,6 +63,7 @@ class PlayerDetailFragment : Fragment() {
                 player?.let { p ->
                     binding.detailName.text = p.user?.global_name ?: p.user?.username ?: "Unknown"
                     binding.detailCountry.text = CountryUtils.getCountryName(p.country)
+                    FlagUtils.loadFlag(binding.detailCountryFlag, p.country)
                     binding.detailPoints.text = String.format("Points: %.2f", p.total_points ?: 0.0)
                     binding.detailClan.text = p.clan?.global_name ?: p.clan?.name ?: ""
                     binding.detailExtremeCount.text = "Extremes: ${p.extremes ?: 0}"

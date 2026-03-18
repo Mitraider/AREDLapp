@@ -2,6 +2,7 @@ package com.example.aredlapp.ui
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,22 +13,31 @@ import coil.load
 import coil.request.CachePolicy
 import com.example.aredlapp.databinding.ItemLevelBinding
 import com.example.aredlapp.models.LevelResponse
+import com.example.aredlapp.models.UserSubmissionInfo
 import com.example.aredlapp.utils.ThemeUtils
 
 class LevelsAdapter(
     private val onFavoriteClick: (String) -> Unit,
     private val onTodoClick: (String) -> Unit,
-    private val onItemClick: (LevelResponse) -> Unit
+    private val onItemClick: (LevelResponse) -> Unit,
+    private val showSubmissionStatus: Boolean = false
 ) : ListAdapter<LevelResponse, LevelsAdapter.LevelViewHolder>(LevelDiffCallback()) {
 
     private var favoriteIds: Set<String> = emptySet()
     private var todoIds: Set<String> = emptySet()
     private var completedIds: Set<String> = emptySet()
+    private var submissionInfoByLevel: Map<String, UserSubmissionInfo> = emptyMap()
 
-    fun updateStates(favorites: Set<String>, todos: Set<String>, completed: Set<String>) {
+    fun updateStates(
+        favorites: Set<String>,
+        todos: Set<String>,
+        completed: Set<String>,
+        submissions: Map<String, UserSubmissionInfo> = emptyMap()
+    ) {
         favoriteIds = favorites
         todoIds = todos
         completedIds = completed
+        submissionInfoByLevel = submissions
         notifyItemRangeChanged(0, itemCount, "state_update")
     }
 
@@ -70,6 +80,25 @@ class LevelsAdapter(
                 crossfade(true)
                 diskCachePolicy(CachePolicy.ENABLED)
                 size(400, 200) 
+            }
+
+            val submissionInfo = submissionInfoByLevel[level.id] ?: level.level_id?.toString()?.let { submissionInfoByLevel[it] }
+            if (showSubmissionStatus && submissionInfo != null) {
+                binding.levelSubmissionStatus.visibility = View.VISIBLE
+                binding.levelSubmissionStatus.text = submissionInfo.displayStatus
+                binding.levelSubmissionStatus.backgroundTintList = null
+                binding.levelSubmissionStatus.background = GradientDrawable().apply {
+                    cornerRadius = 12f
+                    setColor(
+                        when (submissionInfo.displayStatus) {
+                            "Accepted" -> Color.parseColor("#1B8F3A")
+                            "Refused" -> Color.parseColor("#C62828")
+                            else -> Color.parseColor("#1565C0")
+                        }
+                    )
+                }
+            } else {
+                binding.levelSubmissionStatus.visibility = View.GONE
             }
 
             val isFav = favoriteIds.contains(level.id)

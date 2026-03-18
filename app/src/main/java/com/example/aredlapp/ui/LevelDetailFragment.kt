@@ -16,6 +16,8 @@ import com.example.aredlapp.R
 import com.example.aredlapp.databinding.FragmentLevelDetailBinding
 import com.example.aredlapp.models.LeaderboardResponse
 import com.example.aredlapp.models.LevelResponse
+import com.example.aredlapp.models.LevelPackResponse
+import com.example.aredlapp.utils.PackUtils
 import com.example.aredlapp.utils.ThemeUtils
 import com.example.aredlapp.utils.YouTubeUtils
 import com.example.aredlapp.viewmodel.AredlViewModel
@@ -59,6 +61,12 @@ class LevelDetailFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.currentLevelVictors.collectLatest { victors ->
                 filterAndSubmitVictors(victors)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.currentLevelPacks.collectLatest { packs ->
+                updatePackChips(packs)
             }
         }
 
@@ -121,6 +129,27 @@ class LevelDetailFragment : Fragment() {
         }
     }
 
+    private fun updatePackChips(packs: List<LevelPackResponse>) {
+        binding.packsChipGroup.removeAllViews()
+        binding.labelPacks.visibility = if (packs.isEmpty()) View.GONE else View.VISIBLE
+        binding.packsChipGroup.visibility = if (packs.isEmpty()) View.GONE else View.VISIBLE
+
+        packs.forEach { pack ->
+            val chip = Chip(requireContext()).apply {
+                text = pack.name
+                isClickable = true
+                isCheckable = false
+                setTextColor(android.graphics.Color.WHITE)
+                chipBackgroundColor = ColorStateList.valueOf(PackUtils.resolveTierColor(pack.tier.color))
+                setOnClickListener {
+                    viewModel.selectPackFromLevelPack(pack)
+                    findNavController().navigate(R.id.nav_pack_detail)
+                }
+            }
+            binding.packsChipGroup.addView(chip)
+        }
+    }
+
     private fun setupRecyclerView() {
         binding.recyclerVictors.apply {
             layoutManager = LinearLayoutManager(context)
@@ -143,7 +172,7 @@ class LevelDetailFragment : Fragment() {
         binding.fabBackToTop.backgroundTintList = ColorStateList.valueOf(color)
         binding.detailLevelName.setTextColor(color)
         binding.detailLevelTiers.setTextColor(color)
-        listOf(binding.labelTags, binding.labelDescription, binding.labelVictors).forEach { it.setTextColor(color) }
+        listOf(binding.labelTags, binding.labelPacks, binding.labelDescription, binding.labelVictors).forEach { it.setTextColor(color) }
     }
 
     private fun filterAndSubmitVictors(victors: List<com.example.aredlapp.models.LevelRecord>) {

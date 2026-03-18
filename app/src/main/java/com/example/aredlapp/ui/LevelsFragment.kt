@@ -51,17 +51,27 @@ class LevelsFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.favoriteLevels.collect { favs ->
-                adapter.updateStates(favs, viewModel.todoLevels.value, viewModel.completedLevels.value)
+                adapter.updateStates(favs, viewModel.todoLevels.value, viewModel.completedLevels.value, viewModel.submissionInfoByLevel.value)
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.todoLevels.collect { todos ->
-                adapter.updateStates(viewModel.favoriteLevels.value, todos, viewModel.completedLevels.value)
+                adapter.updateStates(viewModel.favoriteLevels.value, todos, viewModel.completedLevels.value, viewModel.submissionInfoByLevel.value)
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.completedLevels.collect { done ->
-                adapter.updateStates(viewModel.favoriteLevels.value, viewModel.todoLevels.value, done)
+                adapter.updateStates(viewModel.favoriteLevels.value, viewModel.todoLevels.value, done, viewModel.submissionInfoByLevel.value)
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.submissionInfoByLevel.collect { submissions ->
+                adapter.updateStates(
+                    viewModel.favoriteLevels.value,
+                    viewModel.todoLevels.value,
+                    viewModel.completedLevels.value,
+                    submissions
+                )
             }
         }
 

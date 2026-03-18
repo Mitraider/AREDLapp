@@ -56,6 +56,7 @@ dependencies {
 
     // Image loading
     implementation(libs.coil)
+    implementation("io.coil-kt:coil-svg:2.6.0")
 
     // Lifecycle & Navigation
     implementation(libs.androidx.lifecycle.viewmodel.ktx)

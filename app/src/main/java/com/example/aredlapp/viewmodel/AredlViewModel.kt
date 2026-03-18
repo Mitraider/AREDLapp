@@ -77,9 +77,21 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
     val todoLevels: StateFlow<Set<String>> = _todoLevels
     private val _completedLevels = MutableStateFlow<Set<String>>(emptySet())
     val completedLevels: StateFlow<Set<String>> = _completedLevels
+    private val _completedLevelGdIds = MutableStateFlow<Set<Int>>(emptySet())
+    val completedLevelGdIds: StateFlow<Set<Int>> = _completedLevelGdIds
+    private val _submissionInfoByLevel = MutableStateFlow<Map<String, UserSubmissionInfo>>(emptyMap())
+    val submissionInfoByLevel: StateFlow<Map<String, UserSubmissionInfo>> = _submissionInfoByLevel
+    private val _mySubmissionLevels = MutableStateFlow<List<UserSubmissionLevelItem>>(emptyList())
+    val mySubmissionLevels: StateFlow<List<UserSubmissionLevelItem>> = _mySubmissionLevels
 
     private val _availableTags = MutableStateFlow<List<String>>(emptyList())
     val availableTags: StateFlow<List<String>> = _availableTags
+    private val _packTiers = MutableStateFlow<List<PackTierResolvedResponse>>(emptyList())
+    val packTiers: StateFlow<List<PackTierResolvedResponse>> = _packTiers
+    private val _currentLevelPacks = MutableStateFlow<List<LevelPackResponse>>(emptyList())
+    val currentLevelPacks: StateFlow<List<LevelPackResponse>> = _currentLevelPacks
+    private val _selectedPack = MutableStateFlow<PackResponse?>(null)
+    val selectedPack: StateFlow<PackResponse?> = _selectedPack
 
     private val _roles = MutableStateFlow<List<RoleResponse>>(emptyList())
     val roles: StateFlow<List<RoleResponse>> = _roles
@@ -123,7 +135,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
     private val profileCache = ConcurrentHashMap<String, ProfileResponse>()
     private val playerRanks = ConcurrentHashMap<String, Int>()
     
-    private val prefs = application.getSharedPreferences("aredl_v33_bulldozer_mega", Context.MODE_PRIVATE)
+    private val prefs = application.getSharedPreferences("AREDLapp", Context.MODE_PRIVATE)
     private val authPrefs: SharedPreferences? = createEncryptedAuthPrefs(application)
     private val json = Json { ignoreUnknownKeys = true; isLenient = true; encodeDefaults = true }
     private val authRefreshMutex = Mutex()
@@ -137,6 +149,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
             _isLoading.value = true
             loadAllFromCache()
             fetchRoles()
+            fetchPackTiers()
             val lJob = async { fetchLevels() }
             val pJob = async { fetchLeaderboardFirstPage() }
             lJob.await()
@@ -147,6 +160,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
             }
             startBackgroundLevelFetch()
             if (_authState.value.isAuthenticated) {
+                refreshAuthenticatedSubmissions()
                 refreshAuthenticatedUser()
             }
         }
@@ -156,6 +170,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         _favoriteLevels.value = prefs.getStringSet("favorites", emptySet()) ?: emptySet()
         _todoLevels.value = prefs.getStringSet("todo", emptySet()) ?: emptySet()
         _completedLevels.value = prefs.getStringSet("completed", emptySet()) ?: emptySet()
+        _completedLevelGdIds.value = prefs.getStringSet("completed_gd_ids", emptySet())?.mapNotNull { it.toIntOrNull() }?.toSet() ?: emptySet()
         _roulettePercent.value = prefs.getInt("roulette_p", 1)
         _alphabetProgress.value = prefs.getInt("alpha_p", 0)
         _alphabetHistory.value = prefs.getStringSet("alphabet_h", emptySet())?.toList() ?: emptyList()
@@ -242,6 +257,10 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
             prefs.getString("cached_roles", null)?.let { cachedJson ->
                 val cached: List<RoleResponse> = json.decodeFromString(ListSerializer(RoleResponse.serializer()), cachedJson)
                 _roles.value = cached
+            }
+            prefs.getString("cached_pack_tiers", null)?.let { cachedJson ->
+                val cached: List<PackTierResolvedResponse> = json.decodeFromString(ListSerializer(PackTierResolvedResponse.serializer()), cachedJson)
+                _packTiers.value = cached.sortedBy { it.placement }
             }
         } catch (e: Exception) {}
     }
@@ -343,6 +362,127 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         } catch (e: Exception) {}
     }
 
+    private suspend fun fetchPackTiers() {
+        try {
+            val token = ensureValidAccessToken()
+            var response = client.get("https://api.aredl.net/v2/api/aredl/pack-tiers") {
+                if (!token.isNullOrBlank()) {
+                    header(HttpHeaders.Authorization, "Bearer $token")
+                }
+            }
+            if (!response.status.isSuccess()) {
+                response = client.get("https://api.aredl.net/v2/api/aredl/pack-tiers")
+            }
+            if (!response.status.isSuccess()) return
+            val body = response.bodyAsText()
+            val root = Json.parseToJsonElement(body)
+            val tiers = when (root) {
+                is JsonArray -> parsePackTiers(root)
+                is JsonObject -> parsePackTiers(root["data"]?.jsonArray ?: JsonArray(emptyList()))
+                else -> emptyList()
+            }.sortedBy { it.placement }
+
+            _packTiers.value = tiers
+            prefs.edit().putString(
+                "cached_pack_tiers",
+                json.encodeToString(ListSerializer(PackTierResolvedResponse.serializer()), tiers)
+            ).apply()
+        } catch (_: Exception) {}
+    }
+
+    fun refreshPackTiers() {
+        viewModelScope.launch(Dispatchers.IO) {
+            fetchPackTiers()
+        }
+    }
+
+    private fun parsePackTiers(array: JsonArray): List<PackTierResolvedResponse> {
+        return array.mapNotNull { tierEl ->
+            val tierObj = tierEl as? JsonObject ?: return@mapNotNull null
+            val packs = tierObj["packs"]?.jsonArray?.mapNotNull { packEl ->
+                val packObj = packEl as? JsonObject ?: return@mapNotNull null
+                val levels = packObj["levels"]?.jsonArray?.mapNotNull { levelEl ->
+                    val levelObj = levelEl as? JsonObject ?: return@mapNotNull null
+                    val id = levelObj["id"]?.jsonPrimitive?.contentOrNull ?: return@mapNotNull null
+                    PackLevelResponse(
+                        id = id,
+                        name = levelObj["name"]?.jsonPrimitive?.contentOrNull ?: "Unknown",
+                        level_id = levelObj["level_id"]?.jsonPrimitive?.intOrNull,
+                        position = levelObj["position"]?.jsonPrimitive?.intOrNull ?: 0,
+                        points = ensureDivided(levelObj["points"]?.jsonPrimitive?.doubleOrNull) ?: 0.0,
+                        legacy = levelObj["legacy"]?.jsonPrimitive?.booleanOrNull,
+                        completed_by_user = levelObj["completed_by_user"]?.jsonPrimitive?.booleanOrNull
+                    )
+                } ?: emptyList()
+
+                val packId = packObj["id"]?.jsonPrimitive?.contentOrNull ?: return@mapNotNull null
+                PackResponse(
+                    id = packId,
+                    name = packObj["name"]?.jsonPrimitive?.contentOrNull ?: "Pack",
+                    points = packObj["points"]?.jsonPrimitive?.intOrNull ?: 0,
+                    levels = levels
+                )
+            } ?: emptyList()
+
+            val tierId = tierObj["id"]?.jsonPrimitive?.contentOrNull ?: return@mapNotNull null
+            PackTierResolvedResponse(
+                id = tierId,
+                name = tierObj["name"]?.jsonPrimitive?.contentOrNull ?: "Tier",
+                color = tierObj["color"]?.jsonPrimitive?.contentOrNull ?: "#888888",
+                placement = tierObj["placement"]?.jsonPrimitive?.intOrNull ?: 0,
+                packs = packs
+            )
+        }
+    }
+
+    private fun parseLevelPacks(array: JsonArray): List<LevelPackResponse> {
+        return array.mapNotNull { packEl ->
+            val packObj = packEl as? JsonObject ?: return@mapNotNull null
+            val tierObj = packObj["tier"]?.jsonObject ?: return@mapNotNull null
+            val packId = packObj["id"]?.jsonPrimitive?.contentOrNull ?: return@mapNotNull null
+            val tierId = tierObj["id"]?.jsonPrimitive?.contentOrNull ?: return@mapNotNull null
+
+            LevelPackResponse(
+                id = packId,
+                name = packObj["name"]?.jsonPrimitive?.contentOrNull ?: "Pack",
+                tier = BasePackTierResponse(
+                    id = tierId,
+                    name = tierObj["name"]?.jsonPrimitive?.contentOrNull ?: "Tier",
+                    color = tierObj["color"]?.jsonPrimitive?.contentOrNull ?: "#888888"
+                )
+            )
+        }
+    }
+
+    private fun parseLevelVictors(array: JsonArray): List<LevelRecord> {
+        return array.mapNotNull { recordEl ->
+            val recordObj = recordEl as? JsonObject ?: return@mapNotNull null
+            val userObj = recordObj["submitted_by"]?.jsonObject
+                ?: recordObj["user"]?.jsonObject
+                ?: recordObj["player"]?.jsonObject
+
+            val user = userObj?.let {
+                UserInfo(
+                    id = it["id"]?.jsonPrimitive?.contentOrNull,
+                    username = it["username"]?.jsonPrimitive?.contentOrNull,
+                    discord_id = it["discord_id"]?.jsonPrimitive?.contentOrNull,
+                    global_name = it["global_name"]?.jsonPrimitive?.contentOrNull,
+                    discord_avatar = it["discord_avatar"]?.jsonPrimitive?.contentOrNull,
+                    avatar = it["avatar"]?.jsonPrimitive?.contentOrNull
+                )
+            }
+
+            LevelRecord(
+                user = user,
+                player = user,
+                video = recordObj["video"]?.jsonPrimitive?.contentOrNull,
+                video_url = recordObj["video_url"]?.jsonPrimitive?.contentOrNull,
+                id = recordObj["id"]?.jsonPrimitive?.contentOrNull,
+                level_id = recordObj["level_id"]?.jsonPrimitive?.intOrNull
+            )
+        }
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun startBackgroundLevelFetch() {
         backgroundFetchJob?.cancel()
@@ -432,6 +572,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
                 )
                 _authState.value = auth
                 persistAuthState(auth)
+                refreshAuthenticatedSubmissions()
                 refreshAuthenticatedUser()
             } catch (e: Exception) {
                 _authState.value = _authState.value.copy(
@@ -460,8 +601,11 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
                     applyAuthenticatedUserResponse(response.bodyAsText())
                 }
                 syncCompletedFromAuthenticatedRecords()
+                loadAuthenticatedSubmissions()
+                fetchPackTiers()
                 selectAuthenticatedPlayer()
             } catch (e: Exception) {
+                loadAuthenticatedSubmissions()
                 _authState.value = _authState.value.copy(lastError = e.message ?: "Failed to fetch /users/@me")
             }
         }
@@ -520,10 +664,19 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
     private suspend fun syncCompletedFromAuthenticatedRecords() {
         val token = ensureValidAccessToken() ?: return
         try {
-            val response = client.get("https://api.aredl.net/v2/api/aredl/records/@me") {
+            var response = client.get("https://api.aredl.net/v2/api/aredl/records/@me") {
                 header(HttpHeaders.Authorization, "Bearer $token")
             }
-            if (!response.status.isSuccess()) return
+            if (response.status == HttpStatusCode.Unauthorized) {
+                val refreshedToken = refreshAccessToken() ?: return
+                response = client.get("https://api.aredl.net/v2/api/aredl/records/@me") {
+                    header(HttpHeaders.Authorization, "Bearer $refreshedToken")
+                }
+            }
+            if (!response.status.isSuccess()) {
+                syncCompletedFromAuthenticatedProfile()
+                return
+            }
 
             val root = Json.parseToJsonElement(response.bodyAsText())
             val records = when (root) {
@@ -533,29 +686,188 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             val knownLevels = _levels.value
-            if (knownLevels.isEmpty()) return
 
             val completedIds = mutableSetOf<String>()
+            val completedGdIds = mutableSetOf<Int>()
             records.forEach { rec ->
                 val obj = rec as? JsonObject ?: return@forEach
                 val levelObj = obj["level"]?.jsonObject
 
                 val uuid = levelObj?.get("id")?.jsonPrimitive?.contentOrNull
-                    ?: obj["id"]?.jsonPrimitive?.contentOrNull
+                    ?: obj["level_id"]?.jsonPrimitive?.contentOrNull
+                    ?: obj["aredl_level_id"]?.jsonPrimitive?.contentOrNull
                 if (!uuid.isNullOrBlank()) {
                     knownLevels.find { it.id == uuid }?.let { completedIds.add(it.id) }
+                    completedIds.add(uuid)
                 }
 
                 val gdId = levelObj?.get("level_id")?.jsonPrimitive?.intOrNull
                     ?: obj["level_id"]?.jsonPrimitive?.intOrNull
+                    ?: obj["gd_level_id"]?.jsonPrimitive?.intOrNull
+                    ?: obj["level_gd_id"]?.jsonPrimitive?.intOrNull
                 if (gdId != null) {
+                    completedGdIds.add(gdId)
                     knownLevels.filter { it.level_id == gdId }.forEach { completedIds.add(it.id) }
                 }
             }
 
-            _completedLevels.value = completedIds
-            prefs.edit().putStringSet("completed", completedIds).apply()
+            if (completedIds.isEmpty() && completedGdIds.isEmpty()) {
+                syncCompletedFromAuthenticatedProfile()
+            } else {
+                applyCompletedState(completedIds, completedGdIds)
+            }
+        } catch (_: Exception) {
+            syncCompletedFromAuthenticatedProfile()
+        }
+    }
+
+    private suspend fun syncCompletedFromAuthenticatedProfile() {
+        val username = _authState.value.username?.takeIf { it.isNotBlank() } ?: return
+        try {
+            val profile = client.get("https://api.aredl.net/api/aredl/profile/$username").body<ProfileResponse>()
+            val knownLevels = _levels.value
+            val completedIds = mutableSetOf<String>()
+            val completedGdIds = mutableSetOf<Int>()
+
+            profile.records.forEach { record ->
+                val level = record.level
+                val uuid = level?.id
+                if (!uuid.isNullOrBlank()) {
+                    completedIds.add(uuid)
+                    knownLevels.find { it.id == uuid }?.let { completedIds.add(it.id) }
+                }
+
+                val gdId = level?.level_id ?: record.level_id
+                if (gdId != null) {
+                    completedGdIds.add(gdId)
+                    knownLevels.filter { it.level_id == gdId }.forEach { completedIds.add(it.id) }
+                }
+            }
+
+            applyCompletedState(completedIds, completedGdIds)
         } catch (_: Exception) {}
+    }
+
+    private fun applyCompletedState(completedIds: Set<String>, completedGdIds: Set<Int>) {
+        _completedLevels.value = completedIds
+        _completedLevelGdIds.value = completedGdIds
+        prefs.edit()
+            .putStringSet("completed", completedIds)
+            .putStringSet("completed_gd_ids", completedGdIds.map { it.toString() }.toSet())
+            .apply()
+    }
+
+    private suspend fun loadAuthenticatedSubmissions() {
+        val token = ensureValidAccessToken() ?: return
+        try {
+            var response = client.get("https://api.aredl.net/v2/api/aredl/submissions/@me?per_page=1000") {
+                header(HttpHeaders.Authorization, "Bearer $token")
+            }
+            if (response.status == HttpStatusCode.Unauthorized) {
+                val refreshedToken = refreshAccessToken() ?: return
+                response = client.get("https://api.aredl.net/v2/api/aredl/submissions/@me?per_page=1000") {
+                    header(HttpHeaders.Authorization, "Bearer $refreshedToken")
+                }
+            }
+            if (!response.status.isSuccess()) return
+
+            val root = Json.parseToJsonElement(response.bodyAsText())
+            val submissions = when (root) {
+                is JsonArray -> root
+                is JsonObject -> root["data"]?.jsonArray ?: JsonArray(emptyList())
+                else -> JsonArray(emptyList())
+            }
+
+            val latestByLevel = mutableMapOf<String, UserSubmissionInfo>()
+            val knownLevels = _levels.value.associateBy { it.id }
+            submissions.forEach { entry ->
+                val obj = entry as? JsonObject ?: return@forEach
+                val levelId = obj["level_id"]?.jsonPrimitive?.contentOrNull
+                    ?: obj["aredl_level_id"]?.jsonPrimitive?.contentOrNull
+                    ?: obj["level"]?.jsonObject?.get("id")?.jsonPrimitive?.contentOrNull
+                    ?: return@forEach
+                val submission = UserSubmissionInfo(
+                    submissionId = obj["id"]?.jsonPrimitive?.contentOrNull ?: return@forEach,
+                    levelId = levelId,
+                    rawStatus = obj["status"]?.jsonPrimitive?.contentOrNull ?: "Pending",
+                    updatedAt = obj["updated_at"]?.jsonPrimitive?.contentOrNull
+                        ?: obj["created_at"]?.jsonPrimitive?.contentOrNull
+                )
+
+                val current = latestByLevel[levelId]
+                if (current == null || (submission.updatedAt ?: "") > (current.updatedAt ?: "")) {
+                    latestByLevel[levelId] = submission
+                }
+
+                val gdLevelId = obj["gd_level_id"]?.jsonPrimitive?.contentOrNull
+                    ?: obj["level_gd_id"]?.jsonPrimitive?.contentOrNull
+                if (!gdLevelId.isNullOrBlank()) {
+                    val currentByGd = latestByLevel[gdLevelId]
+                    if (currentByGd == null || (submission.updatedAt ?: "") > (currentByGd.updatedAt ?: "")) {
+                        latestByLevel[gdLevelId] = submission
+                    }
+                }
+            }
+
+            _submissionInfoByLevel.value = latestByLevel
+            val resolvedItems = mutableListOf<UserSubmissionLevelItem>()
+            latestByLevel.values
+                .asSequence()
+                .filter { it.levelId.contains("-") }
+                .sortedByDescending { it.updatedAt ?: "" }
+                .forEach { submission ->
+                    val knownLevel = knownLevels[submission.levelId]
+                    val level = knownLevel ?: fetchSubmissionLevel(submission.submissionId, token)
+                    if (level != null) {
+                        resolvedItems += UserSubmissionLevelItem(level, submission)
+                    }
+                }
+            _mySubmissionLevels.value = resolvedItems
+        } catch (_: Exception) {}
+    }
+
+    private suspend fun fetchSubmissionLevel(submissionId: String, token: String): LevelResponse? {
+        return try {
+            var response = client.get("https://api.aredl.net/v2/api/aredl/submissions/$submissionId") {
+                header(HttpHeaders.Authorization, "Bearer $token")
+            }
+            if (response.status == HttpStatusCode.Unauthorized) {
+                val refreshedToken = refreshAccessToken() ?: return null
+                response = client.get("https://api.aredl.net/v2/api/aredl/submissions/$submissionId") {
+                    header(HttpHeaders.Authorization, "Bearer $refreshedToken")
+                }
+            }
+            if (!response.status.isSuccess()) return null
+
+            val root = Json.parseToJsonElement(response.bodyAsText()).jsonObject
+            val levelObj = root["level"]?.jsonObject ?: return null
+            LevelResponse(
+                id = levelObj["id"]?.jsonPrimitive?.contentOrNull ?: return null,
+                level_id = levelObj["level_id"]?.jsonPrimitive?.intOrNull,
+                name = levelObj["name"]?.jsonPrimitive?.contentOrNull ?: "Unknown",
+                position = levelObj["position"]?.jsonPrimitive?.intOrNull ?: 0,
+                points = ensureDivided(levelObj["points"]?.jsonPrimitive?.doubleOrNull) ?: 0.0,
+                description = levelObj["description"]?.jsonPrimitive?.contentOrNull,
+                video = levelObj["video"]?.jsonPrimitive?.contentOrNull,
+                thumbnail = levelObj["thumbnail"]?.jsonPrimitive?.contentOrNull
+            )
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    fun refreshAuthenticatedSubmissions() {
+        if (!_authState.value.isAuthenticated) return
+        viewModelScope.launch(Dispatchers.IO) {
+            loadAuthenticatedSubmissions()
+        }
+    }
+
+    fun refreshAuthenticatedCompletions() {
+        if (!_authState.value.isAuthenticated) return
+        viewModelScope.launch(Dispatchers.IO) {
+            syncCompletedFromAuthenticatedRecords()
+        }
     }
 
     fun selectAuthenticatedPlayer(): Boolean {
@@ -582,7 +894,10 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
             }
             _authState.value = AuthState()
             _completedLevels.value = emptySet()
-            prefs.edit().putStringSet("completed", emptySet()).apply()
+            _completedLevelGdIds.value = emptySet()
+            _submissionInfoByLevel.value = emptyMap()
+            _mySubmissionLevels.value = emptyList()
+            prefs.edit().putStringSet("completed", emptySet()).putStringSet("completed_gd_ids", emptySet()).apply()
             persistAuthState(AuthState())
         }
     }
@@ -590,6 +905,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
     fun selectLevel(level: LevelResponse) {
         _selectedLevel.value = level
         _currentLevelVictors.value = emptyList()
+        _currentLevelPacks.value = emptyList()
         val cachedDetail = prefs.getString("detail_${level.id}", null)
         if (cachedDetail != null) {
             try {
@@ -603,15 +919,56 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 val full: LevelResponse = client.get("https://api.aredl.net/api/aredl/levels/${level.id}/").body()
                 val processedFull = full.copy(points = full.points / 10.0, global_name = extractCreator(full))
-                val processedRecords = full.records?.map { it.copy(points = it.points?.let { p -> ensureDivided(p) } ?: (processedFull.points)) } ?: emptyList()
+                val recordsBody = try {
+                    client.get("https://api.aredl.net/v2/api/aredl/levels/${level.id}/records").bodyAsText()
+                } catch (_: Exception) {
+                    null
+                }
+                val processedRecords = if (!recordsBody.isNullOrBlank()) {
+                    val recordsRoot = Json.parseToJsonElement(recordsBody)
+                    when (recordsRoot) {
+                        is JsonArray -> parseLevelVictors(recordsRoot)
+                        is JsonObject -> parseLevelVictors(recordsRoot["data"]?.jsonArray ?: JsonArray(emptyList()))
+                        else -> emptyList()
+                    }
+                } else {
+                    full.records?.map { it.copy(points = it.points?.let { p -> ensureDivided(p) } ?: (processedFull.points)) } ?: emptyList()
+                }
                 val finalLevel = processedFull.copy(records = processedRecords)
+                val levelPacks: List<LevelPackResponse> = try {
+                    var packsResponse = client.get("https://api.aredl.net/v2/api/aredl/levels/${level.id}/packs")
+                    if (!packsResponse.status.isSuccess()) {
+                        packsResponse = client.get("https://api.aredl.net/v2/api/aredl/levels/${level.id}/packs")
+                    }
+                    val packsBody = packsResponse.bodyAsText()
+                    val packsRoot = Json.parseToJsonElement(packsBody)
+                    when (packsRoot) {
+                        is JsonArray -> parseLevelPacks(packsRoot)
+                        is JsonObject -> parseLevelPacks(packsRoot["data"]?.jsonArray ?: JsonArray(emptyList()))
+                        else -> emptyList()
+                    }
+                } catch (_: Exception) {
+                    emptyList()
+                }
                 withContext(Dispatchers.Main) {
                     _selectedLevel.value = finalLevel
                     _currentLevelVictors.value = processedRecords
+                    _currentLevelPacks.value = levelPacks
                 }
                 prefs.edit().putString("detail_${level.id}", json.encodeToString(LevelResponse.serializer(), finalLevel)).apply()
             } catch (e: Exception) {}
         }
+    }
+
+    fun selectPack(pack: PackResponse) {
+        _selectedPack.value = pack
+    }
+
+    fun selectPackFromLevelPack(levelPack: LevelPackResponse) {
+        _selectedPack.value = _packTiers.value
+            .asSequence()
+            .flatMap { it.packs.asSequence() }
+            .firstOrNull { it.id == levelPack.id || it.name.equals(levelPack.name, ignoreCase = true) }
     }
 
     fun selectPlayer(player: LeaderboardResponse, isAuthenticatedProfile: Boolean = false) {

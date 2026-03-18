@@ -21,6 +21,7 @@ import com.example.aredlapp.models.LeaderboardResponse
 import com.example.aredlapp.models.RoleResponse
 import com.example.aredlapp.models.UserInfo
 import com.example.aredlapp.utils.CountryUtils
+import com.example.aredlapp.utils.FlagUtils
 import com.example.aredlapp.utils.ThemeUtils
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonObject
@@ -51,7 +52,7 @@ class LeaderboardAdapter(private val onItemClick: (LeaderboardResponse) -> Unit)
             binding.playerName.text = player.user?.global_name ?: player.user?.username ?: "Unknown"
             binding.playerPoints.text = String.format("%.2f pts", player.total_points ?: 0.0)
             binding.playerPoints.setTextColor(color)
-            binding.playerFlag.text = CountryUtils.getCountryName(player.country)
+            FlagUtils.loadFlag(binding.playerFlag, player.country)
 
             val user = player.user
             val avatarUrl = if (user?.discord_id != null && user.discord_avatar != null) {

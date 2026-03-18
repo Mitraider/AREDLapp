@@ -22,6 +22,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.navOptions
 import androidx.navigation.ui.setupWithNavController
@@ -85,13 +86,13 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             val showMainToolbar = when (destination.id) {
-                R.id.nav_levels, R.id.nav_leaderboard, R.id.nav_todo, R.id.nav_games, R.id.nav_settings, R.id.nav_player_detail -> true
+                R.id.nav_levels, R.id.nav_leaderboard, R.id.nav_todo, R.id.nav_my_submissions, R.id.nav_packs, R.id.nav_games, R.id.nav_settings, R.id.nav_player_detail -> true
                 else -> false
             }
             binding.toolbar.visibility = if (showMainToolbar) View.VISIBLE else View.GONE
 
             val inDrawerMenu = when (destination.id) {
-                R.id.nav_levels, R.id.nav_leaderboard, R.id.nav_todo, R.id.nav_games -> true
+                R.id.nav_levels, R.id.nav_leaderboard, R.id.nav_todo, R.id.nav_my_submissions, R.id.nav_packs, R.id.nav_games -> true
                 else -> false
             }
             if (!inDrawerMenu) {
@@ -161,6 +162,9 @@ class MainActivity : AppCompatActivity() {
         if (navController.currentDestination?.id == destinationId) return
         try {
             navController.navigate(destinationId, null, navOptions {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    saveState = true
+                }
                 launchSingleTop = true
                 restoreState = true
             })
