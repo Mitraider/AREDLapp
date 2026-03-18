@@ -94,5 +94,14 @@ data class RecordInfo(
 @Serializable
 data class ProfileResponse(
     val user: UserInfo? = null,
-    val records: List<RecordInfo> = emptyList()
+    val records: List<RecordInfo> = emptyList(),
+    val background_level: String? = null
+)
+
+@Serializable
+data class RoleResponse(
+    val id: JsonElement? = null,
+    val name: String = "Role",
+    val color: String? = null,
+    val users: List<JsonElement> = emptyList()
 )

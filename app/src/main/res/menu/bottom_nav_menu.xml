@@ -6,18 +6,18 @@
         android:title="Levels" />
     <item
         android:id="@+id/nav_leaderboard"
-        android:icon="@android:drawable/ic_menu_mylocation"
+        android:icon="@android:drawable/btn_star_big_on"
         android:title="Leaderboard" />
     <item
         android:id="@+id/nav_todo"
-        android:icon="@android:drawable/ic_menu_edit"
+        android:icon="@android:drawable/ic_menu_agenda"
         android:title="My Lists" />
     <item
         android:id="@+id/nav_games"
-        android:icon="@android:drawable/ic_menu_send"
-        android:title="Mini Games" />
+        android:icon="@android:drawable/ic_menu_compass"
+        android:title="Games" />
     <item
         android:id="@+id/nav_settings"
-        android:icon="@android:drawable/ic_menu_manage"
+        android:icon="@android:drawable/ic_menu_preferences"
         android:title="Settings" />
 </menu>

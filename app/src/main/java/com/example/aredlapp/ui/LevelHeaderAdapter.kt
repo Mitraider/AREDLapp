@@ -1,7 +1,6 @@
 package com.example.aredlapp.ui
 
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -25,17 +24,8 @@ class LevelHeaderAdapter(
     private var youtubePlayer: YouTubePlayer? = null
 
     fun setLevel(newLevel: LevelResponse?) {
-        val hadLevel = level != null
         level = newLevel
-        val hasLevel = level != null
-        
-        if (!hadLevel && hasLevel) {
-            notifyItemInserted(0)
-        } else if (hadLevel && !hasLevel) {
-            notifyItemRemoved(0)
-        } else if (hadLevel && hasLevel) {
-            notifyItemChanged(0)
-        }
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -59,7 +49,6 @@ class LevelHeaderAdapter(
             binding.detailLevelName.text = l.name
             binding.detailLevelName.setTextColor(color)
             
-            // an ugly way to get a level's creator
             val creator = l.global_name ?: "AREDL"
             binding.detailLevelCreator.text = "by $creator"
             
@@ -113,6 +102,9 @@ class LevelHeaderAdapter(
                 override fun afterTextChanged(s: Editable?) {}
             }
             binding.searchVictors.addTextChangedListener(textWatcher)
+            
+            // Revert: Hide the internal recycler if it exists in layout, as we use ConcatAdapter
+            binding.cardVictorsScroll.visibility = View.GONE
         }
     }
 }

@@ -5,34 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.aredlapp.R
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.aredlapp.databinding.FragmentTodoBinding
-import com.example.aredlapp.viewmodel.AredlViewModel
-import com.google.android.material.tabs.TabLayout
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.launch
+import com.google.android.material.tabs.TabLayoutMediator
 
 class TodoFragment : Fragment() {
 
     private var _binding: FragmentTodoBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: AredlViewModel by activityViewModels()
-    
-    private val adapter: LevelsAdapter by lazy {
-        LevelsAdapter(
-            onFavoriteClick = { viewModel.toggleFavorite(it) },
-            onTodoClick = { viewModel.toggleTodo(it) },
-            onCompletedClick = { viewModel.toggleCompleted(it) },
-            onItemClick = { level ->
-                viewModel.selectLevel(level)
-                findNavController().navigate(R.id.nav_level_detail)
-            }
-        )
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentTodoBinding.inflate(inflater, container, false)
@@ -42,46 +22,27 @@ class TodoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerTodo.layoutManager = LinearLayoutManager(context)
-        binding.recyclerTodo.adapter = adapter
+        val adapter = TodoPagerAdapter(this)
+        binding.pagerTodo.adapter = adapter
 
-        binding.tabTodo.apply {
-            removeAllTabs()
-            addTab(newTab().setText("Favorites List"))
-            addTab(newTab().setText("To Do List"))
-            addTab(newTab().setText("Completed list"))
-            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) { updateList() }
-                override fun onTabUnselected(tab: TabLayout.Tab?) {}
-                override fun onTabReselected(tab: TabLayout.Tab?) {}
-            })
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            combine(
-                viewModel.levels,
-                viewModel.favoriteLevels,
-                viewModel.todoLevels,
-                viewModel.completedLevels
-            ) { _, favs, todos, done ->
-                adapter.updateStates(favs, todos, done)
-                updateList()
-            }.collect {}
-        }
-    }
-
-    private fun updateList() {
-        val position = binding.tabTodo.selectedTabPosition
-        val filtered = when (position) {
-            0 -> viewModel.levels.value.filter { viewModel.todoLevels.value.contains(it.id) }
-            1 -> viewModel.levels.value.filter { viewModel.favoriteLevels.value.contains(it.id) }
-            else -> viewModel.levels.value.filter { viewModel.completedLevels.value.contains(it.id) }
-        }
-        adapter.submitList(filtered)
+        TabLayoutMediator(binding.tabTodo, binding.pagerTodo) { tab, position ->
+            tab.text = when (position) {
+                0 -> "Favorites"
+                1 -> "To-Do"
+                else -> "Completed"
+            }
+        }.attach()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private inner class TodoPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+        override fun getItemCount(): Int = 3
+        override fun createFragment(position: Int): Fragment {
+            return TodoListPageFragment.newInstance(position)
+        }
     }
 }

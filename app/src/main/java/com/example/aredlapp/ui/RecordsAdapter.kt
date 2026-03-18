@@ -1,5 +1,7 @@
 package com.example.aredlapp.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +26,6 @@ class RecordsAdapter(private val onItemClick: (RecordInfo) -> Unit) :
             binding.levelRank.text = "#${level?.position ?: record.position ?: "?"}"
             binding.levelName.text = level?.name ?: record.name ?: "Unknown"
             
-            // Logique de créateur unifiée : on évite le placeholder AREDL
             val creator = level?.global_name ?: level?.creator?.global_name ?: level?.creator?.username ?: level?.publisher?.global_name
             if (creator != null && creator != "AREDL" && creator.isNotBlank()) {
                 binding.levelCreator.text = "by $creator"
@@ -36,7 +37,7 @@ class RecordsAdapter(private val onItemClick: (RecordInfo) -> Unit) :
             val points = record.points ?: record.list_points ?: level?.points ?: 0.0
             binding.levelPoints.text = String.format("%.1f points", points)
             
-            val levelId = record.level_id ?: level?.level_id
+            val levelId = record.level_id ?: level?.level_id ?: record.id
             binding.levelThumbnail.load("https://raw.githubusercontent.com/All-Rated-Extreme-Demon-List/Thumbnails/main/levels/cards/${levelId}.webp") {
                 crossfade(true)
             }
@@ -44,6 +45,17 @@ class RecordsAdapter(private val onItemClick: (RecordInfo) -> Unit) :
             binding.btnFavorite.visibility = View.GONE
             binding.btnTodo.visibility = View.GONE
             binding.btnCompleted.visibility = View.GONE
+            
+            val videoUrl = record.video_url ?: record.video ?: level?.video
+            if (!videoUrl.isNullOrBlank()) {
+                binding.btnRecordVideo.visibility = View.VISIBLE
+                binding.btnRecordVideo.setOnClickListener {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl))
+                    it.context.startActivity(intent)
+                }
+            } else {
+                binding.btnRecordVideo.visibility = View.GONE
+            }
             
             binding.root.setOnClickListener { onItemClick(record) }
         }
