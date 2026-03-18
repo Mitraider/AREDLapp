@@ -34,18 +34,35 @@
             app:layout_constraintStart_toEndOf="@id/player_rank"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/player_name"
+        <LinearLayout
+            android:id="@+id/layout_name_row"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toStartOf="@+id/player_flag"
             app:layout_constraintStart_toEndOf="@id/player_avatar"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="Player Name" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/player_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="Player Name" />
+
+            <LinearLayout
+                android:id="@+id/player_roles_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:orientation="horizontal" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/player_points"
@@ -54,8 +71,8 @@
             android:textColor="@color/aredl_orange"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/player_flag"
-            app:layout_constraintStart_toStartOf="@id/player_name"
-            app:layout_constraintTop_toBottomOf="@id/player_name"
+            app:layout_constraintStart_toStartOf="@id/layout_name_row"
+            app:layout_constraintTop_toBottomOf="@id/layout_name_row"
             android:text="100.00 points" />
 
         <TextView

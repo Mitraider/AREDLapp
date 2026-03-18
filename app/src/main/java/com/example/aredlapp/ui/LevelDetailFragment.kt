@@ -3,22 +3,25 @@ package com.example.aredlapp.ui
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.aredlapp.R
 import com.example.aredlapp.databinding.FragmentLevelDetailBinding
 import com.example.aredlapp.models.LeaderboardResponse
-import com.example.aredlapp.models.LevelRecord
+import com.example.aredlapp.models.LevelResponse
 import com.example.aredlapp.utils.ThemeUtils
+import com.example.aredlapp.utils.YouTubeUtils
 import com.example.aredlapp.viewmodel.AredlViewModel
+import com.google.android.material.chip.Chip
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -28,11 +31,7 @@ class LevelDetailFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: AredlViewModel by activityViewModels()
     private var currentSearchQuery: String = ""
-    
-    private val headerAdapter = LevelHeaderAdapter { query ->
-        currentSearchQuery = query
-        filterAndSubmitVictors(viewModel.currentLevelVictors.value)
-    }
+    private var youtubePlayer: YouTubePlayer? = null
     
     private val victorsAdapter = VictorsAdapter { record ->
         val user = record.user ?: record.player
@@ -48,28 +47,12 @@ class LevelDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerLevelDetail.apply {
-            adapter = ConcatAdapter(headerAdapter, victorsAdapter)
-            layoutManager = LinearLayoutManager(context)
-            
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    if (!recyclerView.canScrollVertically(-1)) {
-                        binding.fabBackToTop.hide()
-                    } else if (dy > 10) {
-                        binding.fabBackToTop.show()
-                    }
-                }
-            })
-        }
+        setupRecyclerView()
+        applySecondaryColors()
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.selectedLevel.collectLatest { level ->
-                level?.let { 
-                    headerAdapter.setLevel(it)
-                    binding.levelDetailBackground.load("https://raw.githubusercontent.com/All-Rated-Extreme-Demon-List/Thumbnails/main/levels/cards/${it.level_id}.webp") { crossfade(true) }
-                    viewModel.selectLevel(it)
-                }
+                level?.let { updateUI(it) }
             }
         }
 
@@ -79,14 +62,91 @@ class LevelDetailFragment : Fragment() {
             }
         }
 
+        binding.btnBack.setOnClickListener { findNavController().navigateUp() }
+        binding.fabBackToTop.setOnClickListener { 
+            binding.scrollLevel.smoothScrollTo(0, 0)
+        }
+
+        binding.searchVictors.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                currentSearchQuery = s.toString()
+                filterAndSubmitVictors(viewModel.currentLevelVictors.value)
+            }
+            override fun afterTextChanged(s: android.text.Editable?) {}
+        })
+    }
+
+    private fun updateUI(l: LevelResponse) {
+        val color = ThemeUtils.getSecondaryColor(requireContext())
+        
+        binding.detailLevelName.text = l.name
+        binding.detailLevelCreator.text = "by ${l.global_name ?: "AREDL"}"
+        binding.detailLevelRank.text = "Rank #${l.position}"
+        binding.detailLevelPoints.text = "Points: ${String.format("%.1f", l.points)}"
+        binding.detailLevelId.text = "Level ID: ${l.level_id ?: l.id}"
+        binding.detailLevelSong.text = "Song ID: ${l.song ?: l.song_id ?: "-"}"
+        binding.detailLevelTiers.text = "Edel: ${l.edel_enjoyment ?: "-"} | GDDL: ${l.gddl_tier ?: "-"} | NLW: ${l.nlw_tier ?: "-"}"
+        binding.detailLevelTiers.setTextColor(color)
+        binding.detailLevelDescription.text = l.description?.takeIf { it.isNotBlank() } ?: "No description available."
+
+        binding.levelBackground.load("https://raw.githubusercontent.com/All-Rated-Extreme-Demon-List/Thumbnails/main/levels/cards/${l.level_id}.webp") { 
+            crossfade(true) 
+        }
+
+        YouTubeUtils.extractVideoId(l.video)?.let { videoId ->
+            binding.cardVideo.visibility = View.VISIBLE
+            if (youtubePlayer == null) {
+                binding.youtubePlayerView.initialize(object : AbstractYouTubePlayerListener() {
+                    override fun onReady(player: YouTubePlayer) {
+                        youtubePlayer = player
+                        player.cueVideo(videoId, 0f)
+                    }
+                })
+            } else {
+                youtubePlayer?.cueVideo(videoId, 0f)
+            }
+        } ?: run { binding.cardVideo.visibility = View.GONE }
+
+        binding.tagsChipGroup.removeAllViews()
+        l.tags?.forEach { tagName ->
+            val chip = Chip(requireContext()).apply {
+                text = tagName
+                setTextColor(color)
+                chipStrokeColor = ColorStateList.valueOf(color)
+                chipStrokeWidth = 2f
+                chipBackgroundColor = ColorStateList.valueOf(requireContext().resources.getColor(R.color.aredl_dark_grey, null))
+            }
+            binding.tagsChipGroup.addView(chip)
+        }
+    }
+
+    private fun setupRecyclerView() {
+        binding.recyclerVictors.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = victorsAdapter
+            
+            // Allow inner scrolling without conflict with main NestedScrollView
+            setOnTouchListener { v, event ->
+                v.parent.requestDisallowInterceptTouchEvent(true)
+                if (event.action == MotionEvent.ACTION_UP) {
+                    v.performClick()
+                }
+                false
+            }
+        }
+    }
+
+    private fun applySecondaryColors() {
         val color = ThemeUtils.getSecondaryColor(requireContext())
         binding.btnBack.imageTintList = ColorStateList.valueOf(color)
         binding.fabBackToTop.backgroundTintList = ColorStateList.valueOf(color)
-        binding.btnBack.setOnClickListener { findNavController().navigateUp() }
-        binding.fabBackToTop.setOnClickListener { binding.recyclerLevelDetail.smoothScrollToPosition(0) }
+        binding.detailLevelName.setTextColor(color)
+        binding.detailLevelTiers.setTextColor(color)
+        listOf(binding.labelTags, binding.labelDescription, binding.labelVictors).forEach { it.setTextColor(color) }
     }
 
-    private fun filterAndSubmitVictors(victors: List<LevelRecord>) {
+    private fun filterAndSubmitVictors(victors: List<com.example.aredlapp.models.LevelRecord>) {
         val filtered = if (currentSearchQuery.isEmpty()) {
             victors 
         } else {

@@ -17,6 +17,7 @@ import com.example.aredlapp.R
 import com.example.aredlapp.databinding.FragmentLeaderboardBinding
 import com.example.aredlapp.viewmodel.AredlViewModel
 import com.example.aredlapp.utils.ThemeUtils
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class LeaderboardFragment : Fragment() {
@@ -45,9 +46,12 @@ class LeaderboardFragment : Fragment() {
 
         applySecondaryColors()
 
-        // Sync leaderboard list
+        // Sync leaderboard list and roles
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.leaderboard.collect { players ->
+            combine(viewModel.leaderboard, viewModel.roles) { players, roles ->
+                players to roles
+            }.collect { (players, roles) ->
+                adapter.setRoles(roles)
                 adapter.submitList(players)
             }
         }
@@ -65,7 +69,6 @@ class LeaderboardFragment : Fragment() {
             viewModel.totalPages.collect { updatePageInfo() }
         }
 
-        // some animations on scroll
         binding.recyclerLeaderboard.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 20) {
