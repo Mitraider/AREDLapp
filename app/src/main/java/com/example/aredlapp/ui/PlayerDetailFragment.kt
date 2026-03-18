@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -97,7 +98,17 @@ class PlayerDetailFragment : Fragment() {
             }
         }
 
-        binding.btnBack.setOnClickListener { findNavController().navigateUp() }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.isAuthenticatedProfileView.collect { isOwnProfile ->
+                binding.btnBack.visibility = if (isOwnProfile) View.GONE else View.VISIBLE
+            }
+        }
+
+        binding.btnBack.setOnClickListener {
+            if (!findNavController().navigateUp()) {
+                findNavController().navigate(R.id.nav_leaderboard)
+            }
+        }
     }
 
     private fun setupRoles(user: UserInfo?, roles: List<RoleResponse>) {
@@ -117,7 +128,9 @@ class PlayerDetailFragment : Fragment() {
                         else -> {
                             val obj = userElement.jsonObject
                             (obj["username"]?.jsonPrimitive?.content 
+                                ?: obj["global_name"]?.jsonPrimitive?.content
                                 ?: obj["name"]?.jsonPrimitive?.content 
+                                ?: obj["discord_id"]?.jsonPrimitive?.content
                                 ?: obj["id"]?.jsonPrimitive?.content)?.lowercase()?.trim()
                         }
                     }
@@ -144,16 +157,20 @@ class PlayerDetailFragment : Fragment() {
                 iconRes = R.drawable.ic_role_owner
                 defaultColor = "#FFD700"
             }
+            rawName.contains("admin") || rawName.contains("administrator") -> {
+                iconRes = R.drawable.ic_role_admin
+                defaultColor = "#E74C3C"
+            }
+            rawName.contains("moderator") || rawName.contains("mod") -> {
+                iconRes = R.drawable.ic_role_mod
+                defaultColor = "#FF7A45"
+            }
             rawName.contains("developer") || rawName.contains("dev") -> {
                 iconRes = R.drawable.ic_role_dev
                 defaultColor = "#5DADE2"
             }
-            rawName.contains("moderator") || rawName.contains("administrator") || rawName.contains("admin") || rawName.contains("mod") -> {
-                iconRes = R.drawable.ic_role_shield
-                defaultColor = "#E74C3C"
-            }
             rawName.contains("helper") -> {
-                iconRes = R.drawable.ic_role_shield
+                iconRes = R.drawable.ic_role_helper
                 defaultColor = "#2ECC71"
             }
             rawName.contains("plus") -> {
@@ -192,6 +209,8 @@ class PlayerDetailFragment : Fragment() {
                 setTextColor(Color.WHITE)
                 setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
                 typeface = Typeface.create("sans-serif-condensed", Typeface.BOLD)
+                maxLines = 1
+                ellipsize = TextUtils.TruncateAt.END
             })
         }
     }

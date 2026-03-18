@@ -65,6 +65,7 @@ dependencies {
 
     // YouTube Player
     implementation(libs.youtube.player.core)
+    implementation("androidx.security:security-crypto:1.0.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

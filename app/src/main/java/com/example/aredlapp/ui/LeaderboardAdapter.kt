@@ -2,20 +2,18 @@ package com.example.aredlapp.ui
 
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
 import com.example.aredlapp.R
 import com.example.aredlapp.databinding.ItemPlayerBinding
@@ -66,6 +64,8 @@ class LeaderboardAdapter(private val onItemClick: (LeaderboardResponse) -> Unit)
                 error(R.drawable.aredl_logo)
                 transformations(CircleCropTransformation())
                 size(128, 128)
+                memoryCachePolicy(CachePolicy.ENABLED)
+                diskCachePolicy(CachePolicy.ENABLED)
             }
 
             setupRoles(user)
@@ -90,7 +90,9 @@ class LeaderboardAdapter(private val onItemClick: (LeaderboardResponse) -> Unit)
                             else -> {
                                 val obj = userElement.jsonObject
                                 (obj["username"]?.jsonPrimitive?.content 
+                                    ?: obj["global_name"]?.jsonPrimitive?.content
                                     ?: obj["name"]?.jsonPrimitive?.content 
+                                    ?: obj["discord_id"]?.jsonPrimitive?.content
                                     ?: obj["id"]?.jsonPrimitive?.content)?.lowercase()?.trim()
                             }
                         }
@@ -117,16 +119,20 @@ class LeaderboardAdapter(private val onItemClick: (LeaderboardResponse) -> Unit)
                     iconRes = R.drawable.ic_role_owner
                     defaultColor = "#FFD700"
                 }
+                rawName.contains("admin") || rawName.contains("administrator") -> {
+                    iconRes = R.drawable.ic_role_admin
+                    defaultColor = "#E74C3C"
+                }
+                rawName.contains("moderator") || rawName.contains("mod") -> {
+                    iconRes = R.drawable.ic_role_mod
+                    defaultColor = "#FF7A45"
+                }
                 rawName.contains("developer") || rawName.contains("dev") -> {
                     iconRes = R.drawable.ic_role_dev
                     defaultColor = "#5DADE2"
                 }
-                rawName.contains("moderator") || rawName.contains("administrator") || rawName.contains("admin") || rawName.contains("mod") -> {
-                    iconRes = R.drawable.ic_role_shield
-                    defaultColor = "#E74C3C"
-                }
                 rawName.contains("helper") -> {
-                    iconRes = R.drawable.ic_role_shield
+                    iconRes = R.drawable.ic_role_helper
                     defaultColor = "#2ECC71"
                 }
                 rawName.contains("plus") -> {
@@ -136,13 +142,14 @@ class LeaderboardAdapter(private val onItemClick: (LeaderboardResponse) -> Unit)
             }
 
             val finalColor = parseColor(role.color) ?: parseColor(defaultColor) ?: Color.GRAY
+            val resolvedIcon = iconRes ?: R.drawable.ic_role_shield
 
             return LinearLayout(binding.root.context).apply {
                 orientation = LinearLayout.HORIZONTAL
                 gravity = Gravity.CENTER_VERTICAL
-                setPadding((6 * density).toInt(), (2 * density).toInt(), (8 * density).toInt(), (2 * density).toInt())
+                setPadding((4 * density).toInt(), (4 * density).toInt(), (4 * density).toInt(), (4 * density).toInt())
                 background = GradientDrawable().apply {
-                    cornerRadius = 6 * density
+                    cornerRadius = 8 * density
                     setColor(finalColor)
                 }
                 layoutParams = LinearLayout.LayoutParams(
@@ -150,26 +157,11 @@ class LeaderboardAdapter(private val onItemClick: (LeaderboardResponse) -> Unit)
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 ).apply { setMargins((4 * density).toInt(), 0, 0, 0) }
 
-                if (iconRes != null) {
-                    addView(ImageView(context).apply {
-                        layoutParams = LinearLayout.LayoutParams((12 * density).toInt(), (12 * density).toInt()).apply {
-                            marginEnd = (4 * density).toInt()
-                        }
-                        setImageResource(iconRes)
-                        imageTintList = ColorStateList.valueOf(Color.WHITE)
-                    })
-                }
-
-                addView(TextView(context).apply {
-                    layoutParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                    )
-                    text = roleName.uppercase()
-                    setTextColor(Color.WHITE)
-                    setTextSize(TypedValue.COMPLEX_UNIT_SP, 9f)
-                    includeFontPadding = false
-                    typeface = Typeface.create("sans-serif-condensed", Typeface.BOLD)
+                addView(ImageView(context).apply {
+                    layoutParams = LinearLayout.LayoutParams((12 * density).toInt(), (12 * density).toInt())
+                    setImageResource(resolvedIcon)
+                    imageTintList = ColorStateList.valueOf(Color.WHITE)
+                    contentDescription = roleName
                 })
             }
         }

@@ -109,15 +109,6 @@
                 app:tint="@color/white" />
 
             <ImageButton
-                android:id="@+id/btn_completed"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="6dp"
-                android:src="@android:drawable/checkbox_on_background"
-                app:tint="@color/white" />
-
-            <ImageButton
                 android:id="@+id/btn_record_video"
                 android:layout_width="36dp"
                 android:layout_height="36dp"

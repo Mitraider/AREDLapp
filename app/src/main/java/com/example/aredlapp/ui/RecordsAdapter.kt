@@ -44,7 +44,6 @@ class RecordsAdapter(private val onItemClick: (RecordInfo) -> Unit) :
 
             binding.btnFavorite.visibility = View.GONE
             binding.btnTodo.visibility = View.GONE
-            binding.btnCompleted.visibility = View.GONE
             
             val videoUrl = record.video_url ?: record.video ?: level?.video
             if (!videoUrl.isNullOrBlank()) {
