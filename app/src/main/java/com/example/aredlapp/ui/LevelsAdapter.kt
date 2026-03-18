@@ -17,7 +17,6 @@ import com.example.aredlapp.utils.ThemeUtils
 class LevelsAdapter(
     private val onFavoriteClick: (String) -> Unit,
     private val onTodoClick: (String) -> Unit,
-    private val onCompletedClick: (String) -> Unit,
     private val onItemClick: (LevelResponse) -> Unit
 ) : ListAdapter<LevelResponse, LevelsAdapter.LevelViewHolder>(LevelDiffCallback()) {
 
@@ -75,15 +74,12 @@ class LevelsAdapter(
 
             val isFav = favoriteIds.contains(level.id)
             val isTodo = todoIds.contains(level.id)
-            val isDone = completedIds.contains(level.id)
 
             setupButton(binding.btnFavorite, if (isFav) android.R.drawable.btn_star_big_on else android.R.drawable.btn_star_big_off, isFav, secondaryColor)
             setupButton(binding.btnTodo, android.R.drawable.ic_menu_save, isTodo, secondaryColor)
-            setupButton(binding.btnCompleted, if (isDone) android.R.drawable.checkbox_on_background else android.R.drawable.checkbox_off_background, isDone, secondaryColor)
             
             binding.btnFavorite.setOnClickListener { onFavoriteClick(level.id) }
             binding.btnTodo.setOnClickListener { onTodoClick(level.id) }
-            binding.btnCompleted.setOnClickListener { onCompletedClick(level.id) }
             binding.root.setOnClickListener { onItemClick(level) }
         }
 

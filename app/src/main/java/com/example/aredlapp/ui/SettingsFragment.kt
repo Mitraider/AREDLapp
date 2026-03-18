@@ -2,7 +2,6 @@ package com.example.aredlapp.ui
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -85,6 +84,7 @@ class SettingsFragment : Fragment() {
                 Toast.makeText(context, "Invalid Hex Color (ex: #FF8C00)", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 
     private fun updatePreview(color: String) {

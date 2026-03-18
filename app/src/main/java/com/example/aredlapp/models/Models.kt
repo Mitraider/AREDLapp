@@ -73,8 +73,11 @@ data class ClanInfo(
 
 @Serializable
 data class PaginatedLeaderboardResponse(
+    val page: Int? = null,
+    val per_page: Int? = null,
     val data: List<LeaderboardResponse> = emptyList(),
-    val pages: Int = 1
+    val pages: Int = 1,
+    val last_refreshed: String? = null
 )
 
 @Serializable
@@ -103,5 +106,7 @@ data class RoleResponse(
     val id: JsonElement? = null,
     val name: String = "Role",
     val color: String? = null,
-    val users: List<JsonElement> = emptyList()
+    val users: List<JsonElement> = emptyList(),
+    val hide: Boolean = false,
+    val privilegeLevel: Int = 0
 )

@@ -27,7 +27,6 @@ class TodoListPageFragment : Fragment() {
         LevelsAdapter(
             onFavoriteClick = { viewModel.toggleFavorite(it) },
             onTodoClick = { viewModel.toggleTodo(it) },
-            onCompletedClick = { viewModel.toggleCompleted(it) },
             onItemClick = { level ->
                 viewModel.selectLevel(level)
                 findNavController().navigate(R.id.nav_level_detail)

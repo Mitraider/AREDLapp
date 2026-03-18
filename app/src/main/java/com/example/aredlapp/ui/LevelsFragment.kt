@@ -38,7 +38,6 @@ class LevelsFragment : Fragment() {
         adapter = LevelsAdapter(
             onFavoriteClick = { id -> viewModel.toggleFavorite(id) },
             onTodoClick = { id -> viewModel.toggleTodo(id) },
-            onCompletedClick = { id -> viewModel.toggleCompleted(id) },
             onItemClick = { level ->
                 viewModel.selectLevel(level)
                 findNavController().navigate(R.id.action_levels_to_detail)
