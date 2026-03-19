@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.example.aredlapp.models.*
+import com.example.aredlapp.utils.LevelUtils
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.android.*
@@ -109,6 +110,8 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
     val selectedPlayer: StateFlow<LeaderboardResponse?> = _selectedPlayer
     private val _selectedPlayerProfile = MutableStateFlow<ProfileResponse?>(null)
     val selectedPlayerProfile: StateFlow<ProfileResponse?> = _selectedPlayerProfile
+    private val _aboutCreatorProfile = MutableStateFlow<ProfileResponse?>(null)
+    val aboutCreatorProfile: StateFlow<ProfileResponse?> = _aboutCreatorProfile
     private val _isAuthenticatedProfileView = MutableStateFlow(false)
     val isAuthenticatedProfileView: StateFlow<Boolean> = _isAuthenticatedProfileView
     private val _authState = MutableStateFlow(AuthState())
@@ -155,9 +158,10 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.value = true
             loadAllFromCache()
-            fetchRoles()
-            fetchPackTiers()
-            val lJob = async { fetchLevels() }
+              fetchRoles()
+              fetchPackTiers()
+              fetchAboutCreatorProfile()
+              val lJob = async { fetchLevels() }
             val pJob = async { fetchLeaderboardFirstPage() }
             lJob.await()
             val (pages, shouldFetchRemaining, lastRefreshed) = pJob.await()
@@ -329,8 +333,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun extractCreator(level: LevelResponse): String? {
-        return level.global_name?.takeIf { it.isNotBlank() && it != "AREDL" }
-            ?: level.creator?.global_name ?: level.creator?.username ?: "AREDL"
+        return LevelUtils.resolveCreatorName(level)
     }
 
     private suspend fun fetchLevels() {
@@ -1366,10 +1369,45 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
                 }
                 profileCache[username] = processed; prefs.edit().putString("profile_$username", json.encodeToString(ProfileResponse.serializer(), processed)).apply()
             } catch (e: Exception) {}
+      }
+    }
+
+    fun fetchAboutCreatorProfile(username: String = "Mitraider08") {
+        val cachedProfile = prefs.getString("about_profile_$username", null)
+        if (!cachedProfile.isNullOrBlank()) {
+            try {
+                _aboutCreatorProfile.value = json.decodeFromString(ProfileResponse.serializer(), cachedProfile)
+            } catch (_: Exception) {}
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val profile = client.get("https://api.aredl.net/api/aredl/profile/$username").body<ProfileResponse>()
+                val fallbackUser = _allPlayers.value.firstOrNull {
+                    it.user?.username.equals(username, ignoreCase = true) ||
+                        it.user?.global_name.equals(username, ignoreCase = true)
+                }?.user
+                val mergedUser = profile.user?.let { current ->
+                    current.copy(
+                        discord_id = current.discord_id ?: fallbackUser?.discord_id,
+                        discord_avatar = current.discord_avatar ?: fallbackUser?.discord_avatar,
+                        avatar = current.avatar ?: fallbackUser?.avatar,
+                        global_name = current.global_name ?: fallbackUser?.global_name,
+                        username = current.username ?: fallbackUser?.username
+                    )
+                } ?: fallbackUser
+                val processed = normalizeProfile(profile.copy(user = mergedUser))
+                withContext(Dispatchers.Main) {
+                    _aboutCreatorProfile.value = processed
+                }
+                prefs.edit().putString(
+                    "about_profile_$username",
+                    json.encodeToString(ProfileResponse.serializer(), processed)
+                ).apply()
+            } catch (_: Exception) {}
         }
     }
 
-    fun searchLeaderboard(query: String) { _searchQuery.value = query }
+      fun searchLeaderboard(query: String) { _searchQuery.value = query }
     fun nextPage() { if (_currentPage.value < _totalPages.value) _currentPage.value++ }
     fun previousPage() { if (_currentPage.value > 1) _currentPage.value-- }
     private fun pickNewRouletteLevel() { val available = _levels.value.filter { it.points > 0 }; if (available.isNotEmpty()) _currentRouletteId.value = available.random().id }

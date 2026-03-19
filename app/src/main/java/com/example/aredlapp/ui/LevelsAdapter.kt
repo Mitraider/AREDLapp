@@ -14,6 +14,7 @@ import coil.request.CachePolicy
 import com.example.aredlapp.databinding.ItemLevelBinding
 import com.example.aredlapp.models.LevelResponse
 import com.example.aredlapp.models.UserSubmissionInfo
+import com.example.aredlapp.utils.LevelUtils
 import com.example.aredlapp.utils.ThemeUtils
 
 class LevelsAdapter(
@@ -60,19 +61,12 @@ class LevelsAdapter(
             binding.levelName.text = level.name
             
             // On affiche le créateur seulement s'il est valide et différent de AREDL
-            val creatorName = level.global_name
-            if (creatorName != null && creatorName != "AREDL" && creatorName.isNotBlank()) {
+            val creatorName = LevelUtils.resolveCreatorName(level)
+            if (creatorName != null) {
                 binding.levelCreator.text = "by $creatorName"
                 binding.levelCreator.visibility = View.VISIBLE
             } else {
-                // Si on a rien d'autre, on tente de fouiller dans les objets imbriqués au cas où
-                val fallback = level.creator?.global_name ?: level.creator?.username ?: level.publisher?.global_name ?: level.publisher?.username
-                if (fallback != null && fallback != "AREDL") {
-                    binding.levelCreator.text = "by $fallback"
-                    binding.levelCreator.visibility = View.VISIBLE
-                } else {
-                    binding.levelCreator.visibility = View.GONE
-                }
+                binding.levelCreator.visibility = View.GONE
             }
 
             binding.levelPoints.text = String.format("%.1f points", level.points)
