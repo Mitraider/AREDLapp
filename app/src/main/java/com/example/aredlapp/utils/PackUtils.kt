@@ -42,6 +42,10 @@ object PackUtils {
         return (completedCount(pack, completedLevels, completedGdIds) * 100f / pack.levels.size).toInt()
     }
 
+    fun isPackCompleted(pack: PackResponse, completedLevels: Set<String>, completedGdIds: Set<Int>): Boolean {
+        return pack.levels.isNotEmpty() && completedCount(pack, completedLevels, completedGdIds) >= pack.levels.size
+    }
+
     fun packRank(pack: PackResponse): Int {
         return pack.levels.map { it.position }.filter { it > 0 }.minOrNull() ?: Int.MAX_VALUE
     }

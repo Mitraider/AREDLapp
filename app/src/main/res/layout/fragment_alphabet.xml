@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     android:background="?attr/android:windowBackground">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="#161A2712"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_alphabet"
         android:layout_width="match_parent"
@@ -49,15 +55,38 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/text_current_letter"
-                android:layout_width="wrap_content"
+                android:id="@+id/text_alphabet_subtitle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Current Letter: A"
+                android:alpha="0.8"
+                android:lineSpacingExtra="2dp"
+                android:text="Gring yor way through the alphabet until the lette Z is yours!"
                 android:textColor="?attr/android:textColorPrimary"
-                android:textSize="20sp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_alphabet_title" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_alphabet_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="18dp"
+                app:layout_constraintTop_toBottomOf="@id/text_alphabet_subtitle">
+
+                <TextView
+                    android:id="@+id/text_current_letter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="18dp"
+                    android:text="Current Letter: A"
+                    android:textColor="?attr/android:textColorPrimary"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_alphabet_level"
@@ -66,7 +95,7 @@
                 android:layout_marginTop="24dp"
                 app:cardBackgroundColor="@color/black"
                 app:cardCornerRadius="16dp"
-                app:layout_constraintTop_toBottomOf="@id/text_current_letter">
+                app:layout_constraintTop_toBottomOf="@id/card_alphabet_progress">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -167,7 +196,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="History"
+                android:text="Completed Letters"
                 android:textColor="?attr/colorPrimary"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"

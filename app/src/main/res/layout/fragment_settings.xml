@@ -72,14 +72,27 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Secondary Color (Hex)"
+                android:text="Secondary Color"
                 android:textColor="?attr/android:textColorPrimary"
                 android:textSize="18sp" />
+
+            <com.example.aredlapp.ui.ColorSquarePickerView
+                android:id="@+id/settings_color_square_picker"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_marginTop="14dp"
+                android:background="#1E1E1E" />
+
+            <com.example.aredlapp.ui.HueSliderPickerView
+                android:id="@+id/settings_hue_slider_picker"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_marginTop="16dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -95,6 +108,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
+                    android:hint="HEX"
+                    app:boxBackgroundMode="filled"
                     app:boxStrokeColor="?attr/colorPrimary"
                     app:hintTextColor="?attr/colorPrimary">
 
@@ -102,6 +117,7 @@
                         android:id="@+id/edit_hex_color"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:hint="#FF8C00"
                         android:inputType="textCapCharacters"
                         android:maxLength="7"

@@ -2,7 +2,10 @@ package com.example.aredlapp.ui
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +22,7 @@ class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
     private var selectedTheme: String = "Dark"
+    private var updatingHexFromPicker = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
@@ -37,9 +41,29 @@ class SettingsFragment : Fragment() {
 
         val secondaryColor = prefs.getString("secondary_color", "#FF8C00") ?: "#FF8C00"
         binding.editHexColor.setText(secondaryColor)
-        updatePreview(secondaryColor)
-        
+        setPickerColor(secondaryColor)
+
         applyColors()
+
+        binding.editHexColor.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
+            override fun afterTextChanged(s: Editable?) {
+                if (updatingHexFromPicker) return
+                val candidate = s?.toString().orEmpty()
+                if (isValidHex(candidate)) {
+                    setPickerColor(candidate)
+                }
+            }
+        })
+
+        binding.settingsHueSliderPicker.setOnHueChangedListener { hue ->
+            binding.settingsColorSquarePicker.setHue(hue)
+            syncHexFromPicker()
+        }
+        binding.settingsColorSquarePicker.setOnSelectionChangedListener { _, _ ->
+            syncHexFromPicker()
+        }
 
         binding.btnSelectTheme.setOnClickListener {
             val themes = arrayOf("Dark", "Light")
@@ -64,8 +88,7 @@ class SettingsFragment : Fragment() {
         }
 
         binding.btnResetColor.setOnClickListener {
-            binding.editHexColor.setText("#FF8C00")
-            updatePreview("#FF8C00")
+            setPickerColor("#FF8C00")
         }
 
         binding.btnApplySettings.setOnClickListener {
@@ -91,6 +114,35 @@ class SettingsFragment : Fragment() {
         try {
             binding.viewColorPreview.setBackgroundColor(color.toColorInt())
         } catch (e: Exception) {}
+    }
+
+    private fun setPickerColor(color: String) {
+        try {
+            val hsv = FloatArray(3)
+            Color.colorToHSV(color.toColorInt(), hsv)
+            binding.settingsHueSliderPicker.setHue(hsv[0])
+            binding.settingsColorSquarePicker.setHue(hsv[0])
+            binding.settingsColorSquarePicker.setSelection(hsv[1], hsv[2])
+            updatingHexFromPicker = true
+            binding.editHexColor.setText(color.uppercase())
+            binding.editHexColor.setSelection(binding.editHexColor.text?.length ?: 0)
+            updatingHexFromPicker = false
+            updatePreview(color)
+        } catch (_: Exception) {
+            updatingHexFromPicker = false
+        }
+    }
+
+    private fun syncHexFromPicker() {
+        val hue = binding.settingsHueSliderPicker.getHue()
+        val saturation = binding.settingsColorSquarePicker.getSaturation()
+        val value = binding.settingsColorSquarePicker.getValue()
+        val hex = String.format("#%06X", 0xFFFFFF and Color.HSVToColor(floatArrayOf(hue, saturation, value)))
+        updatingHexFromPicker = true
+        binding.editHexColor.setText(hex)
+        binding.editHexColor.setSelection(hex.length)
+        updatingHexFromPicker = false
+        updatePreview(hex)
     }
 
     private fun applyColors() {

@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     android:background="?attr/android:windowBackground">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="#161A2712"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
         android:id="@+id/btn_back_games"
         android:layout_width="wrap_content"
@@ -39,66 +45,105 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:id="@+id/layout_bounds"
+            <TextView
+                android:id="@+id/text_random_subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:alpha="0.8"
+                android:lineSpacingExtra="2dp"
+                android:text="Set a range and get your next completion!"
+                android:textColor="?attr/android:textColorPrimary"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_random_title" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_random_controls"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/text_random_title">
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="18dp"
+                app:layout_constraintTop_toBottomOf="@id/text_random_subtitle">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/layout_min"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/layout_bounds"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="Min Rank">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_min_rank"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Search Window"
+                        android:textColor="?attr/android:textColorPrimary"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:text="1" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_marginTop="14dp"
+                        android:orientation="horizontal">
 
-                <View
-                    android:layout_width="16dp"
-                    android:layout_height="0dp" />
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/layout_min"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Min Rank">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edit_min_rank"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number"
+                                android:text="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/layout_max"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="Max Rank">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_max_rank"
+                        <View
+                            android:layout_width="16dp"
+                            android:layout_height="0dp" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/layout_max"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Max Rank">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edit_max_rank"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number"
+                                android:text="500" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_generate_random"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:text="500" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_generate_random"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Generate"
-                app:layout_constraintTop_toBottomOf="@id/layout_bounds" />
+                        android:layout_marginTop="14dp"
+                        android:minHeight="54dp"
+                        android:text="Generate Random Pick"
+                        app:cornerRadius="14dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_random_result"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="220dp"
                 android:layout_marginTop="32dp"
                 android:visibility="gone"
                 app:cardBackgroundColor="@color/black"
                 app:cardCornerRadius="16dp"
-                app:layout_constraintTop_toBottomOf="@id/btn_generate_random">
+                app:layout_constraintTop_toBottomOf="@id/card_random_controls">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

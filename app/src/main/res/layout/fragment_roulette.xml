@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     android:background="?attr/android:windowBackground">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="#14101F2A"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_roulette"
         android:layout_width="match_parent"
@@ -49,27 +55,53 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/text_target"
-                android:layout_width="wrap_content"
+                android:id="@+id/text_roulette_subtitle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Goal:"
+                android:alpha="0.8"
+                android:lineSpacingExtra="2dp"
+                android:text="Beat the required percentage as it gets higher and higher each run!"
                 android:textColor="?attr/android:textColorPrimary"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_roulette_title" />
 
-            <TextView
-                android:id="@+id/text_current_percent"
-                android:layout_width="wrap_content"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_goal_summary"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="1%"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/text_target"
-                app:layout_constraintStart_toEndOf="@id/text_target"
-                app:layout_constraintTop_toTopOf="@id/text_target" />
+                android:layout_marginTop="18dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="18dp"
+                app:layout_constraintTop_toBottomOf="@id/text_roulette_subtitle">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:id="@+id/text_target"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Current Goal"
+                        android:textColor="?attr/android:textColorPrimary"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/text_current_percent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="1%"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_current_level"
@@ -78,7 +110,7 @@
                 android:layout_marginTop="24dp"
                 app:cardBackgroundColor="@color/black"
                 app:cardCornerRadius="16dp"
-                app:layout_constraintTop_toBottomOf="@id/text_target">
+                app:layout_constraintTop_toBottomOf="@id/card_goal_summary">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -214,7 +246,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="History"
+                android:text="Attempt History"
                 android:textColor="?attr/colorPrimary"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
