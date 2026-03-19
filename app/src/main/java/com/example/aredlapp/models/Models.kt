@@ -2,6 +2,7 @@ package com.example.aredlapp.models
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
 
 @Serializable
 data class LevelResponse(
@@ -170,4 +171,66 @@ data class UserSubmissionInfo(
 data class UserSubmissionLevelItem(
     val level: LevelResponse,
     val submission: UserSubmissionInfo
+)
+
+data class SubmissionDetailResponse(
+    val id: String,
+    val level: LevelResponse,
+    val rawStatus: String,
+    val mobile: Boolean,
+    val ldmId: Int?,
+    val videoUrl: String,
+    val rawUrl: String?,
+    val modMenu: String?,
+    val userNotes: String?,
+    val priority: Boolean,
+    val locked: Boolean,
+    val reviewerNotes: String?,
+    val createdAt: String?,
+    val updatedAt: String?
+) {
+    val displayStatus: String
+        get() = when (rawStatus) {
+            "Accepted" -> "Accepted"
+            "Denied" -> "Refused"
+            else -> "Pending"
+        }
+
+    val isActivelyReviewed: Boolean
+        get() = rawStatus == "Claimed" || rawStatus == "UnderReview" || rawStatus == "UnderConsideration"
+}
+
+data class SubmissionQueuePosition(
+    val position: Int,
+    val priority: Boolean
+)
+
+data class SubmissionQueueSummary(
+    val regularSubmissionsInQueue: Int,
+    val prioritySubmissionsInQueue: Int,
+    val underConsiderationSubmissions: Int
+)
+
+enum class SubmissionScreenMode {
+    VIEW,
+    CREATE
+}
+
+data class SubmissionDetailUiState(
+    val mode: SubmissionScreenMode = SubmissionScreenMode.VIEW,
+    val detail: SubmissionDetailResponse?,
+    val queuePosition: SubmissionQueuePosition?,
+    val queueSummary: SubmissionQueueSummary?,
+    val submissionsOpen: Boolean? = null,
+    val isLoading: Boolean = false
+)
+
+data class SubmissionEditForm(
+    val levelId: String,
+    val mobile: Boolean,
+    val ldmId: String,
+    val videoUrl: String,
+    val rawUrl: String,
+    val modMenu: String,
+    val userNotes: String
 )

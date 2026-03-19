@@ -50,7 +50,7 @@ class LeaderboardAdapter(private val onItemClick: (LeaderboardResponse) -> Unit)
             binding.playerRank.text = "#${player.rank ?: 0}"
             binding.playerRank.setTextColor(color)
             binding.playerName.text = player.user?.global_name ?: player.user?.username ?: "Unknown"
-            binding.playerPoints.text = String.format("%.2f pts", player.total_points ?: 0.0)
+            binding.playerPoints.text = String.format("%.1f pts", player.total_points ?: 0.0)
             binding.playerPoints.setTextColor(color)
             FlagUtils.loadFlag(binding.playerFlag, player.country)
 

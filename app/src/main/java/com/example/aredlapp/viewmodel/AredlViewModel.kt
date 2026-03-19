@@ -23,6 +23,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.*
+import java.time.Instant
 import java.util.concurrent.ConcurrentHashMap
 
 data class AuthState(
@@ -83,6 +84,12 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
     val submissionInfoByLevel: StateFlow<Map<String, UserSubmissionInfo>> = _submissionInfoByLevel
     private val _mySubmissionLevels = MutableStateFlow<List<UserSubmissionLevelItem>>(emptyList())
     val mySubmissionLevels: StateFlow<List<UserSubmissionLevelItem>> = _mySubmissionLevels
+    private val _submissionDebug = MutableStateFlow("idle")
+    val submissionDebug: StateFlow<String> = _submissionDebug
+    private val _selectedSubmissionDetail = MutableStateFlow<SubmissionDetailUiState?>(null)
+    val selectedSubmissionDetail: StateFlow<SubmissionDetailUiState?> = _selectedSubmissionDetail
+    private val _submissionsOpen = MutableStateFlow<Boolean?>(null)
+    val submissionsOpen: StateFlow<Boolean?> = _submissionsOpen
 
     private val _availableTags = MutableStateFlow<List<String>>(emptyList())
     val availableTags: StateFlow<List<String>> = _availableTags
@@ -252,7 +259,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
             }
             prefs.getString("cached_all_players", null)?.let { cachedJson ->
                 val cached: List<LeaderboardResponse> = json.decodeFromString(ListSerializer(LeaderboardResponse.serializer()), cachedJson)
-                updateLeaderboardData(cached, saveToCache = false)
+                updateLeaderboardData(cached, saveToCache = false, alreadyNormalized = true)
             }
             prefs.getString("cached_roles", null)?.let { cachedJson ->
                 val cached: List<RoleResponse> = json.decodeFromString(ListSerializer(RoleResponse.serializer()), cachedJson)
@@ -265,10 +272,18 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         } catch (e: Exception) {}
     }
 
-    private fun updateLeaderboardData(data: List<LeaderboardResponse>, saveToCache: Boolean = true) {
+    private fun updateLeaderboardData(
+        data: List<LeaderboardResponse>,
+        saveToCache: Boolean = true,
+        alreadyNormalized: Boolean = false
+    ) {
         data.forEach { player ->
             player.user?.id?.let { id ->
-                val processed = player.copy(total_points = ensureDivided(player.total_points))
+                val processed = if (alreadyNormalized) {
+                    player
+                } else {
+                    player.copy(total_points = ensureDivided(player.total_points))
+                }
                 playerMap[id] = processed
                 playerRanks[id] = player.rank ?: 0
             }
@@ -294,6 +309,23 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
     private fun ensureDivided(points: Double?): Double? {
         if (points == null) return null
         return if (points >= 500.0) points / 10.0 else points
+    }
+
+    private fun ensureProfileRecordDivided(points: Double?): Double? {
+        if (points == null) return null
+        return points / 10.0
+    }
+
+    private fun normalizeProfile(profile: ProfileResponse): ProfileResponse {
+        return profile.copy(
+            records = profile.records.map {
+                it.copy(
+                    points = ensureProfileRecordDivided(it.points),
+                    list_points = ensureProfileRecordDivided(it.list_points),
+                    level = it.level?.copy(points = ensureProfileRecordDivided(it.level.points) ?: 0.0)
+                )
+            }
+        )
     }
 
     private fun extractCreator(level: LevelResponse): String? {
@@ -483,6 +515,51 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    private fun parseSubmissionDetail(root: JsonObject): SubmissionDetailResponse? {
+        val resolved = root["data"]?.jsonObject ?: root
+        val levelObj = resolved["level"]?.jsonObject ?: return null
+        val level = LevelResponse(
+            id = levelObj["id"]?.jsonPrimitive?.contentOrNull ?: return null,
+            level_id = levelObj["level_id"]?.jsonPrimitive?.intOrNull,
+            name = levelObj["name"]?.jsonPrimitive?.contentOrNull ?: "Unknown",
+            position = levelObj["position"]?.jsonPrimitive?.intOrNull ?: 0,
+            points = (levelObj["points"]?.jsonPrimitive?.doubleOrNull ?: 0.0) / 10.0,
+            description = levelObj["description"]?.jsonPrimitive?.contentOrNull
+        )
+        return SubmissionDetailResponse(
+            id = resolved["id"]?.jsonPrimitive?.contentOrNull ?: return null,
+            level = level,
+            rawStatus = resolved["status"]?.jsonPrimitive?.contentOrNull ?: "Pending",
+            mobile = resolved["mobile"]?.jsonPrimitive?.booleanOrNull ?: false,
+            ldmId = resolved["ldm_id"]?.jsonPrimitive?.intOrNull,
+            videoUrl = resolved["video_url"]?.jsonPrimitive?.contentOrNull ?: "",
+            rawUrl = resolved["raw_url"]?.jsonPrimitive?.contentOrNull,
+            modMenu = resolved["mod_menu"]?.jsonPrimitive?.contentOrNull,
+            userNotes = resolved["user_notes"]?.jsonPrimitive?.contentOrNull,
+            priority = resolved["priority"]?.jsonPrimitive?.booleanOrNull ?: false,
+            locked = resolved["locked"]?.jsonPrimitive?.booleanOrNull ?: false,
+            reviewerNotes = resolved["reviewer_notes"]?.jsonPrimitive?.contentOrNull,
+            createdAt = resolved["created_at"]?.jsonPrimitive?.contentOrNull,
+            updatedAt = resolved["updated_at"]?.jsonPrimitive?.contentOrNull
+        )
+    }
+
+    private fun parseQueuePosition(root: JsonObject): SubmissionQueuePosition? {
+        val resolved = root["data"]?.jsonObject ?: root
+        val position = resolved["position"]?.jsonPrimitive?.intOrNull ?: return null
+        val priority = resolved["priority"]?.jsonPrimitive?.booleanOrNull ?: false
+        return SubmissionQueuePosition(position, priority)
+    }
+
+    private fun parseQueueSummary(root: JsonObject): SubmissionQueueSummary? {
+        val resolved = root["data"]?.jsonObject ?: root
+        return SubmissionQueueSummary(
+            regularSubmissionsInQueue = resolved["regular_submissions_in_queue"]?.jsonPrimitive?.intOrNull ?: 0,
+            prioritySubmissionsInQueue = resolved["priority_submissions_in_queue"]?.jsonPrimitive?.intOrNull ?: 0,
+            underConsiderationSubmissions = resolved["uc_submissions"]?.jsonPrimitive?.intOrNull ?: 0
+        )
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun startBackgroundLevelFetch() {
         backgroundFetchJob?.cancel()
@@ -591,7 +668,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
                 val response = client.get("https://api.aredl.net/v2/api/users/@me") {
                     header(HttpHeaders.Authorization, "Bearer $token")
                 }
-                if (response.status == HttpStatusCode.Unauthorized) {
+                if (response.status == HttpStatusCode.Unauthorized || response.status == HttpStatusCode.Forbidden) {
                     val refreshedToken = refreshAccessToken() ?: throw IllegalStateException("Session expired")
                     val retry = client.get("https://api.aredl.net/v2/api/users/@me") {
                         header(HttpHeaders.Authorization, "Bearer $refreshedToken")
@@ -630,7 +707,22 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
 
     private suspend fun ensureValidAccessToken(): String? {
         val access = _authState.value.accessToken
-        return if (!access.isNullOrBlank()) access else refreshAccessToken()
+        val expiresAt = _authState.value.accessExpires
+        return if (!access.isNullOrBlank() && !isExpiredOrNearExpiry(expiresAt)) {
+            access
+        } else {
+            refreshAccessToken()
+        }
+    }
+
+    private fun isExpiredOrNearExpiry(expiresAt: String?): Boolean {
+        if (expiresAt.isNullOrBlank()) return true
+        return try {
+            val expiry = Instant.parse(expiresAt)
+            expiry.minusSeconds(60).isBefore(Instant.now())
+        } catch (_: Exception) {
+            true
+        }
     }
 
     private suspend fun refreshAccessToken(): String? = authRefreshMutex.withLock {
@@ -667,7 +759,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
             var response = client.get("https://api.aredl.net/v2/api/aredl/records/@me") {
                 header(HttpHeaders.Authorization, "Bearer $token")
             }
-            if (response.status == HttpStatusCode.Unauthorized) {
+            if (response.status == HttpStatusCode.Unauthorized || response.status == HttpStatusCode.Forbidden) {
                 val refreshedToken = refreshAccessToken() ?: return
                 response = client.get("https://api.aredl.net/v2/api/aredl/records/@me") {
                     header(HttpHeaders.Authorization, "Bearer $refreshedToken")
@@ -763,15 +855,19 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
             var response = client.get("https://api.aredl.net/v2/api/aredl/submissions/@me?per_page=1000") {
                 header(HttpHeaders.Authorization, "Bearer $token")
             }
-            if (response.status == HttpStatusCode.Unauthorized) {
+            if (response.status == HttpStatusCode.Unauthorized || response.status == HttpStatusCode.Forbidden) {
                 val refreshedToken = refreshAccessToken() ?: return
                 response = client.get("https://api.aredl.net/v2/api/aredl/submissions/@me?per_page=1000") {
                     header(HttpHeaders.Authorization, "Bearer $refreshedToken")
                 }
             }
-            if (!response.status.isSuccess()) return
+            if (!response.status.isSuccess()) {
+                _submissionDebug.value = "status=${response.status.value}"
+                return
+            }
 
-            val root = Json.parseToJsonElement(response.bodyAsText())
+            val body = response.bodyAsText()
+            val root = Json.parseToJsonElement(body)
             val submissions = when (root) {
                 is JsonArray -> root
                 is JsonObject -> root["data"]?.jsonArray ?: JsonArray(emptyList())
@@ -780,50 +876,54 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
 
             val latestByLevel = mutableMapOf<String, UserSubmissionInfo>()
             val knownLevels = _levels.value.associateBy { it.id }
+            val resolvedItems = mutableListOf<UserSubmissionLevelItem>()
             submissions.forEach { entry ->
                 val obj = entry as? JsonObject ?: return@forEach
+                val submissionId = obj["id"]?.jsonPrimitive?.contentOrNull ?: return@forEach
                 val levelId = obj["level_id"]?.jsonPrimitive?.contentOrNull
                     ?: obj["aredl_level_id"]?.jsonPrimitive?.contentOrNull
                     ?: obj["level"]?.jsonObject?.get("id")?.jsonPrimitive?.contentOrNull
-                    ?: return@forEach
                 val submission = UserSubmissionInfo(
-                    submissionId = obj["id"]?.jsonPrimitive?.contentOrNull ?: return@forEach,
-                    levelId = levelId,
+                    submissionId = submissionId,
+                    levelId = levelId ?: "",
                     rawStatus = obj["status"]?.jsonPrimitive?.contentOrNull ?: "Pending",
                     updatedAt = obj["updated_at"]?.jsonPrimitive?.contentOrNull
                         ?: obj["created_at"]?.jsonPrimitive?.contentOrNull
                 )
 
-                val current = latestByLevel[levelId]
-                if (current == null || (submission.updatedAt ?: "") > (current.updatedAt ?: "")) {
-                    latestByLevel[levelId] = submission
-                }
+                val knownLevel = levelId?.let { knownLevels[it] }
+                val resolvedLevel = knownLevel ?: fetchSubmissionLevel(submissionId, token)
 
-                val gdLevelId = obj["gd_level_id"]?.jsonPrimitive?.contentOrNull
-                    ?: obj["level_gd_id"]?.jsonPrimitive?.contentOrNull
-                if (!gdLevelId.isNullOrBlank()) {
-                    val currentByGd = latestByLevel[gdLevelId]
-                    if (currentByGd == null || (submission.updatedAt ?: "") > (currentByGd.updatedAt ?: "")) {
-                        latestByLevel[gdLevelId] = submission
+                if (resolvedLevel != null) {
+                    val current = latestByLevel[resolvedLevel.id]
+                    if (current == null || (submission.updatedAt ?: "") > (current.updatedAt ?: "")) {
+                        latestByLevel[resolvedLevel.id] = submission.copy(levelId = resolvedLevel.id)
+                    }
+
+                    resolvedLevel.level_id?.toString()?.let { gdLevelId ->
+                        val currentByGd = latestByLevel[gdLevelId]
+                        if (currentByGd == null || (submission.updatedAt ?: "") > (currentByGd.updatedAt ?: "")) {
+                            latestByLevel[gdLevelId] = submission.copy(levelId = resolvedLevel.id)
+                        }
+                    }
+
+                    resolvedItems += UserSubmissionLevelItem(resolvedLevel, submission.copy(levelId = resolvedLevel.id))
+                } else if (!levelId.isNullOrBlank()) {
+                    val current = latestByLevel[levelId]
+                    if (current == null || (submission.updatedAt ?: "") > (current.updatedAt ?: "")) {
+                        latestByLevel[levelId] = submission
                     }
                 }
             }
 
             _submissionInfoByLevel.value = latestByLevel
-            val resolvedItems = mutableListOf<UserSubmissionLevelItem>()
-            latestByLevel.values
-                .asSequence()
-                .filter { it.levelId.contains("-") }
-                .sortedByDescending { it.updatedAt ?: "" }
-                .forEach { submission ->
-                    val knownLevel = knownLevels[submission.levelId]
-                    val level = knownLevel ?: fetchSubmissionLevel(submission.submissionId, token)
-                    if (level != null) {
-                        resolvedItems += UserSubmissionLevelItem(level, submission)
-                    }
-                }
             _mySubmissionLevels.value = resolvedItems
-        } catch (_: Exception) {}
+                .distinctBy { it.submission.submissionId }
+                .sortedByDescending { it.submission.updatedAt ?: "" }
+            _submissionDebug.value = "status=${response.status.value} raw=${submissions.size} mapped=${latestByLevel.size} resolved=${_mySubmissionLevels.value.size} body=${body.take(80).replace('\n', ' ')}"
+        } catch (e: Exception) {
+            _submissionDebug.value = "error=${e.message ?: e::class.java.simpleName}"
+        }
     }
 
     private suspend fun fetchSubmissionLevel(submissionId: String, token: String): LevelResponse? {
@@ -831,7 +931,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
             var response = client.get("https://api.aredl.net/v2/api/aredl/submissions/$submissionId") {
                 header(HttpHeaders.Authorization, "Bearer $token")
             }
-            if (response.status == HttpStatusCode.Unauthorized) {
+            if (response.status == HttpStatusCode.Unauthorized || response.status == HttpStatusCode.Forbidden) {
                 val refreshedToken = refreshAccessToken() ?: return null
                 response = client.get("https://api.aredl.net/v2/api/aredl/submissions/$submissionId") {
                     header(HttpHeaders.Authorization, "Bearer $refreshedToken")
@@ -839,8 +939,14 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
             }
             if (!response.status.isSuccess()) return null
 
-            val root = Json.parseToJsonElement(response.bodyAsText()).jsonObject
-            val levelObj = root["level"]?.jsonObject ?: return null
+            val parsed = Json.parseToJsonElement(response.bodyAsText())
+            val root = when (parsed) {
+                is JsonObject -> parsed["data"]?.jsonObject ?: parsed
+                else -> return null
+            }
+            val levelObj = root["level"]?.jsonObject
+                ?: root["submission"]?.jsonObject?.get("level")?.jsonObject
+                ?: return null
             LevelResponse(
                 id = levelObj["id"]?.jsonPrimitive?.contentOrNull ?: return null,
                 level_id = levelObj["level_id"]?.jsonPrimitive?.intOrNull,
@@ -851,6 +957,258 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
                 video = levelObj["video"]?.jsonPrimitive?.contentOrNull,
                 thumbnail = levelObj["thumbnail"]?.jsonPrimitive?.contentOrNull
             )
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    fun selectSubmission(submissionId: String) {
+        _selectedSubmissionDetail.value = SubmissionDetailUiState(
+            mode = SubmissionScreenMode.VIEW,
+            detail = null,
+            queuePosition = null,
+            queueSummary = null,
+            submissionsOpen = _submissionsOpen.value,
+            isLoading = true
+        )
+        viewModelScope.launch(Dispatchers.IO) {
+            val detail = fetchSubmissionDetail(submissionId)
+            val queuePosition = if (detail?.rawStatus == "Pending") fetchSubmissionQueuePosition(submissionId) else null
+            val queueSummary = if (detail?.rawStatus == "Pending") fetchSubmissionQueueSummary() else null
+            _selectedSubmissionDetail.value = SubmissionDetailUiState(
+                mode = SubmissionScreenMode.VIEW,
+                detail = detail,
+                queuePosition = queuePosition,
+                queueSummary = queueSummary,
+                submissionsOpen = _submissionsOpen.value,
+                isLoading = false
+            )
+        }
+    }
+
+    fun prepareNewSubmission() {
+        _selectedSubmissionDetail.value = SubmissionDetailUiState(
+            mode = SubmissionScreenMode.CREATE,
+            detail = null,
+            queuePosition = null,
+            queueSummary = null,
+            submissionsOpen = _submissionsOpen.value,
+            isLoading = true
+        )
+        viewModelScope.launch(Dispatchers.IO) {
+            val open = fetchSubmissionsStatus()
+            _submissionsOpen.value = open
+            val queueSummary = if (open == true) fetchSubmissionQueueSummary() else null
+            _selectedSubmissionDetail.value = SubmissionDetailUiState(
+                mode = SubmissionScreenMode.CREATE,
+                detail = null,
+                queuePosition = null,
+                queueSummary = queueSummary,
+                submissionsOpen = open,
+                isLoading = false
+            )
+        }
+    }
+
+    private suspend fun fetchSubmissionDetail(submissionId: String): SubmissionDetailResponse? {
+        val token = ensureValidAccessToken() ?: return null
+        return try {
+            var response = client.get("https://api.aredl.net/v2/api/aredl/submissions/$submissionId") {
+                header(HttpHeaders.Authorization, "Bearer $token")
+            }
+            if (response.status == HttpStatusCode.Unauthorized || response.status == HttpStatusCode.Forbidden) {
+                val refreshedToken = refreshAccessToken() ?: return null
+                response = client.get("https://api.aredl.net/v2/api/aredl/submissions/$submissionId") {
+                    header(HttpHeaders.Authorization, "Bearer $refreshedToken")
+                }
+            }
+            if (!response.status.isSuccess()) return null
+            val parsed = Json.parseToJsonElement(response.bodyAsText()).jsonObject
+            parseSubmissionDetail(parsed)
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    private suspend fun fetchSubmissionQueuePosition(submissionId: String): SubmissionQueuePosition? {
+        val token = ensureValidAccessToken() ?: return null
+        return try {
+            var response = client.get("https://api.aredl.net/v2/api/aredl/submissions/$submissionId/queue") {
+                header(HttpHeaders.Authorization, "Bearer $token")
+            }
+            if (response.status == HttpStatusCode.Unauthorized || response.status == HttpStatusCode.Forbidden) {
+                val refreshedToken = refreshAccessToken() ?: return null
+                response = client.get("https://api.aredl.net/v2/api/aredl/submissions/$submissionId/queue") {
+                    header(HttpHeaders.Authorization, "Bearer $refreshedToken")
+                }
+            }
+            if (!response.status.isSuccess()) return null
+            parseQueuePosition(Json.parseToJsonElement(response.bodyAsText()).jsonObject)
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    private suspend fun fetchSubmissionQueueSummary(): SubmissionQueueSummary? {
+        return try {
+            val response = client.get("https://api.aredl.net/v2/api/aredl/submissions/queue")
+            if (!response.status.isSuccess()) return null
+            parseQueueSummary(Json.parseToJsonElement(response.bodyAsText()).jsonObject)
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    fun refreshSubmissionsStatus() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _submissionsOpen.value = fetchSubmissionsStatus()
+        }
+    }
+
+    private suspend fun fetchSubmissionsStatus(): Boolean? {
+        return try {
+            val response = client.get("https://api.aredl.net/v2/api/aredl/submissions/status")
+            if (!response.status.isSuccess()) return null
+            when (val parsed = Json.parseToJsonElement(response.bodyAsText())) {
+                is JsonPrimitive -> parsed.booleanOrNull
+                is JsonObject -> parsed["enabled"]?.jsonPrimitive?.booleanOrNull
+                    ?: parsed["data"]?.jsonPrimitive?.booleanOrNull
+                else -> null
+            }
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    suspend fun updateSelectedSubmission(form: SubmissionEditForm): Result<Unit> {
+        val current = _selectedSubmissionDetail.value?.detail ?: return Result.failure(IllegalStateException("No submission selected"))
+        val token = ensureValidAccessToken() ?: return Result.failure(IllegalStateException("Session expired"))
+
+        val trimmedVideo = form.videoUrl.trim()
+        val trimmedModMenu = form.modMenu.trim()
+        if (trimmedVideo.isBlank()) return Result.failure(IllegalArgumentException("Completion video is required"))
+        if (trimmedModMenu.isBlank()) return Result.failure(IllegalArgumentException("Mod menu is required"))
+
+        val original = current
+        val ldmIdValue = form.ldmId.trim().takeIf { it.isNotBlank() }?.toIntOrNull()
+            ?: if (form.ldmId.trim().isBlank()) null else return Result.failure(IllegalArgumentException("LDM ID must be a number"))
+        val rawUrlValue = form.rawUrl.trim().takeIf { it.isNotBlank() }
+        val notesValue = form.userNotes.trim().takeIf { it.isNotBlank() }
+
+        val patchBody = buildJsonObject {
+            if (form.mobile != original.mobile) put("mobile", JsonPrimitive(form.mobile))
+            if (ldmIdValue != original.ldmId) {
+                put("ldm_id", ldmIdValue?.let { JsonPrimitive(it) } ?: JsonNull)
+            }
+            if (trimmedVideo != original.videoUrl) put("video_url", JsonPrimitive(trimmedVideo))
+            if (rawUrlValue != original.rawUrl) {
+                put("raw_url", rawUrlValue?.let { JsonPrimitive(it) } ?: JsonNull)
+            }
+            if (trimmedModMenu != (original.modMenu ?: "")) put("mod_menu", JsonPrimitive(trimmedModMenu))
+            if (notesValue != original.userNotes) {
+                put("user_notes", notesValue?.let { JsonPrimitive(it) } ?: JsonNull)
+            }
+        }
+
+        if (patchBody.isEmpty()) return Result.failure(IllegalArgumentException("No changes to save"))
+
+        return try {
+            var response = client.patch("https://api.aredl.net/v2/api/aredl/submissions/${current.id}") {
+                header(HttpHeaders.Authorization, "Bearer $token")
+                contentType(ContentType.Application.Json)
+                setBody(patchBody)
+            }
+            if (response.status == HttpStatusCode.Unauthorized || response.status == HttpStatusCode.Forbidden) {
+                val refreshedToken = refreshAccessToken() ?: return Result.failure(IllegalStateException("Session expired"))
+                response = client.patch("https://api.aredl.net/v2/api/aredl/submissions/${current.id}") {
+                    header(HttpHeaders.Authorization, "Bearer $refreshedToken")
+                    contentType(ContentType.Application.Json)
+                    setBody(patchBody)
+                }
+            }
+            if (!response.status.isSuccess()) {
+                return Result.failure(IllegalStateException(response.bodyAsText().ifBlank { "Failed to update submission" }))
+            }
+            refreshAuthenticatedSubmissions()
+            selectSubmission(current.id)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun createSubmission(form: SubmissionEditForm): Result<Unit> {
+        val token = ensureValidAccessToken() ?: return Result.failure(IllegalStateException("Session expired"))
+        val open = fetchSubmissionsStatus()
+        _submissionsOpen.value = open
+        if (open != true) {
+            return Result.failure(IllegalStateException("Submission queue is closed"))
+        }
+
+        val trimmedLevelId = form.levelId.trim()
+        val trimmedVideo = form.videoUrl.trim()
+        val trimmedModMenu = form.modMenu.trim()
+        if (trimmedLevelId.isBlank()) return Result.failure(IllegalArgumentException("Level is required"))
+        if (trimmedVideo.isBlank()) return Result.failure(IllegalArgumentException("Completion video is required"))
+        if (trimmedModMenu.isBlank()) return Result.failure(IllegalArgumentException("Mod menu is required"))
+        if (_submissionInfoByLevel.value.containsKey(trimmedLevelId)) {
+            return Result.failure(IllegalStateException("You already have a submission for this level"))
+        }
+
+        val ldmIdValue = form.ldmId.trim().takeIf { it.isNotBlank() }?.toIntOrNull()
+            ?: if (form.ldmId.trim().isBlank()) null else return Result.failure(IllegalArgumentException("LDM ID must be a number"))
+        val rawUrlValue = form.rawUrl.trim().takeIf { it.isNotBlank() }
+        val notesValue = form.userNotes.trim().takeIf { it.isNotBlank() }
+
+        val postBody = buildJsonObject {
+            put("level_id", JsonPrimitive(trimmedLevelId))
+            put("mobile", JsonPrimitive(form.mobile))
+            put("video_url", JsonPrimitive(trimmedVideo))
+            put("mod_menu", JsonPrimitive(trimmedModMenu))
+            put("ldm_id", ldmIdValue?.let { JsonPrimitive(it) } ?: JsonNull)
+            put("raw_url", rawUrlValue?.let { JsonPrimitive(it) } ?: JsonNull)
+            put("user_notes", notesValue?.let { JsonPrimitive(it) } ?: JsonNull)
+        }
+
+        return try {
+            var response = client.post("https://api.aredl.net/v2/api/aredl/submissions") {
+                header(HttpHeaders.Authorization, "Bearer $token")
+                contentType(ContentType.Application.Json)
+                setBody(postBody)
+            }
+            if (response.status == HttpStatusCode.Unauthorized || response.status == HttpStatusCode.Forbidden) {
+                val refreshedToken = refreshAccessToken() ?: return Result.failure(IllegalStateException("Session expired"))
+                response = client.post("https://api.aredl.net/v2/api/aredl/submissions") {
+                    header(HttpHeaders.Authorization, "Bearer $refreshedToken")
+                    contentType(ContentType.Application.Json)
+                    setBody(postBody)
+                }
+            }
+            if (!response.status.isSuccess()) {
+                return Result.failure(IllegalStateException(response.bodyAsText().ifBlank { "Failed to create submission" }))
+            }
+            val createdId = extractSubmissionId(response.bodyAsText())
+            refreshAuthenticatedSubmissions()
+            if (createdId != null) {
+                selectSubmission(createdId)
+            } else {
+                prepareNewSubmission()
+            }
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    private fun extractSubmissionId(body: String): String? {
+        return try {
+            when (val root = Json.parseToJsonElement(body)) {
+                is JsonObject -> {
+                    val resolved = root["data"]?.jsonObject ?: root
+                    resolved["id"]?.jsonPrimitive?.contentOrNull
+                }
+                else -> null
+            }
         } catch (_: Exception) {
             null
         }
@@ -877,7 +1235,21 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
             val byId = !auth.userId.isNullOrBlank() && u?.id == auth.userId
             val byName = !auth.username.isNullOrBlank() && u?.username.equals(auth.username, ignoreCase = true)
             byId || byName
-        } ?: return false
+        } ?: run {
+            val username = auth.username ?: return false
+            LeaderboardResponse(
+                user = UserInfo(
+                    id = auth.userId,
+                    username = username,
+                    global_name = auth.globalName,
+                    discord_id = auth.discordId,
+                    discord_avatar = auth.discordAvatar
+                ),
+                total_points = 0.0,
+                rank = 0,
+                extremes = 0
+            )
+        }
         selectPlayer(player, isAuthenticatedProfile = true)
         return true
     }
@@ -987,13 +1359,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val profile = client.get("https://api.aredl.net/api/aredl/profile/$username").body<ProfileResponse>()
-                val processed = profile.copy(records = profile.records.map { 
-                    it.copy(
-                        points = ensureDivided(it.points), 
-                        list_points = ensureDivided(it.list_points),
-                        level = it.level?.copy(points = ensureDivided(it.level.points) ?: 0.0)
-                    ) 
-                })
+                val processed = normalizeProfile(profile)
                 withContext(Dispatchers.Main) {
                     _selectedPlayerProfile.value = processed
                     if (processed.user != null) _selectedPlayer.value = _selectedPlayer.value?.copy(user = processed.user)

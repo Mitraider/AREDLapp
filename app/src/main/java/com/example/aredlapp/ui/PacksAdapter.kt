@@ -62,14 +62,14 @@ class TierPacksAdapter(
 
         fun bind(section: PackTierSection) {
             val tierColor = PackUtils.resolveTierColor(section.tier.color)
-            val totalLevels = section.packs.sumOf { it.levels.size }
-            val doneLevels = section.packs.sumOf { PackUtils.completedCount(it, completedLevels, completedGdIds) }
+            val totalPacks = section.packs.size
+            val completedPacks = section.packs.count { PackUtils.isPackCompleted(it, completedLevels, completedGdIds) }
 
             binding.tierTitle.text = section.tier.name
             binding.tierSubtitle.text = "${section.packs.size} packs"
-            binding.tierProgressText.text = "$doneLevels / $totalLevels levels completed"
-            binding.tierProgress.max = totalLevels.coerceAtLeast(1)
-            binding.tierProgress.progress = doneLevels
+            binding.tierProgressText.text = "$completedPacks / $totalPacks packs completed"
+            binding.tierProgress.max = totalPacks.coerceAtLeast(1)
+            binding.tierProgress.progress = completedPacks
             binding.tierAccent.backgroundTintList = ColorStateList.valueOf(tierColor)
             binding.tierProgress.progressTintList = ColorStateList.valueOf(tierColor)
             binding.tierTitle.setTextColor(tierColor)

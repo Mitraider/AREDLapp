@@ -26,6 +26,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class LevelDetailFragment : Fragment() {
 
@@ -94,7 +95,8 @@ class LevelDetailFragment : Fragment() {
         binding.detailLevelPoints.text = "Points: ${String.format("%.1f", l.points)}"
         binding.detailLevelId.text = "Level ID: ${l.level_id ?: l.id}"
         binding.detailLevelSong.text = "Song ID: ${l.song ?: l.song_id ?: "-"}"
-        binding.detailLevelTiers.text = "Edel: ${l.edel_enjoyment ?: "-"} | GDDL: ${l.gddl_tier ?: "-"} | NLW: ${l.nlw_tier ?: "-"}"
+        binding.detailLevelTiers.text =
+            "Edel: ${formatTier(l.edel_enjoyment)} | GDDL: ${formatTier(l.gddl_tier)} | NLW: ${l.nlw_tier ?: "-"}"
         binding.detailLevelTiers.setTextColor(color)
         binding.detailLevelDescription.text = l.description?.takeIf { it.isNotBlank() } ?: "No description available."
 
@@ -186,6 +188,10 @@ class LevelDetailFragment : Fragment() {
             }
         }
         victorsAdapter.submitList(filtered.toList())
+    }
+
+    private fun formatTier(value: Double?): String {
+        return value?.let { String.format(Locale.US, "%.2f", it) } ?: "-"
     }
 
     override fun onDestroyView() {

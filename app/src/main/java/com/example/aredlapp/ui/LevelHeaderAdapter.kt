@@ -15,6 +15,7 @@ import com.example.aredlapp.utils.YouTubeUtils
 import com.google.android.material.chip.Chip
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import java.util.Locale
 
 class LevelHeaderAdapter(
     private val onSearchChanged: (String) -> Unit
@@ -57,7 +58,8 @@ class LevelHeaderAdapter(
             binding.detailLevelId.text = "Level ID: ${l.level_id ?: l.id}"
             binding.detailLevelSong.text = "Song ID: ${l.song ?: l.song_id ?: "-"}"
             
-            binding.detailLevelTiers.text = "Edel: ${l.edel_enjoyment ?: "-"} | GDDL: ${l.gddl_tier ?: "-"} | NLW: ${l.nlw_tier ?: "-"}"
+            binding.detailLevelTiers.text =
+                "Edel: ${formatTier(l.edel_enjoyment)} | GDDL: ${formatTier(l.gddl_tier)} | NLW: ${l.nlw_tier ?: "-"}"
             binding.detailLevelTiers.setTextColor(color)
             
             binding.detailLevelDescription.text = l.description?.takeIf { it.isNotBlank() } ?: "No description available."
@@ -105,6 +107,10 @@ class LevelHeaderAdapter(
             
             // Revert: Hide the internal recycler if it exists in layout, as we use ConcatAdapter
             binding.cardVictorsScroll.visibility = View.GONE
+        }
+
+        private fun formatTier(value: Double?): String {
+            return value?.let { String.format(Locale.US, "%.2f", it) } ?: "-"
         }
     }
 }
