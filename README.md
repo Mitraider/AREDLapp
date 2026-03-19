@@ -1,6 +1,6 @@
 # AREDLapp
 This is a "fan-project", based on the All Rated Extreme Demons List website, that allows the users to view the list of a ranking of all the rated hardest levels from the game Geometry Dash.
-[The official AREDL website] (https://aredl.net )
+[The official AREDL website](https://aredl.net)
 I used their APIs to create an unofficial Android mobile port, 100% in kotlin (and XML, i don't think you can hard code your graphics x) )
 What usually started as a small project has now gotten so much bigger with new features and updates still added by myself using only their documentation, their public APIs endpoints and my knowledge.
 
@@ -19,7 +19,7 @@ Being only in the first year of my Computer Science degree, I of course don't ha
 ## Now the fun part:
 - You can login the same way you do on AREDL, using the OAuth2 from AREDL discord app, as well as log out cause that seems quite... logical
 - When logged in, you can get your leaderboard profile info through a button accessible via your pfp in the rop right corner.
-- You can also access your submissions throught the "My Submissions" tab, submit and edit all your completions according to the [Submission guideline] (https://aredl.net/guidelines) ruleset from the AREDL moderation team
+- You can also access your submissions throught the "My Submissions" tab, submit and edit all your completions according to the [Submission guideline](https://aredl.net/guidelines) ruleset from the AREDL moderation team
 - The "Completed" tab in "My Lists" is automatically filled with your completions.
 - The "Packs" tab is automatically filled with your completions, and updated
 
@@ -27,6 +27,6 @@ Being only in the first year of my Computer Science degree, I of course don't ha
   - The section "Created by <creator>" doesn't display correctly and returns the default value.
  
 # Special thanks:
-- [Sphericle] (https://github.com/sphericle), a head developper from the AREDL team, who helped me with some APIs endpoints, as well as giving me some infos to fill the submissions tab correctly.
+- [Sphericle](https://github.com/sphericle), a head developper from the AREDL team, who helped me with some APIs endpoints, as well as giving me some infos to fill the submissions tab correctly.
 
 Updates are still on the way, also feel free to check the source files of what I've done!
