@@ -3,6 +3,7 @@ package com.example.aredlapp
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -26,6 +27,9 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.navOptions
 import androidx.navigation.ui.setupWithNavController
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
+import android.graphics.drawable.StateListDrawable
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.aredlapp.databinding.ActivityMainBinding
@@ -159,10 +163,57 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        applySavedThemeMode()
+    }
+
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
         consumeAuthCallback(intent)
+    }
+
+    private fun applySavedThemeMode() {
+        val prefs = getSharedPreferences("aredl_settings", Context.MODE_PRIVATE)
+        val isDarkMode = prefs.getBoolean("dark_mode", true)
+        val targetMode = if (isDarkMode) {
+            AppCompatDelegate.MODE_NIGHT_YES
+        } else {
+            AppCompatDelegate.MODE_NIGHT_NO
+        }
+        if (AppCompatDelegate.getDefaultNightMode() != targetMode) {
+            AppCompatDelegate.setDefaultNightMode(targetMode)
+        }
+    }
+
+    private fun createDrawerItemBackground(accentColor: Int): StateListDrawable {
+        val checkedBackground = LayerDrawable(
+            arrayOf(
+                GradientDrawable().apply {
+                    shape = GradientDrawable.RECTANGLE
+                    setColor(Color.argb(26, 255, 255, 255))
+                },
+                GradientDrawable().apply {
+                    shape = GradientDrawable.RECTANGLE
+                    setColor(accentColor)
+                }
+            )
+        ).apply {
+            setLayerInset(1, 0, 0, 0, 0)
+            setLayerSize(1, resources.displayMetrics.density.times(4).toInt(), -1)
+        }
+
+        return StateListDrawable().apply {
+            addState(intArrayOf(android.R.attr.state_checked), checkedBackground)
+            addState(
+                intArrayOf(),
+                GradientDrawable().apply {
+                    shape = GradientDrawable.RECTANGLE
+                    setColor(Color.TRANSPARENT)
+                }
+            )
+        }
     }
 
     private fun navigateToTopLevel(navController: NavController, destinationId: Int) {
