@@ -27,7 +27,7 @@ Being only in the first year of my Computer Science degree, I of course don't ha
 - An Android phone **UP TO DATE** or Bluestacks if you have an IPhone and still want to check out my project
 
 # How to install:
-- Head to the "Releases" tab on GitHub and get yourself the latest release (or an older one if you want to see how ugly it was before all the UI changes ^^')
+- Head to the "Releases" tab (or just download the latest apk [here](https://github.com/Mitraider/AREDLapp/releases/download/v2.0.1/AREDLapp.apk)) on GitHub and get yourself the latest release (or an older one if you want to see how ugly it was before all the UI changes ^^')
 
 # Known issues:
   - The section "Created by <creator>" doesn't display correctly and returns the default value.
