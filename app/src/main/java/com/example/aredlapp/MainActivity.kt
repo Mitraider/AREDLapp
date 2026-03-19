@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        consumeAuthCallback(intent)
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.mainContentContainer) { view, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -158,6 +159,12 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        consumeAuthCallback(intent)
+    }
+
     private fun navigateToTopLevel(navController: NavController, destinationId: Int) {
         if (navController.currentDestination?.id == destinationId) return
         try {
@@ -173,6 +180,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun navigateToPlayerDetail(navController: NavController) {
+        if (navController.currentDestination?.id == R.id.nav_player_detail) return
+        try {
+            navController.navigate(R.id.nav_player_detail, null, navOptions {
+                launchSingleTop = true
+            })
+        } catch (_: Exception) {
+            Toast.makeText(this, "Navigation unavailable right now", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun consumeAuthCallback(intent: Intent?) {
+        val callbackUrl = intent?.dataString
+        if (callbackUrl.isNullOrBlank()) return
+        val isCustomSchemeCallback = callbackUrl.startsWith(DISCORD_APP_CALLBACK_PREFIX)
+        val isHttpsCallback = callbackUrl.startsWith(DISCORD_HTTPS_CALLBACK_PREFIX)
+        if (!isCustomSchemeCallback && !isHttpsCallback) return
+        viewModel.completeDiscordLogin(callbackUrl)
+        setIntent(Intent(intent).setData(null))
+    }
+
     private fun showAccountPopup(navController: NavController, isAuthenticated: Boolean, anchor: View) {
         val popup = PopupMenu(this, anchor)
         popup.menuInflater.inflate(R.menu.account_popup_menu, popup.menu)
@@ -186,7 +214,7 @@ class MainActivity : AppCompatActivity() {
                     if (!viewModel.selectAuthenticatedPlayer()) {
                         Toast.makeText(this, "Profile unavailable on leaderboard", Toast.LENGTH_SHORT).show()
                     } else {
-                        navigateToTopLevel(navController, R.id.nav_player_detail)
+                        navigateToPlayerDetail(navController)
                     }
                     true
                 }
@@ -212,5 +240,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
         popup.show()
+    }
+
+    companion object {
+        private const val DISCORD_APP_CALLBACK_PREFIX = "aredlapp://auth/discord/callback"
+        private const val DISCORD_HTTPS_CALLBACK_PREFIX = "https://api.aredl.net/v2/api/auth/discord/callback"
     }
 }
