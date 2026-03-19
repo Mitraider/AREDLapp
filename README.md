@@ -1,6 +1,6 @@
 # AREDLapp
 This is a "fan-project", based on the All Rated Extreme Demons List website, that allows the users to view the list of a ranking of all the rated hardest levels from the game Geometry Dash.
-\n [The official AREDL website](https://aredl.net)
+( [Check the official AREDL website](https://aredl.net) )
 I used their APIs to create an unofficial Android mobile port, 100% in kotlin (and XML, i don't think you can hard code your graphics x) )
 What usually started as a small project has now gotten so much bigger with new features and updates still added by myself using only their documentation, their public APIs endpoints and my knowledge.
 
