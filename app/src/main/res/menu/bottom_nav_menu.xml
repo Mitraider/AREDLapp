@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_levels"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:icon="@drawable/ic_nav_levels"
         android:title="Levels" />
     <item
         android:id="@+id/nav_leaderboard"
-        android:icon="@android:drawable/btn_star_big_on"
+        android:icon="@drawable/ic_nav_leaderboard"
         android:title="Leaderboard" />
     <item
         android:id="@+id/nav_todo"
@@ -18,10 +18,10 @@
         android:title="My Submissions" />
     <item
         android:id="@+id/nav_packs"
-        android:icon="@drawable/ic_packs"
+        android:icon="@drawable/ic_nav_packs"
         android:title="Packs" />
     <item
         android:id="@+id/nav_games"
-        android:icon="@android:drawable/ic_menu_compass"
+        android:icon="@drawable/ic_nav_games"
         android:title="Games" />
 </menu>

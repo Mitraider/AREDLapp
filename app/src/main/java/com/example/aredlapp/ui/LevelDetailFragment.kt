@@ -17,6 +17,7 @@ import com.example.aredlapp.databinding.FragmentLevelDetailBinding
 import com.example.aredlapp.models.LeaderboardResponse
 import com.example.aredlapp.models.LevelResponse
 import com.example.aredlapp.models.LevelPackResponse
+import com.example.aredlapp.utils.LevelUtils
 import com.example.aredlapp.utils.PackUtils
 import com.example.aredlapp.utils.ThemeUtils
 import com.example.aredlapp.utils.YouTubeUtils
@@ -90,7 +91,7 @@ class LevelDetailFragment : Fragment() {
         val color = ThemeUtils.getSecondaryColor(requireContext())
         
         binding.detailLevelName.text = l.name
-        binding.detailLevelCreator.text = "by ${l.global_name ?: "AREDL"}"
+        binding.detailLevelCreator.text = LevelUtils.resolveCreatorName(l)?.let { "by $it" } ?: "by Unknown"
         binding.detailLevelRank.text = "Rank #${l.position}"
         binding.detailLevelPoints.text = "Points: ${String.format("%.1f", l.points)}"
         binding.detailLevelId.text = "Level ID: ${l.level_id ?: l.id}"

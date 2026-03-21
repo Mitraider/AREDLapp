@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -30,6 +31,7 @@ import androidx.navigation.ui.setupWithNavController
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.StateListDrawable
+import androidx.core.view.isVisible
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.aredlapp.databinding.ActivityMainBinding
@@ -81,13 +83,20 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         binding.navView.setupWithNavController(navController)
-        navHeaderAuthStatus = binding.navView.getHeaderView(0).findViewById(R.id.nav_header_auth_status)
+        navHeaderAuthStatus = binding.navHeaderAuthStatus
 
         val color = ThemeUtils.getSecondaryColor(this)
         val colorStateList = ColorStateList.valueOf(color)
         binding.navView.itemIconTintList = colorStateList
         binding.navView.itemTextColor = colorStateList
+        binding.navView.itemBackground = createDrawerItemBackground(color)
         binding.btnMenu.imageTintList = colorStateList
+        binding.btnLogin.backgroundTintList = colorStateList
+        binding.btnDrawerSettings.setTextColor(color)
+        binding.btnDrawerSettings.iconTint = colorStateList
+        binding.btnAboutRepository.strokeColor = colorStateList
+        binding.btnAboutRepository.setTextColor(color)
+        binding.textAboutGithub.setTextColor(color)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             val showMainToolbar = when (destination.id) {
@@ -105,6 +114,8 @@ class MainActivity : AppCompatActivity() {
                 for (i in 0 until menu.size()) {
                     menu.getItem(i).isChecked = false
                 }
+            } else {
+                binding.navView.setCheckedItem(destination.id)
             }
 
             binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -115,8 +126,25 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnAuth.setOnClickListener {
-            showAccountPopup(navController, isAuthenticated = false, anchor = binding.btnAuth)
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://discord.gg/invite/aredl")))
         }
+
+        binding.btnLogin.setOnClickListener {
+            authLauncher.launch(
+                Intent(this, AuthWebViewActivity::class.java).putExtra(
+                    AuthWebViewActivity.EXTRA_LOGIN_URL,
+                    AuthWebViewActivity.DEFAULT_LOGIN_URL
+                )
+            )
+        }
+
+        binding.btnDrawerSettings.setOnClickListener {
+            navigateToTopLevel(navController, R.id.nav_settings)
+        }
+
+        val repoIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Mitraider/AREDLapp"))
+        binding.textAboutGithub.setOnClickListener { startActivity(repoIntent) }
+        binding.btnAboutRepository.setOnClickListener { startActivity(repoIntent) }
 
         binding.imgAuthAvatar.setOnClickListener { anchor ->
             showAccountPopup(navController, isAuthenticated = true, anchor = anchor)
@@ -132,7 +160,8 @@ class MainActivity : AppCompatActivity() {
                         "Not connected"
                     }
 
-                    binding.btnAuth.visibility = if (state.isAuthenticated) View.GONE else View.VISIBLE
+                    binding.btnAuth.visibility = View.VISIBLE
+                    binding.btnLogin.visibility = if (state.isAuthenticated) View.GONE else View.VISIBLE
                     binding.imgAuthAvatar.visibility = if (state.isAuthenticated) View.VISIBLE else View.GONE
 
                     if (state.isAuthenticated) {
@@ -146,6 +175,30 @@ class MainActivity : AppCompatActivity() {
                             error(R.drawable.aredl_logo)
                             transformations(CircleCropTransformation())
                         }
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.aboutCreatorProfile.collect { profile ->
+                    val user = profile?.user
+                    val displayName = user?.global_name ?: user?.username ?: "Mitraider08"
+                    binding.textAboutCreator.text = "Created by $displayName"
+
+                    val avatarUrl = when {
+                        !user?.avatar.isNullOrBlank() -> user?.avatar
+                        !user?.discord_id.isNullOrBlank() && !user?.discord_avatar.isNullOrBlank() ->
+                            "https://cdn.discordapp.com/avatars/${user?.discord_id}/${user?.discord_avatar}.webp?size=128"
+                        else -> null
+                    }
+
+                    binding.imgAboutAvatar.load(avatarUrl ?: R.drawable.aredl_logo) {
+                        crossfade(true)
+                        placeholder(R.drawable.aredl_logo)
+                        error(R.drawable.aredl_logo)
+                        transformations(CircleCropTransformation())
                     }
                 }
             }
@@ -267,10 +320,6 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         navigateToPlayerDetail(navController)
                     }
-                    true
-                }
-                R.id.action_account_settings -> {
-                    navigateToTopLevel(navController, R.id.nav_settings)
                     true
                 }
                 R.id.action_account_login -> {

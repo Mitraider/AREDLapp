@@ -109,6 +109,8 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
     val selectedPlayer: StateFlow<LeaderboardResponse?> = _selectedPlayer
     private val _selectedPlayerProfile = MutableStateFlow<ProfileResponse?>(null)
     val selectedPlayerProfile: StateFlow<ProfileResponse?> = _selectedPlayerProfile
+    private val _aboutCreatorProfile = MutableStateFlow<ProfileResponse?>(null)
+    val aboutCreatorProfile: StateFlow<ProfileResponse?> = _aboutCreatorProfile
     private val _isAuthenticatedProfileView = MutableStateFlow(false)
     val isAuthenticatedProfileView: StateFlow<Boolean> = _isAuthenticatedProfileView
     private val _authState = MutableStateFlow(AuthState())
@@ -157,6 +159,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
             loadAllFromCache()
             fetchRoles()
             fetchPackTiers()
+            fetchAboutCreatorProfile()
             val lJob = async { fetchLevels() }
             val pJob = async { fetchLeaderboardFirstPage() }
             lJob.await()
@@ -1362,6 +1365,40 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
                 }
                 profileCache[username] = processed; prefs.edit().putString("profile_$username", json.encodeToString(ProfileResponse.serializer(), processed)).apply()
             } catch (e: Exception) {}
+        }
+    }
+
+    fun fetchAboutCreatorProfile(username: String = "Mitraider08") {
+        val cachedProfile = prefs.getString("about_profile_$username", null)
+        if (cachedProfile != null) {
+            try {
+                val cached: ProfileResponse = json.decodeFromString(ProfileResponse.serializer(), cachedProfile)
+                _aboutCreatorProfile.value = cached
+            } catch (_: Exception) {}
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val profile = client.get("https://api.aredl.net/api/aredl/profile/$username").body<ProfileResponse>()
+                val processed = normalizeProfile(profile)
+                withContext(Dispatchers.Main) {
+                    _aboutCreatorProfile.value = processed
+                }
+                prefs.edit().putString(
+                    "about_profile_$username",
+                    json.encodeToString(ProfileResponse.serializer(), processed)
+                ).apply()
+            } catch (_: Exception) {
+                if (_aboutCreatorProfile.value == null) {
+                    val fallback = _allPlayers.value.firstOrNull {
+                        it.user?.username.equals(username, ignoreCase = true) ||
+                            it.user?.global_name.equals(username, ignoreCase = true)
+                    }?.user
+                    if (fallback != null) {
+                        _aboutCreatorProfile.value = ProfileResponse(user = fallback)
+                    }
+                }
+            }
         }
     }
 
