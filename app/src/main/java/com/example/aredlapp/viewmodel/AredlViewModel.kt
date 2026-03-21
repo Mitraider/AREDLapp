@@ -3,6 +3,8 @@ package com.example.aredlapp.viewmodel
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.security.crypto.EncryptedSharedPreferences
@@ -84,8 +86,6 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
     val submissionInfoByLevel: StateFlow<Map<String, UserSubmissionInfo>> = _submissionInfoByLevel
     private val _mySubmissionLevels = MutableStateFlow<List<UserSubmissionLevelItem>>(emptyList())
     val mySubmissionLevels: StateFlow<List<UserSubmissionLevelItem>> = _mySubmissionLevels
-    private val _submissionDebug = MutableStateFlow("idle")
-    val submissionDebug: StateFlow<String> = _submissionDebug
     private val _selectedSubmissionDetail = MutableStateFlow<SubmissionDetailUiState?>(null)
     val selectedSubmissionDetail: StateFlow<SubmissionDetailUiState?> = _selectedSubmissionDetail
     private val _submissionsOpen = MutableStateFlow<Boolean?>(null)
@@ -715,6 +715,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun isExpiredOrNearExpiry(expiresAt: String?): Boolean {
         if (expiresAt.isNullOrBlank()) return true
         return try {
@@ -861,10 +862,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
                     header(HttpHeaders.Authorization, "Bearer $refreshedToken")
                 }
             }
-            if (!response.status.isSuccess()) {
-                _submissionDebug.value = "status=${response.status.value}"
-                return
-            }
+            if (!response.status.isSuccess()) return
 
             val body = response.bodyAsText()
             val root = Json.parseToJsonElement(body)
@@ -920,9 +918,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
             _mySubmissionLevels.value = resolvedItems
                 .distinctBy { it.submission.submissionId }
                 .sortedByDescending { it.submission.updatedAt ?: "" }
-            _submissionDebug.value = "status=${response.status.value} raw=${submissions.size} mapped=${latestByLevel.size} resolved=${_mySubmissionLevels.value.size} body=${body.take(80).replace('\n', ' ')}"
         } catch (e: Exception) {
-            _submissionDebug.value = "error=${e.message ?: e::class.java.simpleName}"
         }
     }
 

@@ -92,9 +92,8 @@ class MySubmissionsFragment : Fragment() {
 
             val levelState = combine(
                 baseState,
-                viewModel.levels,
-                viewModel.submissionDebug
-            ) { base, levels, debug ->
+                viewModel.levels
+            ) { base, levels ->
                 SubmissionScreenState(base.submissionLevels, base.favorites, base.todos, base.submissions, levels.size)
             }
 
