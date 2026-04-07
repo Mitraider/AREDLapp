@@ -27,10 +27,11 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.navOptions
-import androidx.navigation.ui.setupWithNavController
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.StateListDrawable
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: AredlViewModel by viewModels()
     private lateinit var navHeaderAuthStatus: TextView
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private val authLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode != RESULT_OK) return@registerForActivityResult
         val callbackUrl = result.data?.getStringExtra(AuthWebViewActivity.EXTRA_CALLBACK_URL)
@@ -56,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.completeDiscordLogin(callbackUrl)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         val prefs = getSharedPreferences("aredl_settings", Context.MODE_PRIVATE)
         val isDarkMode = prefs.getBoolean("dark_mode", true)
@@ -82,8 +85,12 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        binding.navView.setupWithNavController(navController)
         navHeaderAuthStatus = binding.navHeaderAuthStatus
+
+        binding.navView.setNavigationItemSelectedListener { item ->
+            navigateToTopLevel(navController, item.itemId)
+            true
+        }
 
         val color = ThemeUtils.getSecondaryColor(this)
         val colorStateList = ColorStateList.valueOf(color)
@@ -273,11 +280,8 @@ class MainActivity : AppCompatActivity() {
         if (navController.currentDestination?.id == destinationId) return
         try {
             navController.navigate(destinationId, null, navOptions {
-                popUpTo(navController.graph.findStartDestination().id) {
-                    saveState = true
-                }
+                popUpTo(navController.graph.findStartDestination().id)
                 launchSingleTop = true
-                restoreState = true
             })
         } catch (_: Exception) {
             Toast.makeText(this, "Navigation unavailable right now", Toast.LENGTH_SHORT).show()
@@ -295,6 +299,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun consumeAuthCallback(intent: Intent?) {
         val callbackUrl = intent?.dataString
         if (callbackUrl.isNullOrBlank()) return
@@ -305,6 +310,7 @@ class MainActivity : AppCompatActivity() {
         setIntent(Intent(intent).setData(null))
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun showAccountPopup(navController: NavController, isAuthenticated: Boolean, anchor: View) {
         val popup = PopupMenu(this, anchor)
         popup.menuInflater.inflate(R.menu.account_popup_menu, popup.menu)

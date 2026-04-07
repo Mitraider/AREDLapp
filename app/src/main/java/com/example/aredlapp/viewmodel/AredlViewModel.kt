@@ -42,6 +42,7 @@ data class AuthState(
     val lastError: String? = null
 )
 
+@RequiresApi(Build.VERSION_CODES.O)
 class AredlViewModel(application: Application) : AndroidViewModel(application) {
 
     private val client = HttpClient(Android) {
@@ -623,6 +624,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun completeDiscordLogin(callbackUrl: String) {
         if (callbackUrl.isBlank()) return
         viewModelScope.launch(Dispatchers.IO) {
@@ -664,6 +666,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun refreshAuthenticatedUser() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -708,6 +711,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         persistAuthState(refreshed)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun ensureValidAccessToken(): String? {
         val access = _authState.value.accessToken
         val expiresAt = _authState.value.accessExpires
@@ -757,6 +761,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun syncCompletedFromAuthenticatedRecords() {
         val token = ensureValidAccessToken() ?: return
         try {
@@ -853,6 +858,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
             .apply()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun loadAuthenticatedSubmissions() {
         val token = ensureValidAccessToken() ?: return
         try {
@@ -1079,6 +1085,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun updateSelectedSubmission(form: SubmissionEditForm): Result<Unit> {
         val current = _selectedSubmissionDetail.value?.detail ?: return Result.failure(IllegalStateException("No submission selected"))
         val token = ensureValidAccessToken() ?: return Result.failure(IllegalStateException("Session expired"))
@@ -1136,6 +1143,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun createSubmission(form: SubmissionEditForm): Result<Unit> {
         val token = ensureValidAccessToken() ?: return Result.failure(IllegalStateException("Session expired"))
         val open = fetchSubmissionsStatus()
@@ -1213,6 +1221,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun refreshAuthenticatedSubmissions() {
         if (!_authState.value.isAuthenticated) return
         viewModelScope.launch(Dispatchers.IO) {
@@ -1220,6 +1229,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun refreshAuthenticatedCompletions() {
         if (!_authState.value.isAuthenticated) return
         viewModelScope.launch(Dispatchers.IO) {
