@@ -335,7 +335,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
 
     private suspend fun fetchLevels() {
         try {
-            val response: HttpResponse = client.get("https://api.aredl.net/api/aredl/levels/")
+            val response: HttpResponse = client.get("https://api.aredl.net/v2/api/aredl/levels")
             val res: List<LevelResponse> = response.body()
             val processed = res.map { it.copy(points = it.points / 10.0, global_name = extractCreator(it)) }
             _levels.value = processed
@@ -350,7 +350,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
 
     private suspend fun fetchRoles() {
         try {
-            val response = client.get("https://api.aredl.net/v2/api/roles")
+            val response = client.get("https://api.aredl.net/v2/api/users/names")
             val root = Json.parseToJsonElement(response.bodyAsText())
             val rolesList = mutableListOf<RoleResponse>()
 
@@ -570,7 +570,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
                 flow {
                     if (level.global_name == null || level.global_name == "AREDL") {
                         try {
-                            val full: LevelResponse = client.get("https://api.aredl.net/api/aredl/levels/${level.id}/").body()
+                            val full: LevelResponse = client.get("https://api.aredl.net/v2/api/aredl/levels/${level.id}").body()
                             val creator = extractCreator(full)
                             if (creator != null && creator != "AREDL") emit(level.id to creator)
                             delay(100)
@@ -587,7 +587,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
 
     private suspend fun fetchLeaderboardFirstPage(): Triple<Int, Boolean, String?> {
         return try {
-            val res: PaginatedLeaderboardResponse = client.get("https://api.aredl.net/api/aredl/leaderboard?page=1").body()
+            val res: PaginatedLeaderboardResponse = client.get("https://api.aredl.net/v2/api/aredl/leaderboard?page=1").body()
             _totalPages.value = res.pages
             val apiLastRefreshed = res.last_refreshed
             val cachedLastRefreshed = prefs.getString("cached_leaderboard_last_refreshed", null)
@@ -612,7 +612,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             (2..total).forEach { p ->
                 try {
-                    val data = client.get("https://api.aredl.net/api/aredl/leaderboard?page=$p").body<PaginatedLeaderboardResponse>().data
+                    val data = client.get("https://api.aredl.net/v2/api/aredl/leaderboard?page=$p").body<PaginatedLeaderboardResponse>().data
                     updateLeaderboardData(data, saveToCache = false)
                 } catch (e: Exception) {}
             }
@@ -821,7 +821,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
     private suspend fun syncCompletedFromAuthenticatedProfile() {
         val username = _authState.value.username?.takeIf { it.isNotBlank() } ?: return
         try {
-            val profile = client.get("https://api.aredl.net/api/aredl/profile/$username").body<ProfileResponse>()
+            val profile = client.get("https://api.aredl.net/v2/api/aredl/profile/$username").body<ProfileResponse>()
             val knownLevels = _levels.value
             val completedIds = mutableSetOf<String>()
             val completedGdIds = mutableSetOf<Int>()
@@ -1294,7 +1294,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         victorsJob?.cancel()
         victorsJob = viewModelScope.launch(Dispatchers.IO) {
             try {
-                val full: LevelResponse = client.get("https://api.aredl.net/api/aredl/levels/${level.id}/").body()
+                val full: LevelResponse = client.get("https://api.aredl.net/v2/api/aredl/levels/${level.id}").body()
                 val processedFull = full.copy(points = full.points / 10.0, global_name = extractCreator(full))
                 val recordsBody = try {
                     client.get("https://api.aredl.net/v2/api/aredl/levels/${level.id}/records").bodyAsText()
@@ -1363,7 +1363,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         }
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val profile = client.get("https://api.aredl.net/api/aredl/profile/$username").body<ProfileResponse>()
+                val profile = client.get("https://api.aredl.net/v2/api/aredl/profile/$username").body<ProfileResponse>()
                 val processed = normalizeProfile(profile)
                 withContext(Dispatchers.Main) {
                     _selectedPlayerProfile.value = processed
@@ -1385,7 +1385,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val profile = client.get("https://api.aredl.net/api/aredl/profile/$username").body<ProfileResponse>()
+                val profile = client.get("https://api.aredl.net/v2/api/aredl/profile/$username").body<ProfileResponse>()
                 val processed = normalizeProfile(profile)
                 withContext(Dispatchers.Main) {
                     _aboutCreatorProfile.value = processed
@@ -1401,7 +1401,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
                             it.user?.global_name.equals(username, ignoreCase = true)
                     }?.user
                     if (fallback != null) {
-                        _aboutCreatorProfile.value = ProfileResponse(user = fallback)
+                        _aboutCreatorProfile.value = ProfileResponse(embeddedUser = fallback)
                     }
                 }
             }

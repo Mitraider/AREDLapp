@@ -3,6 +3,7 @@ package com.example.aredlapp.models
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.SerialName
 
 @Serializable
 data class LevelResponse(
@@ -97,10 +98,38 @@ data class RecordInfo(
 
 @Serializable
 data class ProfileResponse(
-    val user: UserInfo? = null,
+    @SerialName("user")
+    val embeddedUser: UserInfo? = null,
+    val id: String? = null,
+    val username: String? = null,
+    val discord_id: String? = null,
+    val global_name: String? = null,
+    val discord_avatar: String? = null,
+    val avatar: String? = null,
     val records: List<RecordInfo> = emptyList(),
     val background_level: String? = null
-)
+) {
+    val user: UserInfo?
+        get() = embeddedUser ?: if (
+            id == null &&
+            username == null &&
+            discord_id == null &&
+            global_name == null &&
+            discord_avatar == null &&
+            avatar == null
+        ) {
+            null
+        } else {
+            UserInfo(
+                id = id,
+                username = username,
+                discord_id = discord_id,
+                global_name = global_name,
+                discord_avatar = discord_avatar,
+                avatar = avatar
+            )
+        }
+}
 
 @Serializable
 data class RoleResponse(
