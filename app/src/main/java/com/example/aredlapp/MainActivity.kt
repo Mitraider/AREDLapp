@@ -99,8 +99,6 @@ class MainActivity : AppCompatActivity() {
         binding.navView.itemBackground = createDrawerItemBackground(color)
         binding.btnMenu.imageTintList = colorStateList
         binding.btnLogin.backgroundTintList = colorStateList
-        binding.btnDrawerSettings.setTextColor(color)
-        binding.btnDrawerSettings.iconTint = colorStateList
         binding.btnAboutRepository.strokeColor = colorStateList
         binding.btnAboutRepository.setTextColor(color)
         binding.textAboutGithub.setTextColor(color)
@@ -113,7 +111,7 @@ class MainActivity : AppCompatActivity() {
             binding.toolbar.visibility = if (showMainToolbar) View.VISIBLE else View.GONE
 
             val inDrawerMenu = when (destination.id) {
-                R.id.nav_levels, R.id.nav_leaderboard, R.id.nav_todo, R.id.nav_my_submissions, R.id.nav_packs, R.id.nav_games -> true
+                R.id.nav_levels, R.id.nav_leaderboard, R.id.nav_todo, R.id.nav_my_submissions, R.id.nav_packs, R.id.nav_games, R.id.nav_settings -> true
                 else -> false
             }
             if (!inDrawerMenu) {
@@ -143,10 +141,6 @@ class MainActivity : AppCompatActivity() {
                     AuthWebViewActivity.DEFAULT_LOGIN_URL
                 )
             )
-        }
-
-        binding.btnDrawerSettings.setOnClickListener {
-            navigateToTopLevel(navController, R.id.nav_settings)
         }
 
         val repoIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Mitraider/AREDLapp"))
