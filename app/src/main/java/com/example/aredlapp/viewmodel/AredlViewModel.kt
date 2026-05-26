@@ -146,7 +146,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
     private val playerRanks = ConcurrentHashMap<String, Int>()
     
     private val prefs = application.getSharedPreferences("AREDLapp", Context.MODE_PRIVATE)
-    private val authPrefs: SharedPreferences? = createEncryptedAuthPrefs(application)
+    private val authPrefs: SharedPreferences = createAuthPrefs(application)
     private val json = Json { ignoreUnknownKeys = true; isLenient = true; encodeDefaults = true }
     private val authRefreshMutex = Mutex()
     
@@ -189,33 +189,29 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun loadAuthFromCache() {
-        val p = authPrefs ?: run {
-            _authState.value = AuthState()
-            return
-        }
-        val accessToken = p.getString("auth_access_token", null)
-        if (accessToken.isNullOrBlank()) {
+        val accessToken = authPrefs.getString("auth_access_token", null)
+        val refreshToken = authPrefs.getString("auth_refresh_token", null)
+        if (accessToken.isNullOrBlank() && refreshToken.isNullOrBlank()) {
             _authState.value = AuthState()
             return
         }
         _authState.value = AuthState(
             isAuthenticated = true,
-            userId = p.getString("auth_user_id", null),
-            username = p.getString("auth_username", null),
-            globalName = p.getString("auth_global_name", null),
-            discordId = p.getString("auth_discord_id", null),
-            discordAvatar = p.getString("auth_discord_avatar", null),
+            userId = authPrefs.getString("auth_user_id", null),
+            username = authPrefs.getString("auth_username", null),
+            globalName = authPrefs.getString("auth_global_name", null),
+            discordId = authPrefs.getString("auth_discord_id", null),
+            discordAvatar = authPrefs.getString("auth_discord_avatar", null),
             accessToken = accessToken,
-            accessExpires = p.getString("auth_access_expires", null),
-            refreshToken = p.getString("auth_refresh_token", null),
-            refreshExpires = p.getString("auth_refresh_expires", null)
+            accessExpires = authPrefs.getString("auth_access_expires", null),
+            refreshToken = refreshToken,
+            refreshExpires = authPrefs.getString("auth_refresh_expires", null)
         )
     }
 
     private fun persistAuthState(state: AuthState) {
-        val p = authPrefs ?: return
-        p.edit().apply {
-            if (!state.isAuthenticated || state.accessToken.isNullOrBlank()) {
+        authPrefs.edit().apply {
+            if (!state.isAuthenticated || (state.accessToken.isNullOrBlank() && state.refreshToken.isNullOrBlank())) {
                 remove("auth_user_id")
                 remove("auth_username")
                 remove("auth_global_name")
@@ -239,7 +235,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
         }.apply()
     }
 
-    private fun createEncryptedAuthPrefs(context: Context): SharedPreferences? {
+    private fun createAuthPrefs(context: Context): SharedPreferences {
         return try {
             val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
             EncryptedSharedPreferences.create(
@@ -250,7 +246,7 @@ class AredlViewModel(application: Application) : AndroidViewModel(application) {
                 EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             )
         } catch (e: Exception) {
-            null
+            context.getSharedPreferences("aredl_auth_fallback", Context.MODE_PRIVATE)
         }
     }
 
