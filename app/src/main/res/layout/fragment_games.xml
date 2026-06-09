@@ -7,16 +7,16 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="260dp"
-        android:background="#1A2A1F12"
+        android:layout_height="310dp"
+        android:background="#1B2A1F12"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/background_logo"
-        android:layout_width="430dp"
-        android:layout_height="430dp"
-        android:alpha="0.08"
-        android:rotation="-12"
+        android:layout_width="460dp"
+        android:layout_height="460dp"
+        android:alpha="0.07"
+        android:rotation="-14"
         android:scaleType="fitCenter"
         android:src="@drawable/aredl_logo"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,9 +27,9 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingStart="20dp"
-        android:paddingTop="28dp"
+        android:paddingTop="24dp"
         android:paddingEnd="20dp"
-        android:paddingBottom="28dp">
+        android:paddingBottom="30dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,185 +59,375 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:alpha="0.78"
+                android:alpha="0.82"
                 android:lineSpacingExtra="3dp"
                 android:text="Mini games! Because yes, the demon list can also be fun!"
                 android:textColor="?attr/android:textColorPrimary"
                 android:textSize="15sp" />
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                app:cardBackgroundColor="#1F1A1A1A"
-                app:cardCornerRadius="22dp"
-                app:cardUseCompatPadding="true">
+                android:layout_marginTop="22dp"
+                app:cardBackgroundColor="#F0141414"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="6dp"
+                app:strokeColor="#33FFFFFF"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="18dp">
+                    android:padding="22dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="RNG"
+                        android:backgroundTint="?attr/colorPrimary"
+                        android:paddingStart="10dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="6dp"
+                        android:text="3 ways to suffer"
                         android:textAllCaps="true"
-                        android:textColor="?attr/colorPrimary"
+                        android:textColor="@color/white"
                         android:textSize="11sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="Random Extreme Demon"
-                        android:textColor="?attr/android:textColorPrimary"
-                        android:textSize="24sp"
+                        android:layout_marginTop="14dp"
+                        android:text="Pick your kind of chaos"
+                        android:textColor="@color/white"
+                        android:textSize="28sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:alpha="0.8"
-                        android:text="Set a range and get your next completion."
-                        android:textColor="?attr/android:textColorPrimary"
+                        android:layout_marginTop="8dp"
+                        android:alpha="0.82"
+                        android:text="Instant RNG, slow grind, or full alphabet pain. Same list, very different moods."
+                        android:textColor="@color/white"
                         android:textSize="14sp" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_game_random"
-                        style="@style/Widget.Material3.Button.TonalButton"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:minHeight="56dp"
-                        android:text="Get your random extreme"
-                        android:textColor="?attr/colorPrimary"
-                        app:cornerRadius="16dp"
-                        app:icon="@android:drawable/ic_menu_help"
-                        app:iconGravity="textStart"
-                        app:iconPadding="10dp"
-                        app:iconTint="?attr/colorPrimary" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                        android:layout_marginTop="18dp"
+                        android:orientation="horizontal">
 
-            <androidx.cardview.widget.CardView
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:background="#12FFFFFF"
+                            android:gravity="center"
+                            android:padding="12dp"
+                            android:text="Random pick"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:layout_weight="1"
+                            android:background="#12FFFFFF"
+                            android:gravity="center"
+                            android:padding="12dp"
+                            android:text="Progressive grind"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:background="#12FFFFFF"
+                            android:gravity="center"
+                            android:padding="12dp"
+                            android:text="A to Z run"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                app:cardBackgroundColor="#1F101F2A"
-                app:cardCornerRadius="22dp"
-                app:cardUseCompatPadding="true">
+                android:layout_marginTop="18dp"
+                app:cardBackgroundColor="#F01C1A1A"
+                app:cardCornerRadius="26dp"
+                app:cardElevation="5dp"
+                app:strokeColor="#40FF8C00"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="18dp">
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="GRINDING"
-                        android:textAllCaps="true"
-                        android:textColor="?attr/colorPrimary"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="6dp"
+                        android:background="?attr/colorPrimary" />
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="Extreme Demon Roulette"
-                        android:textColor="?attr/android:textColorPrimary"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical"
+                        android:padding="20dp">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:alpha="0.8"
-                        android:text="Reach one more percent each run until you get a full level cleared!"
-                        android:textColor="?attr/android:textColorPrimary"
-                        android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#14FF8C00"
+                            android:paddingStart="10dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="RNG"
+                            android:textAllCaps="true"
+                            android:textColor="?attr/colorPrimary"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_game_roulette"
-                        style="@style/Widget.Material3.Button.TonalButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:minHeight="56dp"
-                        android:text="Open Roulette"
-                        android:textColor="?attr/colorPrimary"
-                        app:cornerRadius="16dp"
-                        app:icon="@android:drawable/ic_menu_rotate"
-                        app:iconGravity="textStart"
-                        app:iconPadding="10dp"
-                        app:iconTint="?attr/colorPrimary" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Random Extreme Demon"
+                            android:textColor="@color/white"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:alpha="0.8"
+                            android:text="Set a range and get your next completion."
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:background="#12FFFFFF"
+                            android:paddingStart="10dp"
+                            android:paddingTop="6dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="6dp"
+                            android:text="Perfect when you want a quick surprise"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_game_random"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="18dp"
+                            android:minHeight="58dp"
+                            android:text="Get your random extreme"
+                            android:textColor="?attr/colorPrimary"
+                            app:cornerRadius="18dp"
+                            app:icon="@android:drawable/ic_menu_help"
+                            app:iconGravity="textStart"
+                            app:iconPadding="10dp"
+                            app:iconTint="?attr/colorPrimary" />
+                    </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                app:cardBackgroundColor="#1F241618"
-                app:cardCornerRadius="22dp"
-                app:cardUseCompatPadding="true">
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="#F0121A22"
+                app:cardCornerRadius="26dp"
+                app:cardElevation="5dp"
+                app:strokeColor="#4048B8FF"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="18dp">
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="A TO Z"
-                        android:textAllCaps="true"
-                        android:textColor="?attr/colorPrimary"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="6dp"
+                        android:background="#FF48B8FF" />
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="Alphabet Challenge"
-                        android:textColor="?attr/android:textColorPrimary"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical"
+                        android:padding="20dp">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:alpha="0.8"
-                        android:text="Clear one extreme for each letter and build your own level alphabet."
-                        android:textColor="?attr/android:textColorPrimary"
-                        android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#1648B8FF"
+                            android:paddingStart="10dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="GRINDING"
+                            android:textAllCaps="true"
+                            android:textColor="#FF8DD2FF"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_game_alphabet"
-                        style="@style/Widget.Material3.Button.TonalButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:minHeight="56dp"
-                        android:text="Open Alphabet Challenge"
-                        android:textColor="?attr/colorPrimary"
-                        app:cornerRadius="16dp"
-                        app:icon="@android:drawable/ic_menu_sort_alphabetically"
-                        app:iconGravity="textStart"
-                        app:iconPadding="10dp"
-                        app:iconTint="?attr/colorPrimary" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Extreme Demon Roulette"
+                            android:textColor="@color/white"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:alpha="0.8"
+                            android:text="Reach one more percent each run until you get a full level cleared!"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:background="#12FFFFFF"
+                            android:paddingStart="10dp"
+                            android:paddingTop="6dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="6dp"
+                            android:text="Best if you want a long-term challenge"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_game_roulette"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="18dp"
+                            android:minHeight="58dp"
+                            android:text="Open Roulette"
+                            android:textColor="#FF8DD2FF"
+                            app:cornerRadius="18dp"
+                            app:icon="@android:drawable/ic_menu_rotate"
+                            app:iconGravity="textStart"
+                            app:iconPadding="10dp"
+                            app:iconTint="#FF8DD2FF" />
+                    </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="#F01E1715"
+                app:cardCornerRadius="26dp"
+                app:cardElevation="5dp"
+                app:strokeColor="#40FF6B57"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="6dp"
+                        android:background="#FFFF6B57" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#16FF6B57"
+                            android:paddingStart="10dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="A TO Z"
+                            android:textAllCaps="true"
+                            android:textColor="#FFFF9B8D"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Alphabet Challenge"
+                            android:textColor="@color/white"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:alpha="0.8"
+                            android:text="Clear one extreme for each letter and build your own level alphabet."
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:background="#12FFFFFF"
+                            android:paddingStart="10dp"
+                            android:paddingTop="6dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="6dp"
+                            android:text="The cleanest mode for structured pain"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_game_alphabet"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="18dp"
+                            android:minHeight="58dp"
+                            android:text="Open Alphabet Challenge"
+                            android:textColor="#FFFF9B8D"
+                            app:cornerRadius="18dp"
+                            app:icon="@android:drawable/ic_menu_sort_alphabetically"
+                            app:iconGravity="textStart"
+                            app:iconPadding="10dp"
+                            app:iconTint="#FFFF9B8D" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

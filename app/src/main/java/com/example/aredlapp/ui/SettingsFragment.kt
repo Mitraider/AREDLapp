@@ -72,17 +72,14 @@ class SettingsFragment : Fragment() {
                 .setItems(themes) { _, which ->
                     selectedTheme = themes[which]
                     binding.btnSelectTheme.text = selectedTheme
-                    
-                    // Auto-apply theme switch
+
                     val newDarkMode = selectedTheme == "Dark"
-                    prefs.edit().putBoolean("dark_mode", newDarkMode).apply()
-                    
-                    if (newDarkMode) {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    } else {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    }
-                    requireActivity().recreate()
+                    prefs.edit().putBoolean("dark_mode", newDarkMode).commit()
+
+                    AppCompatDelegate.setDefaultNightMode(
+                        if (newDarkMode) AppCompatDelegate.MODE_NIGHT_YES
+                        else AppCompatDelegate.MODE_NIGHT_NO
+                    )
                 }
                 .show()
         }
@@ -97,10 +94,9 @@ class SettingsFragment : Fragment() {
             if (isValidHex(newColor)) {
                 prefs.edit().apply {
                     putString("secondary_color", newColor)
-                    apply()
+                    commit()
                 }
 
-                // ugly way to apply settings without restarting the app
                 requireActivity().recreate()
 
             } else {

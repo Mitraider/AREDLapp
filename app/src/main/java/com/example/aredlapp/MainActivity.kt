@@ -60,11 +60,7 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
-        val prefs = getSharedPreferences("aredl_settings", Context.MODE_PRIVATE)
-        val isDarkMode = prefs.getBoolean("dark_mode", true)
-        AppCompatDelegate.setDefaultNightMode(
-            if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-        )
+        applySavedThemeMode()
 
         installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -215,11 +211,6 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onDrawerStateChanged(newState: Int) {}
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        applySavedThemeMode()
     }
 
     override fun onNewIntent(intent: Intent) {
